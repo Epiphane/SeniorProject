@@ -14,46 +14,6 @@ window.onload = function() {
    
    game.onload = function() {
       game.pushScene(Scenes.Title(game));
-      
-      /* Creating the credits screen */
-      var creditsScene = new Scene();
-      creditsScene.backgroundColor = "black";
-      
-      var creditsTitle = Utils.createLabel("CREDITS", 50, 50, "28px sans-serif");
-      var creditsDetails = Utils.createLabel("Senior Project by Cameron Thibodeaux, 2014" + "<br> <br>" +
-                                       "//aud.js Procedural Music Generator - Timothey Adam",
-                                       50, 110, "14px sans-serif");
-      var creditsToMenu = Utils.createLabel("Press space to return to menu", 50, WINDOW-50, "14px sans-serif");
-      
-      creditsTitle.width = creditsDetails.width = WINDOW;
-      
-      creditsScene.addChild(creditsTitle);
-      creditsScene.addChild(creditsDetails);
-      creditsScene.addChild(creditsToMenu);
-      
-      creditsScene.addEventListener(Event.INPUT_START, function() {
-         if (game.input.select) {
-            var newSound = game.assets['assets/sounds/select2.wav'].clone();
-            newSound.play();
-            game.popScene();
-         }
-      });
-
-      /* Adding event listeners */
-      game.rootScene.addEventListener(Event.INPUT_START, function() {
-         var newSound;
-      
-         if (game.input.select) {
-            newSound = game.assets['assets/sounds/select2.wav'].clone();
-            newSound.play();
-            if (newGame.color == "red")
-               game.initLevel(0);
-            else if (controls.color == "red")
-               game.pushScene(controlsScene);
-            else if (credits.color == "red") 
-               game.pushScene(creditsScene);
-         }
-      });
    };
       
    /*
