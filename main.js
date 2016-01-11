@@ -306,8 +306,8 @@ Player = Class.create(Sprite, {
       }
          
       /* Update music based on misfortune */
-      if (this.age % (game.fps*3) == 0)
-         aud.adaptPattern(metrics.getAudStress(), metrics.getAudEnergy());
+      // if (this.age % (game.fps*3) == 0)
+         //aud.adaptPattern(metrics.getAudStress(), metrics.getAudEnergy());
    },
    
    /* Add a text box if the player is standing on an item */
@@ -1415,7 +1415,7 @@ window.onload = function() {
       
       var creditsTitle = createLabel("CREDITS", 50, 50, "28px sans-serif");
       var creditsDetails = createLabel("Senior Project by Cameron Thibodeaux, 2014" + "<br> <br>" +
-                                       "AUD.js Procedural Music Generator - Timothey Adam",
+                                       "//aud.js Procedural Music Generator - Timothey Adam",
                                        50, 110, "14px sans-serif");
       var creditsToMenu = createLabel("Press space to return to menu", 50, WINDOW-50, "14px sans-serif");
       
@@ -1517,9 +1517,9 @@ window.onload = function() {
       audEnergy = metrics.getAudEnergy();
       if (levelType == 2)
          audStress = audEnergy = 0.1;
-      aud.generatePattern(audStress, audEnergy, 4, 4, Math.floor(Math.random() * 10000));
-      aud.setVolume(0.5);
-      aud.togglePlay();
+      // //aud.generatePattern(audStress, audEnergy, 4, 4, Math.floor(Math.random() * 10000));
+      // //aud.setVolume(0.5);
+      // //aud.togglePlay();
          
       curScene.addChild(map);
       curScene.addChild(new Hud());
@@ -2038,8 +2038,8 @@ window.onload = function() {
     *              3 -> The player completed the game unsuccessfully and must go through another level
     */
    game.endLevel = function(endType) {
-      if (aud.isPlaying()) 
-         aud.togglePause();
+      // if (//aud.isPlaying()) 
+         //aud.togglePause();
    
       metrics.calculateAverages();
       metrics.endLevel();
