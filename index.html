@@ -2,12 +2,23 @@
 <html>
 <head>
    <title>cthibode Senior Project</title>
-   <link rel='stylesheet' href='style.css' type='text/css'>
-   <script src='enchant.js'></script>
-   <script src='easystar-0.1.6.js'></script>
-   <script src='adapt.js'></script>
-   <script src='aud.js'></script>
-   <script src='main.js'></script>
+   <link rel="stylesheet" href="style.css" type="text/css">
+   <script src="enchant.js"></script>
+   <script src="easystar-0.1.6.js"></script>
+   <script src="adapt.js"></script>
+   <script src="aud.js"></script>
+   <script src="constants.js"></script>
+   <script src="utils.js"></script>
+   <script type="text/javascript">
+      enchant();
+      window.GAME_WIDTH = 600;
+      window.GAME_HEIGHT = 600;
+      window.Scenes = {};
+   </script>
+   <script src="scenes/controls.js"></script>
+   <script src="scenes/credits.js"></script>
+   <script src="scenes/title.js"></script>
+   <script src="main.js"></script>
 </head>
 <body>
 </body>
