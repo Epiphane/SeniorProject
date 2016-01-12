@@ -11,6 +11,7 @@ window.onload = function() {
    // Set up assets and key bindings for the game
    Constants.preloadAssets(game);
    Constants.bindKeys(game);
+   ClassManager.initialize(game);
    
    game.onload = function() {
       game.pushScene(Scenes.Title(game));
@@ -24,65 +25,7 @@ window.onload = function() {
     *                1 -> normal level
     *                2 -> conclusion room
     */
-   game.initLevel = function(levelType) {   
-      var audStress, audEnergy;
-      
-      curScene = new Scene();
-      curScene.backgroundColor = "black";
-      
-      if (levelType == 0) {
-         metrics.gameInit();
-         player = new Player(GRID*(ROOM_WID_MAX-1)/2, GRID*(ROOM_HIG_MAX-1)/2);
-         map = new Room(null, null, 0, 0, 0);
-         speech = new SpeechAct();
-      }
-      else if (levelType == 1)
-         map = new Room(0, null, 0, 0, 0);
-      else
-         map = new Room(null, null, 0, 0, 0);
-         
-      if (levelType != 2) {
-         metrics.levelInit(player.strength, player.defense, player.health, player.numPotions, player.numKeys);
-         minRooms = metrics.getMinRooms();
-         console.log("Min Rooms: " + minRooms);
-      }
-      
-      audStress = metrics.getAudStress();
-      audEnergy = metrics.getAudEnergy();
-      if (levelType == 2)
-         audStress = audEnergy = 0.1;
-      // //aud.generatePattern(audStress, audEnergy, 4, 4, Math.floor(Math.random() * 10000));
-      // //aud.setVolume(0.5);
-      // //aud.togglePlay();
-         
-      curScene.addChild(map);
-      curScene.addChild(new Hud());
-      curScene.addChild(map.chests);
-      curScene.addChild(map.items);
-      curScene.addChild(new EnemyGroup(0, map, UP));
-      curScene.addChild(player);      
-      sceneList.push(curScene);
-      player.age = 0;
-      exitPlaced = false;
-      
-      if (levelType == 0) {
-         game.pushScene(curScene);
-         map.createFirstRoom();
-      }
-      else {
-         game.replaceScene(curScene);
-         player.x = GRID*(ROOM_WID_MAX-1)/2;
-         player.y = GRID*(ROOM_HIG_MAX-1)/2;
-         player.direction = P_DOWN;
-         if (levelType == 1)
-            player.hasOrb = player.seenOrb = false;
-         else if (levelType == 2) {
-            map.createLastRoom();
-            player.hasOrb = player.seenOrb = true;
-         }
-      }
-      
-      speech.triggerEvent();
+   game.initLevel = function(levelType) {
    }
    
    /* 
