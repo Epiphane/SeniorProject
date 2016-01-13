@@ -23,38 +23,7 @@ ClassManager.create('Room', function(game) {
                C.TILES.wall; // Wall on the right.
          }
 
-            window.g = this.tiles;
          this.loadData(this.tiles);
-      },
-      
-      /* Change the frame of one tile. col and row are tile indexes, not pixels. */
-      editTile: function(row, col, newVal) {
-         if (col >= 0 && col < ROOM_WID_MAX && row >= 0 && row < ROOM_HIG_MAX) {
-            this.tiles[row][col] = newVal;
-            this.loadData(this.tiles);
-         }
-      },
-      
-      /* Removes all walls and items in a room */
-      resetRoom: function() {
-         var countRow, countCol;
-         for (countRow = this.wallN; countRow < this.wallS; countRow++) {
-            for (countCol = this.wallW+1; countCol < this.wallE; countCol++) {
-               if (countRow == this.wallN && this.tiles[countRow][countCol] == 1)
-                  this.tiles[countRow][countCol] = 2;
-               else if (countRow != this.wallN) {
-                  this.tiles[countRow][countCol] = 0;
-                  this.items.tiles[countRow][countCol] = -1;
-                  this.chests.tiles[countRow][countCol] = -1;
-                  this.collision[countRow][countCol] = 0;
-               }
-            }
-         }
-         
-         this.loadData(this.tiles);
-         this.collisionData = this.collision;
-         this.items.loadData(this.items.tiles);
-         this.chests.loadData(this.chests.tiles);
       }
    });
 });

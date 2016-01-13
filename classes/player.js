@@ -21,7 +21,7 @@ ClassManager.create('Player', function(game) {
          this.attackCounter = 0;
          this.cooldown = 0;
 
-         this.walkSpeed = 8;
+         this.walkSpeed = 4;
       },
       
       onenterframe: function() {

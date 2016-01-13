@@ -5,7 +5,7 @@ var WINDOW = 600;
 /* Set up the core game */
 window.onload = function() {
    game = new Game(C.GAME_WIDTH, C.GAME_HEIGHT);
-   game.fps = 16;
+   game.fps = 60;
    game.rootScene.backgroundColor = "black";
 
    // Set up assets and key bindings for the game
