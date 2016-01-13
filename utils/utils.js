@@ -22,7 +22,7 @@
           label.color = opts.color || 'white';          // And color too!
       label.textAlign = opts.align || 'left';
 
-      label.width = GAME_WIDTH; // No wrapping
+      label.width = C.GAME_WIDTH; // No wrapping
 
       return label;
    }

@@ -48,6 +48,8 @@ window.Classes = {};
          Classes[className] = initializers[className](game);
          delete initializers[className];
       }
+
+      Object.freeze(Classes);
    };
 
 })();

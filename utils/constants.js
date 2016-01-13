@@ -4,7 +4,21 @@
 
 (function(window) {
    /* Holds all of our helper functions */
-   var Constants = window.Constants = {};
+   var Constants = window.Constants = window.C = {};
+
+   /* Game constants */
+   Constants.P_DIR = Enum('DOWN', 'LEFT', 'RIGHT', 'UP');
+   Constants.TILE_SIZE = 32;
+   Constants.TILES = Enum([
+      'floor', 'wall', 'wall2', 'empty', 'stair_down', 'stair_up',
+      'stair_wall', 'portal', 'floor2', 'floor3', 'floor4', 'floor5',
+      'glow_yellow', 'fissure', 'glow_green', 'glow_yellow2'
+   ]);
+
+   Constants.GAME_WIDTH = 640;
+   Constants.GAME_HEIGHT = 640;
+   Constants.MAP_WIDTH = C.GAME_WIDTH / C.TILE_SIZE;
+   Constants.MAP_HEIGHT = C.GAME_HEIGHT / C.TILE_SIZE;
 
    /* Set up key bindings for the game */
    var keys = {
@@ -64,4 +78,7 @@
       // aka game.preload(a, b, c, ...);
       game.preload.apply(game, assets);
    };
+
+   // TIL: Object.freeze makes it impossible to change this object later
+   Object.freeze(Constants);
 })(window);
