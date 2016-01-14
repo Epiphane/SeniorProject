@@ -7,12 +7,11 @@
       var Game = new Scene();
       Game.backgroundColor = "black";
       
-      player = new Classes.Player(2, 2);
-      Game.addChild(player);
-      var map = new Classes.Room();
+      Game.player = new Classes.Player(2, 2);
+      Game.currentRoom = new Classes.Room();
          
-      Game.addChild(map);
-      Game.addChild(player);      
+      Game.addChild(Game.currentRoom);
+      Game.addChild(Game.player);
       
       return Game;
    };

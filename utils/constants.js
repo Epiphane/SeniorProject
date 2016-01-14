@@ -8,6 +8,8 @@
 
    /* Game constants */
    Constants.P_DIR = Enum('DOWN', 'LEFT', 'RIGHT', 'UP');
+   Constants.P_WALK_ANIM_LEN = 9;
+   
    Constants.TILE_SIZE = 32;
    Constants.TILES = Enum([
       'floor', 'wall', 'wall2', 'empty', 'stair_down', 'stair_up',

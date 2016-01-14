@@ -10,7 +10,7 @@ ClassManager.create('Player', function(game) {
       initialize: function(x, y) {
          Sprite.call(this, C.TILE_SIZE, C.TILE_SIZE);
          this.image = game.assets["assets/images/player.png"];
-         this.x = x * C.TILE_SIZE; /* Relative to the whole map, not the window */
+         this.x = x * C.TILE_SIZE;
          this.y = y * C.TILE_SIZE;
          this.frame = 0;
          
@@ -21,28 +21,37 @@ ClassManager.create('Player', function(game) {
          this.attackCounter = 0;
          this.cooldown = 0;
 
-         this.walkSpeed = 4;
+         this.walkSpeed = 1 / 8; // 8 frames per movement
       },
       
       onenterframe: function() {
          this.move();
       },
-      
+
+      canMove: function(dx, dy) {
+         if (x % C.TILE_SIZE || y % C.TILE_SIZE) {
+            throw 'Trying to read a non-integer tile: ' + x / C.TILE_SIZE + ', ' + y / C.TILE_SIZE;
+         }
+
+         // game.currentScene is a Game scene
+         return game.currentScene.currentRoom.isWalkable(x / C.TILE_SIZE, y / C.TILE_SIZE);
+      },
+
       move: function() {
-         this.frame = this.direction * 9 + (this.walk == 3 ? 1 : this.walk);
+         this.frame = this.direction * C.P_WALK_ANIM_LEN + this.walk;
          if (this.isMoving) {
             this.moveBy(this.vx, this.vy);
-            
-            if (!(game.frame % 2)) {
-               this.walk++;
-               this.walk %= 4;
+
+            // Animate every two frames            
+            if (game.frame % 2) {
+               this.walk = ++this.walk % 3;
             }
-            if ((this.vx && (this.x) % this.width == 0) || (this.vy && this.y % this.height == 0)) { /* 32x32 grid */
+
+            if ((this.vx && this.x % this.width == 0) || (this.vy && this.y % this.height == 0)) { /* 32x32 grid */
                this.isMoving = false;
             }
          }
-
-         if (!this.isMoving) {
+         else {
             this.vx = this.vy = 0;
             if (game.input.left) {
                this.direction = C.P_DIR.LEFT;
@@ -64,10 +73,9 @@ ClassManager.create('Player', function(game) {
                this.walk = 1;
             }
             if (this.vx || this.vy) {
-               var x = this.x + (this.vx ? this.vx / Math.abs(this.vx) * 16 : 0) + 16;
-               var y = this.y + (this.vy ? this.vy / Math.abs(this.vy) * 16 : 0) + 16;
+               // var x = this.x + (this.vx ? this.vx / Math.abs(this.vx) * 16 : 0) + 16;
+               // var y = this.y + (this.vy ? this.vy / Math.abs(this.vy) * 16 : 0) + 16;
                this.isMoving = true;
-               // arguments.callee.call(this);
             }
          }
       }
