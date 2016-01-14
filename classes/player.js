@@ -28,15 +28,6 @@ ClassManager.create('Player', function(game) {
          this.move();
       },
 
-      canMove: function(dx, dy) {
-         if (x % C.TILE_SIZE || y % C.TILE_SIZE) {
-            throw 'Trying to read a non-integer tile: ' + x / C.TILE_SIZE + ', ' + y / C.TILE_SIZE;
-         }
-
-         // game.currentScene is a Game scene
-         return game.currentScene.currentRoom.isWalkable(x / C.TILE_SIZE, y / C.TILE_SIZE);
-      },
-
       move: function() {
          this.frame = this.direction * C.P_WALK_ANIM_LEN + this.walk;
          if (this.isMoving) {
@@ -73,8 +64,6 @@ ClassManager.create('Player', function(game) {
                this.walk = 1;
             }
             if (this.vx || this.vy) {
-               // var x = this.x + (this.vx ? this.vx / Math.abs(this.vx) * 16 : 0) + 16;
-               // var y = this.y + (this.vy ? this.vy / Math.abs(this.vy) * 16 : 0) + 16;
                this.isMoving = true;
             }
          }
