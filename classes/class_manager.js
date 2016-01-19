@@ -32,21 +32,25 @@ window.Classes = {};
 // Scoping...
 (function() {
    var game = null;
-   var initializers = {};
+   var initializers = [];
 
    ClassManager.create = function(name, initialize) {
       if (game) Classes[name] = initialize(game);
       else {
-         initializers[name] = initialize;
+         initializers.push({
+            name: name,
+            init: initialize
+         });
       }
    };
 
    ClassManager.initialize = function(g) {
       game = g;
 
-      for (var className in initializers) {
-         Classes[className] = initializers[className](game);
-         delete initializers[className];
+      while (initializers.length) {
+         var toInit = initializers.shift();
+
+         Classes[toInit.name] = toInit.init(game);
       }
 
       Object.freeze(Classes);

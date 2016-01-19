@@ -12,6 +12,7 @@
          
       Game.addChild(Game.currentRoom);
       Game.addChild(Game.player);
+      Game.addChild(new Classes.HUD());
 
       Game.onenterframe = function() {
          if (Game.player.waiting()) {
