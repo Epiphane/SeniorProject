@@ -22,14 +22,37 @@ ClassManager.create('HUD', function(game) {
          this.hearts[0].frame = 2;
          this.hearts[1].frame = 1;
 
-         this.weaponFrame = new Classes.HUD_Frame();
-         this.weaponFrame.x = this.weaponFrame.y = 38;
-         this.addChild(this.weaponFrame);
+         var weaponFrame = new Classes.HUD_Frame();
+         weaponFrame.x = weaponFrame.y = 38;
+         this.addChild(weaponFrame);
+
+         var armorFrame = new Classes.HUD_Frame();
+         armorFrame.x = 38;
+         armorFrame.y = 38 + C.TILE_SIZE * 2;
+         this.addChild(armorFrame);
 
          this.weapon = new Classes.Item();
-         this.weapon.frame = C.Items['sword'];
          this.weapon.x = this.weapon.y = 47;
          this.addChild(this.weapon);
+
+         this.armor = new Classes.Item();
+         this.armor.x = 47;
+         this.armor.y = 47 + C.TILE_SIZE * 2;
+         this.addChild(this.armor);
+      },
+
+      onenterframe: function() {
+         var player = game.currentScene.player;
+
+         if (player) {
+            if (player.weapon) {
+               this.weapon.frame = C.Items[player.weapon.itemName];
+            }
+
+            if (player.armor) {
+               this.armor.frame = C.Items[player.armor.itemName];
+            }
+         }
       }
    });
 });

@@ -19,7 +19,7 @@
 
    Constants.HUD = Enum(['heart_full', 'heart_half', 'heart_empty', 'frame']);
    Constants.Items = Enum([
-      'potion', 'dagger', 'chest_closed', 'chest_open', 'key_normal',
+      'empty', 'potion', 'dagger', 'chest_closed', 'chest_open', 'key_normal',
       'key_special', 'orb', 'sword', 'sword_ice', 'sword_earth',
       'sword_light', 'sword_fire', 'sword_dark', 'sword_what',
       'shield_1', 'shielf_2', 'shield_3', 'shield_4', 'shield_5', 'shield_6',
