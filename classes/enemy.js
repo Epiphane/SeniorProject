@@ -12,6 +12,9 @@ ClassManager.create('Enemy', function(game) {
 
          this.enemyType = type;
          this.image = game.assets["assets/images/" + type.sprite];
+
+         /* Enemies only move when the player moves. */
+         this.waitingForPlayer = false;
       },
       
       onenterframe: function() {
@@ -30,27 +33,27 @@ ClassManager.create('Enemy', function(game) {
       },
 
       doAI: function() {
-         this.frame = this.animationFrame;
-         if (this.isMoving) {
-            this.moveBy(this.vx * C.TILE_SIZE, this.vy * C.TILE_SIZE);
-
-            // Animate every four frames            
-            if (game.frame % 4) {
-               this.animationFrame = ++this.animationFrame % 3;
-            }
-
-            if ((this.vx && this.x % this.width == 0) || (this.vy && this.y % this.height == 0)) { /* 32x32 grid */
-               this.isMoving = false;
-            } 
+         // TODO: move trigger to the central enemy-logic-thing.
+         if (!game.currentScene.player.waiting()) {
+            var randomDirection = Utils.getRandomInt(C.P_DIR.DOWN, C.P_DIR.UP);
+            this.action(randomDirection);
          }
       },
 
       move: function() {
          if (this.isMoving()) {
+            // Animate (3 frame animation) every two frames            
+            if (game.frame % 2) {
+               this.walkOffset = ++this.walkOffset % 3;
+            }
 
+            var dx = this.position.x * C.TILE_SIZE - this.x;
+            var dy = this.position.y * C.TILE_SIZE - this.y;
+
+            this.moveBy(dx, dy);
          }
          else {
-            this.walk
+            this.walkOffset = 1;
          }
       },
    });
