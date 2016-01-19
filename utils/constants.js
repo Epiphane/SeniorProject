@@ -17,6 +17,10 @@
       'glow_yellow', 'fissure', 'glow_green', 'glow_yellow2'
    ]);
 
+   Constants.ROOM_TYPES = Enum([
+      'store', 'treasure', 'enemy', 'npc', 'boss'
+   ]);
+
    Constants.GAME_WIDTH = 640;
    Constants.GAME_HEIGHT = 640;
    Constants.MAP_WIDTH = C.GAME_WIDTH / C.TILE_SIZE;
