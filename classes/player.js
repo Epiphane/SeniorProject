@@ -26,7 +26,7 @@ ClassManager.create('Player', function(game) {
          this.attackCounter = 0;
          this.cooldown = 0;
 
-         this.health = 8;
+         this.health = this.max_health = 8;
 
          this.walkSpeed = (1 / 8) * C.TILE_SIZE; // Move this many pixels at a time
       },

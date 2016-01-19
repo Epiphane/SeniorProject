@@ -6,8 +6,12 @@
  */
 ClassManager.create('HUD', function(game) {
    return Class.create(Group, {
-      initialize: function() {
+      initialize: function(player) {
          Group.call(this);
+
+         if (!player) throw 'Player is required for the HUD';
+
+         this.player = player;
 
          this.hearts = [];
          for (var i = 0; i < 4; i ++) {
@@ -42,16 +46,12 @@ ClassManager.create('HUD', function(game) {
       },
 
       onenterframe: function() {
-         var player = game.currentScene.player;
+         if (this.player.weapon) {
+            this.weapon.frame = C.Items[this.player.weapon.itemName];
+         }
 
-         if (player) {
-            if (player.weapon) {
-               this.weapon.frame = C.Items[player.weapon.itemName];
-            }
-
-            if (player.armor) {
-               this.armor.frame = C.Items[player.armor.itemName];
-            }
+         if (this.player.armor) {
+            this.armor.frame = C.Items[this.player.armor.itemName];
          }
       }
    });
