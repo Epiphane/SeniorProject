@@ -17,6 +17,15 @@
       'glow_yellow', 'fissure', 'glow_green', 'glow_yellow2'
    ]);
 
+   Constants.HUD = Enum(['heart_full', 'heart_half', 'heart_empty', 'frame']);
+   Constants.Items = Enum([
+      'empty', 'potion', 'dagger', 'chest_closed', 'chest_open', 'key_normal',
+      'key_special', 'orb', 'sword', 'sword_ice', 'sword_earth',
+      'sword_light', 'sword_fire', 'sword_dark', 'sword_what',
+      'shield_1', 'shielf_2', 'shield_3', 'shield_4', 'shield_5', 'shield_6',
+      'shield_7'
+   ]);
+
    Constants.GAME_WIDTH = 640;
    Constants.GAME_HEIGHT = 640;
    Constants.MAP_WIDTH = C.GAME_WIDTH / C.TILE_SIZE;
