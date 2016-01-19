@@ -24,6 +24,11 @@ ClassManager.create('Room', function(game) {
          }
 
          this.loadData(this.tiles);
+      },
+
+      isWalkable: function(x, y) {
+         // TODO: Change this to === when tiles is a 2D array for greater accuracy!
+         return this.tiles[y][x] == C.TILES.floor;
       }
    });
 });
