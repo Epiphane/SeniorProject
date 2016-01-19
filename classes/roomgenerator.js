@@ -8,22 +8,15 @@
 ClassManager.create('RoomGenerator', function(game) {
    return Class.create(Map, {
       initialize: function() {
-         Map.call(this, C.TILE_SIZE, C.TILE_SIZE);
-         this.image = game.assets["assets/images/map.png"];
-
-         this.tiles = new Array(C.MAP_HEIGHT);
-         for (var r = 0; r < C.MAP_WIDTH; r ++) {
-            var tile = C.TILES.floor;
-            if (r === 0) tile = C.TILES.wall2;
-            if (r === C.MAP_HEIGHT - 1) tile = C.TILES.wall;
-
-            this.tiles[r] = 
-               C.TILES.wall + // Wall on the left...
-               new Array(C.MAP_WIDTH - 1).join(tile) + // floor in between (C.MAP_WIDTH - 2 floors)
-               C.TILES.wall; // Wall on the right.
-         }
-
-         this.loadData(this.tiles);
+         game.rooms = [];
+      }
+      /*
+       * Given a roomType enum and a diffculty (be it a number or later, 
+       * a metric attached to a player) generates and instantiates a new room.
+       */
+      setRoom: function(roomType, difficulty) {
+         // TODO figure out where difficulty works in
+         
       }
    });
 });
