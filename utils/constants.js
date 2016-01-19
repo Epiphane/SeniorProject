@@ -81,6 +81,9 @@
       game.preload.apply(game, assets);
    };
 
+   /* Enemy enum and all the assets that correspond to the enum. */
+   Constants.enemyType = Enum("slime", "bat");
+
    // TIL: Object.freeze makes it impossible to change this object later
    Object.freeze(Constants);
 })(window);
