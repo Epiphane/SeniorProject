@@ -82,7 +82,19 @@
    };
 
    /* Enemy enum and all the assets that correspond to the enum. */
-   Constants.enemyType = Enum("slime", "bat");
+   Constants.enemyType = {
+      slime: { 
+         sprite: "monster1.gif",
+         walkStartFrame: 3,
+         walkEndFrame:   5,
+      },
+
+      bat: {
+         sprite: "monster2.gif",
+         walkStartFrame: 3,
+         walkEndFrame:   5,
+      }
+   };
 
    // TIL: Object.freeze makes it impossible to change this object later
    Object.freeze(Constants);
