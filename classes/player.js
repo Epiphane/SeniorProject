@@ -14,6 +14,8 @@ ClassManager.create('Player', function(game) {
          this.isAttacking = false;
          this.attackCounter = 0;
          this.cooldown = 0;
+
+         this.health = this.max_health = 8;
       },
 
       /*
