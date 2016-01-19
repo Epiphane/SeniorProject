@@ -17,7 +17,6 @@
       'glow_yellow', 'fissure', 'glow_green', 'glow_yellow2'
    ]);
 
-   Constants.HUD = Enum(['heart_full', 'heart_half', 'heart_empty', 'frame']);
    Constants.Items = Enum([
       'empty', 'potion', 'dagger', 'chest_closed', 'chest_open', 'key_normal',
       'key_special', 'orb', 'sword', 'sword_ice', 'sword_earth',
@@ -30,6 +29,10 @@
    Constants.GAME_HEIGHT = 640;
    Constants.MAP_WIDTH = C.GAME_WIDTH / C.TILE_SIZE;
    Constants.MAP_HEIGHT = C.GAME_HEIGHT / C.TILE_SIZE;
+
+   /* HUD constants */
+   Constants.HEART_PADDING = 35;
+   Constants.HUD = Enum(['heart_full', 'heart_half', 'heart_empty', 'frame']);
 
    /* Set up key bindings for the game */
    var keys = {

@@ -14,17 +14,9 @@ ClassManager.create('HUD', function(game) {
          this.player = player;
 
          this.hearts = [];
-         for (var i = 0; i < 4; i ++) {
-            var heart = new Classes.HUD_Object();
-            heart.y = 35;
-            heart.x = C.GAME_WIDTH - 35 - (i + 1) * heart.width;
-
-            this.addChild(heart);
-            this.hearts.push(heart);
+         while (this.hearts.length < player.max_health / 2) {
+            this.addHeart();
          }
-
-         this.hearts[0].frame = 2;
-         this.hearts[1].frame = 1;
 
          var weaponFrame = new Classes.HUD_Frame();
          weaponFrame.x = weaponFrame.y = 38;
@@ -45,6 +37,15 @@ ClassManager.create('HUD', function(game) {
          this.addChild(this.armor);
       },
 
+      addHeart: function() {
+         var heart = new Classes.HUD_Object();
+         this.hearts.push(heart);
+         this.addChild(heart);
+
+         heart.x = C.GAME_WIDTH - C.HEART_PADDING - this.hearts.length * heart.width;
+         heart.y = C.HEART_PADDING;
+      },
+
       onenterframe: function() {
          if (this.player.weapon) {
             this.weapon.frame = C.Items[this.player.weapon.itemName];
@@ -52,6 +53,19 @@ ClassManager.create('HUD', function(game) {
 
          if (this.player.armor) {
             this.armor.frame = C.Items[this.player.armor.itemName];
+         }
+
+         while (this.hearts.length > this.player.max_health / 2) {
+            this.removeChild(this.hearts.pop());
+         }
+         while (this.hearts.length < this.player.max_health / 2) {
+            this.addHeart();
+         }
+
+         for (var i = 1; i <= this.hearts.length; i ++) {
+            var heart = this.hearts[this.hearts.length - i];
+            heart.frame = Math.max(Math.min(2 * i - this.player.health, 2), 0);
+
          }
       }
    });
