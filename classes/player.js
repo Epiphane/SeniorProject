@@ -31,7 +31,7 @@ ClassManager.create('Player', function(game) {
       move: function() {
          this.frame = this.direction * C.P_WALK_ANIM_LEN + this.walk;
          if (this.isMoving) {
-            this.moveBy(this.vx, this.vy);
+            this.moveBy(this.vx * C.TILE_SIZE, this.vy * C.TILE_SIZE);
 
             // Animate every two frames            
             if (game.frame % 2) {
