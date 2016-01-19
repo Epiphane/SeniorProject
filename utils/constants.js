@@ -28,12 +28,12 @@
       68: 'right',
       87: 'up',
       83: 'down',
-      74: 'attackLeft',
-      76: 'attackRight',
-      73: 'attackUp',
-      75: 'attackDown',
-      77: 'swapItem',
-      78: 'usePotion',
+      // 74: 'attackLeft',
+      // 76: 'attackRight',
+      // 73: 'attackUp',
+      // 75: 'attackDown',
+      // 77: 'swapItem',
+      // 78: 'usePotion',
       32: 'select'
    };
    Constants.bindKeys = function(game) {
