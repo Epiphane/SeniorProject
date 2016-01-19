@@ -8,10 +8,16 @@
       Game.backgroundColor = "black";
       
       Game.player = new Classes.Player(2, 2);
+      Game.enemy1 = new Classes.Enemy(5, 5, C.enemyType.slime)
+      Game.enemy2 = new Classes.Enemy(7, 5, C.enemyType.bat)
       Game.currentRoom = new Classes.Room();
          
       Game.addChild(Game.currentRoom);
       Game.addChild(Game.player);
+
+      Game.addChild(Game.enemy1);
+      Game.addChild(Game.enemy2);
+
       Game.addChild(new Classes.HUD(Game.player));
 
       Game.onenterframe = function() {
