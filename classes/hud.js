@@ -63,9 +63,9 @@ ClassManager.create('HUD', function(game) {
          }
 
          for (var i = 1; i <= this.hearts.length; i ++) {
+            // Gross code don't look at it
             var heart = this.hearts[this.hearts.length - i];
             heart.frame = Math.max(Math.min(2 * i - this.player.health, 2), 0);
-
          }
       }
    });
@@ -74,7 +74,7 @@ ClassManager.create('HUD', function(game) {
 ClassManager.create('HUD_Object', function(game) {
    return Class.create(Sprite, {
       initialize: function() {
-         Sprite.call(this, 50, 50);
+         Sprite.call(this, C.HUD_TILESIZE, C.HUD_TILESIZE);
          this.image = game.assets["assets/images/hud.png"];
       },
    });

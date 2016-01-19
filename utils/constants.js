@@ -32,6 +32,7 @@
 
    /* HUD constants */
    Constants.HEART_PADDING = 35;
+   Constants.HUD_TILESIZE = 50;
    Constants.HUD = Enum(['heart_full', 'heart_half', 'heart_empty', 'frame']);
 
    /* Set up key bindings for the game */
