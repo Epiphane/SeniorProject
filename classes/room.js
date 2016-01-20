@@ -9,7 +9,7 @@ ClassManager.create('Room', function(game) {
    return Class.create(Map, {
       initialize: function() {
          Map.call(this, C.TILE_SIZE, C.TILE_SIZE);
-         this.image = game.assets["assets/images/map2.png"];
+         this.image = game.assets["assets/images/map.png"];
 
          this.tiles = [];
       },

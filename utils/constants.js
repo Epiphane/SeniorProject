@@ -21,7 +21,7 @@
       'store', 'treasure', 'enemy', 'npc', 'boss'
    ]);
 
-   spriteToTile: function(row, col) {
+   spriteToTile = function(row, col) {
       return row * 30 + col;
    };
 
@@ -32,9 +32,9 @@
       wall_top_right_corner: spriteToTile(0, 19),
       wall_bottom_left_corner: spriteToTile(2, 17),
       wall_bottom_right_corner: spriteToTile(2, 19),
-      exit(11,22)
-      wall_left: spriteToTile(1,17);
-      wall_right: spriteToTile(1,19);
+      exit: spriteToTile(11,22),
+      wall_left: spriteToTile(1,17),
+      wall_right: spriteToTile(1,19),
    });
 
    Constants.GAME_WIDTH = 640;

@@ -5,10 +5,11 @@
 (function(Scenes, Classes) {
    Scenes.Game = function(game) {
       var Game = new Scene();
+      var RoomGen = new Classes.RoomGenerator();
       Game.backgroundColor = "black";
       
       Game.player = new Classes.Player(2, 2);
-      Game.currentRoom = new Classes.Room();
+      Game.currentRoom = RoomGen.getNewRoom('enemy', 1);
          
       Game.addChild(Game.currentRoom);
       Game.addChild(Game.player);
