@@ -1,13 +1,15 @@
 /*
- * The MovingSprite class keeps track of a sprite, that can move. SURPRISE!
+ * The Character class keeps track of a sprite, that can move. SURPRISE!
  *  It handles the walk animation, collisions and direction stuff.
  *
  * Parameters:
  *    x = x coordinate of the sprite
  *    y = y coordinate of the sprite
  */
-ClassManager.create('MovingSprite', function(game) {
+ClassManager.create('Character', function(game) {
    return Class.create(Sprite, {
+      walkSpeed: 1 / 12,
+
       initialize: function(x, y) {
          Sprite.call(this, C.TILE_SIZE, C.TILE_SIZE);
 
@@ -23,9 +25,8 @@ ClassManager.create('MovingSprite', function(game) {
          
          this.direction = C.P_DIR.DOWN;
 
-         /* How far is this sprite into its walk cycle? */
+         /* How far is this sprite into its walk cycle? (in terms of frames) */
          this.walkOffset = 1;
-         this.walkSpeed = (1 / 12) * C.TILE_SIZE; // Move this many pixels at a time
       },
 
       /*
@@ -73,12 +74,14 @@ ClassManager.create('MovingSprite', function(game) {
       // Run the walking animation if you need to move
       onenterframe: function() {
          if (this.isMoving()) {
+            var walkSpeed = this.walkSpeed * C.TILE_SIZE;
+
             var dx = this.position.x * C.TILE_SIZE - this.x;
             var dy = this.position.y * C.TILE_SIZE - this.y;
-            if (dx >  this.walkSpeed) dx =  this.walkSpeed;
-            if (dy >  this.walkSpeed) dy =  this.walkSpeed;
-            if (dx < -this.walkSpeed) dx = -this.walkSpeed;
-            if (dy < -this.walkSpeed) dy = -this.walkSpeed;
+            if (dx >  walkSpeed) dx =  walkSpeed;
+            if (dy >  walkSpeed) dy =  walkSpeed;
+            if (dx < -walkSpeed) dx = -walkSpeed;
+            if (dy < -walkSpeed) dy = -walkSpeed;
 
             this.moveBy(dx, dy);
          }
