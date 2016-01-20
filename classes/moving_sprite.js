@@ -25,7 +25,7 @@ ClassManager.create('MovingSprite', function(game) {
 
          /* How far is this sprite into its walk cycle? */
          this.walkOffset = 1;
-         this.walkSpeed = (1 / 8) * C.TILE_SIZE; // Move this many pixels at a time
+         this.walkSpeed = (1 / 12) * C.TILE_SIZE; // Move this many pixels at a time
       },
 
       /*

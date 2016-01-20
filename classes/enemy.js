@@ -36,7 +36,7 @@ ClassManager.create('Enemy', function(game) {
       updateSpriteFrame: function() {
          if (this.isMoving()) {
             // Animate through the enemy's walk cycle every three frames            
-            if (game.frame % 7) {
+            if (game.frame % 8 === 0) {
                var walkCycleLength = this.enemyType.walkEndFrame - this.enemyType.walkStartFrame;
                this.walkOffset = ++this.walkOffset % walkCycleLength;
             }

@@ -16,14 +16,14 @@ ClassManager.create('Player', function(game) {
          this.cooldown = 0;
 
          this.health = this.max_health = 8;
-         this.health -= 3
+         this.health -= 3;
       },
 
       // Set the player's sprite to the direction it's facing, and advance its walk cycle
       updateSpriteFrame: function() {
          if (this.isMoving()) {
             // Animate (3 frame animation) every two frames            
-            if (game.frame % 2) {
+            if (game.frame % 4 === 0) {
                this.walkOffset = ++this.walkOffset % 3;
             }
 

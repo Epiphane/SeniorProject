@@ -23,16 +23,21 @@
       Game.addChild(new Classes.HUD(Game.player));
 
       // Checks if any entity is still moving
+      var actionCooldown = 0;
       Game.waitingOnMovement = function() {
          if (Game.player.isMoving()) return true;
          for (var ndx = 0; ndx < Game.enemies.length; ndx++) {
             if (Game.enemies[ndx].isMoving()) return true;
          }
 
+         if (actionCooldown > 0) return true;
+
          return false;
       }
 
       Game.onenterframe = function() {
+         if (actionCooldown > 0) actionCooldown -= 1 / 60;
+
          if (!Game.waitingOnMovement()) {
             if (game.input.left) {
                Game.action(C.P_DIR.LEFT);
@@ -54,6 +59,8 @@
          Game.enemies.forEach(function(enemy) {
             enemy.doAI();
          });
+
+         actionCooldown = 0.3;
       }
       
       return Game;
