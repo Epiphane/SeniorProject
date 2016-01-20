@@ -18,36 +18,20 @@ ClassManager.create('Player', function(game) {
          this.health = this.max_health = 8;
       },
 
-      /*
-       * Determines whether the player can move again
-       */
-      waiting: function() {
-         return !this.isMoving();
-      },
-      
-      // Run the walking animation if you need to move
-      onenterframe: function() {
-         this.frame = this.direction * C.P_WALK_ANIM_LEN + this.walkOffset;
-
+      // Set the player's sprite to the direction it's facing, and advance its walk cycle
+      updateSpriteFrame: function() {
          if (this.isMoving()) {
-            var dx = this.position.x * C.TILE_SIZE - this.x;
-            var dy = this.position.y * C.TILE_SIZE - this.y;
-            if (dx >  this.walkSpeed) dx =  this.walkSpeed;
-            if (dy >  this.walkSpeed) dy =  this.walkSpeed;
-            if (dx < -this.walkSpeed) dx = -this.walkSpeed;
-            if (dy < -this.walkSpeed) dy = -this.walkSpeed;
-
-            this.moveBy(dx, dy);
-
             // Animate (3 frame animation) every two frames            
             if (game.frame % 2) {
                this.walkOffset = ++this.walkOffset % 3;
             }
+
          }
          else {
-            // Reset animation
             this.walkOffset = 1;
          }
-      }
+         this.frame = this.direction * C.P_WALK_ANIM_LEN + this.walkOffset;
+      },
+
    });
 });

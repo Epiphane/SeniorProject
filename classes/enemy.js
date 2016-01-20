@@ -8,6 +8,7 @@
 ClassManager.create('Enemy', function(game) {
    return Class.create(Classes['MovingSprite'], {
       initialize: function(x, y, type) {
+
          Classes['MovingSprite'].call(this, x, y);
 
          this.enemyType = type;
@@ -15,11 +16,6 @@ ClassManager.create('Enemy', function(game) {
 
          /* Enemies only move when the player moves. */
          this.waitingForPlayer = false;
-      },
-      
-      onenterframe: function() {
-         this.doAI();
-         this.move();
       },
 
       /*
@@ -33,27 +29,22 @@ ClassManager.create('Enemy', function(game) {
       },
 
       doAI: function() {
-         // TODO: move trigger to the central enemy-logic-thing.
-         if (!game.currentScene.player.waiting()) {
-            var randomDirection = Utils.getRandomInt(C.P_DIR.DOWN, C.P_DIR.UP);
-            this.action(randomDirection);
-         }
+         var randomDirection = Utils.getRandomInt(C.P_DIR.DOWN, C.P_DIR.UP);
+         this.action(randomDirection);
       },
 
-      move: function() {
+      updateSpriteFrame: function() {
          if (this.isMoving()) {
-            // Animate (3 frame animation) every two frames            
-            if (game.frame % 2) {
-               this.walkOffset = ++this.walkOffset % 3;
+            // Animate through the enemy's walk cycle every three frames            
+            if (game.frame % 7) {
+               var walkCycleLength = this.enemyType.walkEndFrame - this.enemyType.walkStartFrame;
+               this.walkOffset = ++this.walkOffset % walkCycleLength;
             }
 
-            var dx = this.position.x * C.TILE_SIZE - this.x;
-            var dy = this.position.y * C.TILE_SIZE - this.y;
-
-            this.moveBy(dx, dy);
+            this.frame = this.enemyType.walkStartFrame + this.walkOffset;
          }
          else {
-            this.walkOffset = 1;
+            this.frame = this.enemyType.walkStartFrame;
          }
       },
    });

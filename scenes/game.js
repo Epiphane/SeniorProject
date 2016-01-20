@@ -18,25 +18,46 @@
       Game.addChild(Game.enemy1);
       Game.addChild(Game.enemy2);
 
+      Game.enemies = [Game.enemy1, Game.enemy2];
+
       Game.addChild(new Classes.HUD(Game.player));
 
+      // Checks if any entity is still moving
+      Game.waitingOnMovement = function() {
+         if (Game.player.isMoving()) return true;
+         for (var ndx = 0; ndx < Game.enemies.length; ndx++) {
+            if (Game.enemies[ndx].isMoving()) return true;
+         }
+
+         return false;
+      }
+
       Game.onenterframe = function() {
-         if (Game.player.waiting()) {
+         if (!Game.waitingOnMovement()) {
             if (game.input.left) {
-               Game.player.action(C.P_DIR.LEFT);
+               Game.action(C.P_DIR.LEFT);
             }
             else if (game.input.right) {
-               Game.player.action(C.P_DIR.RIGHT);
+               Game.action(C.P_DIR.RIGHT);
             }
             else if (game.input.up) {
-               Game.player.action(C.P_DIR.UP);
+               Game.action(C.P_DIR.UP);
             }
             else if (game.input.down) {
-               Game.player.action(C.P_DIR.DOWN);
+               Game.action(C.P_DIR.DOWN);
             }
          }
+      }
+
+      Game.action = function(direction) {
+         Game.player.action(direction);
+         Game.enemies.forEach(function(enemy) {
+            enemy.doAI();
+         });
       }
       
       return Game;
    };
+
+
 })(window.Scenes, window.Classes);

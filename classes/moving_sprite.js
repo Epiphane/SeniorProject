@@ -69,5 +69,23 @@ ClassManager.create('MovingSprite', function(game) {
             this.position.y += dy;
          }
       },
+      
+      // Run the walking animation if you need to move
+      onenterframe: function() {
+         if (this.isMoving()) {
+            var dx = this.position.x * C.TILE_SIZE - this.x;
+            var dy = this.position.y * C.TILE_SIZE - this.y;
+            if (dx >  this.walkSpeed) dx =  this.walkSpeed;
+            if (dy >  this.walkSpeed) dy =  this.walkSpeed;
+            if (dx < -this.walkSpeed) dx = -this.walkSpeed;
+            if (dy < -this.walkSpeed) dy = -this.walkSpeed;
+
+            this.moveBy(dx, dy);
+         }
+
+         this.updateSpriteFrame();
+      }
+
+
    });
 });
