@@ -20,6 +20,9 @@
 
       Game.enemies = [Game.enemy1, Game.enemy2];
 
+      // TODO this is totally unnecesary once room is a Group
+      Game.currentRoom.characters = Game.enemies;
+
       Game.addChild(new Classes.HUD(Game.player));
 
       // Checks if any entity is still moving
@@ -56,9 +59,7 @@
 
       Game.action = function(direction) {
          Game.player.action(direction);
-         Game.enemies.forEach(function(enemy) {
-            enemy.doAI();
-         });
+         Game.currentRoom.action();
 
          actionCooldown = 0.3;
       }

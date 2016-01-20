@@ -5,11 +5,11 @@
  *    y = y coordinate of the sprite
  */
 ClassManager.create('Enemy', function(game) {
-   return Class.create(Classes['MovingSprite'], {
+   return Class.create(Classes['Character'], {
       sprite: '',
 
       initialize: function(x, y) {
-         Classes['MovingSprite'].call(this, x, y);
+         Classes['Character'].call(this, x, y);
 
          this.image = game.assets["assets/images/" + this.sprite];
       },

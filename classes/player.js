@@ -6,9 +6,11 @@
  *    y = y coordinate of the sprite
  */
 ClassManager.create('Player', function(game) {
-   return Class.create(Classes['MovingSprite'], {
+   return Class.create(Classes['Character'], {
+      walkSpeed: 1 / 12,
+
       initialize: function(x, y) {
-         Classes['MovingSprite'].call(this, x, y);
+         Classes['Character'].call(this, x, y);
          this.image = game.assets["assets/images/player.png"]; 
 
          this.isAttacking = false;
