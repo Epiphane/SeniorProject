@@ -19,6 +19,9 @@ ClassManager.create('Player', function(game) {
 
          this.health = this.max_health = 8;
          this.health -= 3;
+      
+         this.weapon = null;
+         this.armor = null;
       },
 
       walkAnimSpeed: 4,
@@ -28,6 +31,28 @@ ClassManager.create('Player', function(game) {
       getDirectionFrame: function() {
          return 9 * this.direction;
       },
+
+      tryMove: function(dx, dy) {
+         Classes['Character'].prototype.tryMove.apply(this, arguments);
+
+         var room = game.currentScene.currentRoom;
+         var item = room.getItemAt(this.position.x, this.position.y);
+         if (item !== null) {
+            // Grab item!
+            room.removeItemAt(this.position.x, this.position.y);
+
+            if (item instanceof Classes['Weapon']) {
+               // Swap out my weapon
+               room.addItemAt(this.weapon, this.position.x, this.position.y);
+               this.weapon = item;
+            }
+            else if (item instanceof Classes['Armor']) {
+               // Swap out my armor
+               room.addItemAt(this.armor, this.position.x, this.position.y);
+               this.armor = item;
+            }
+         }
+      }
 
    });
 });

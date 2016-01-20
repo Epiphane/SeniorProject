@@ -6,12 +6,27 @@
  *    x, y, z = Coordinates of this room in relation to the first room of the level
  */
 ClassManager.create('Room', function(game) {
-   return Class.create(Map, {
+   return Class.create(Group, {
       initialize: function() {
-         Map.call(this, C.TILE_SIZE, C.TILE_SIZE);
-         this.image = game.assets["assets/images/map.png"];
+         Group.call(this);
+
+         this.map = new Map(C.TILE_SIZE, C.TILE_SIZE);
+         this.map.image = game.assets["assets/images/map.png"];
+
+         this.addChild(this.map);
 
          this.tiles = [];
+         this.items = [];
+         this.characters = [];
+      },
+
+      loadData: function(data) {
+         this.map.loadData(data);
+      },
+
+      addCharacter: function(character) {
+         this.characters.push(character);
+         this.addChild(character);
       },
 
       isWalkable: function(x, y) {
@@ -20,25 +35,77 @@ ClassManager.create('Room', function(game) {
             return false;
          }
 
-         for (var i = this.characters.length - 1; i >= 0; i--) {
-            if (this.characters[i].position.x === x &&
-                this.characters[i].position.y === y) {
-               return false;
-            }
-         };
-
-         if (game.currentScene.player.position.x === x &&
-             game.currentScene.player.position.y === y) {
+         if (this.getCharacterAt(x, y) !== null) {
             return false;
          }
 
          return true;
       },
 
+      getCharacterAt: function(x, y) {
+         for (var i = this.characters.length - 1; i >= 0; i--) {
+            var character = this.characters[i];
+            if (character.position.x === x && character.position.y === y) {
+               return character;
+            }
+         }
+
+         var player = game.currentScene.player;
+         if (player.position.x === x && player.position.y === y) {
+            return player;
+         }
+
+         return null;
+      },
+
+      addItemAt: function(item, x, y) {
+         if (!item) return;
+
+         item.position = { x: x, y: y };
+         item.x = x * C.TILE_SIZE;
+         item.y = y * C.TILE_SIZE;
+         
+         this.items.push(item);
+         this.addChild(item);
+      },
+
+      removeItemAt: function(x, y) {
+         for (var i = this.items.length - 1; i >= 0; i--) {
+            var item = this.items[i];
+            if (item.position.x === x && item.position.y === y) {
+               this.removeChild(item);
+               this.items.splice(i, 1);
+
+               return;
+            }
+         }
+      },
+
+      getItemAt: function(x, y) {
+         for (var i = this.items.length - 1; i >= 0; i--) {
+            var item = this.items[i];
+            if (item.position.x === x && item.position.y === y) {
+               return item;
+            }
+         }
+
+         return null;
+      },
+
       action: function() {
          this.characters.forEach(function(character) {
             character.doAI();
          });
+      },
+
+      isAnimating: function() {
+         for (var i = this.characters.length - 1; i >= 0; i--) {
+            if (this.characters[i].isMoving()) {
+               return true;
+            }
+         }
+
+         return false;
       }
    });
 });
