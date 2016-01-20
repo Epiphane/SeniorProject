@@ -7,9 +7,7 @@
  */
 ClassManager.create('RoomGenerator', function(game) {
    return Class.create(Map, {
-      initialize: function() {
-
-      },
+      initialize: function() {},
       /*
        * Given a roomType enum and a diffculty (be it a number or later, 
        * a metric attached to a player) generates and instantiates a new room.
