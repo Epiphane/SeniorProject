@@ -16,6 +16,7 @@ ClassManager.create('Player', function(game) {
          this.cooldown = 0;
 
          this.health = this.max_health = 8;
+         this.health -= 3
       },
 
       // Set the player's sprite to the direction it's facing, and advance its walk cycle
