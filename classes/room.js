@@ -11,24 +11,12 @@ ClassManager.create('Room', function(game) {
          Map.call(this, C.TILE_SIZE, C.TILE_SIZE);
          this.image = game.assets["assets/images/map.png"];
 
-         this.tiles = new Array(C.MAP_HEIGHT);
-         for (var r = 0; r < C.MAP_WIDTH; r ++) {
-            var tile = C.TILES.floor;
-            if (r === 0) tile = C.TILES.wall2;
-            if (r === C.MAP_HEIGHT - 1) tile = C.TILES.wall;
-
-            this.tiles[r] = 
-               C.TILES.wall + // Wall on the left...
-               new Array(C.MAP_WIDTH - 1).join(tile) + // floor in between (C.MAP_WIDTH - 2 floors)
-               C.TILES.wall; // Wall on the right.
-         }
-
-         this.loadData(this.tiles);
+         this.tiles = [];
       },
 
       isWalkable: function(x, y) {
          // TODO: Change this to !== when tiles is a 2D array for greater accuracy!
-         if (this.tiles[y][x] != C.TILES.floor) {
+         if (this.tiles[y][x] != C.TILES.floor && this.tiles[y][x] != C.TILES.empty) {
             return false;
          }
 

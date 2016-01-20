@@ -7,10 +7,13 @@
       var Game = new Scene();
       Game.backgroundColor = "black";
       
+      var RoomGen = new Classes.RoomGenerator();
+      Game.currentRoom = RoomGen.getNewRoom('enemy', 1);
+      
       Game.player = new Classes.Player(2, 2);
       Game.enemy1 = new Classes.Slime(5, 5)
       Game.enemy2 = new Classes.Bat(7, 5)
-      Game.currentRoom = new Classes.Room();
+
          
       Game.addChild(Game.currentRoom);
       Game.addChild(Game.player);

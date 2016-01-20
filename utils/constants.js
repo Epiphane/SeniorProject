@@ -17,6 +17,26 @@
       'glow_yellow', 'fissure', 'glow_green', 'glow_yellow2'
    ]);
 
+   Constants.ROOM_TYPES = Enum([
+      'store', 'treasure', 'enemy', 'npc', 'boss'
+   ]);
+
+   spriteToTile = function(row, col) {
+      return row * 30 + col;
+   };
+
+   Constants.MAP_TILES = Enum({
+      floor: spriteToTile(7,9),
+      wall_top_left_corner: spriteToTile(0, 17),
+      wall: spriteToTile(0, 18),
+      wall_top_right_corner: spriteToTile(0, 19),
+      wall_bottom_left_corner: spriteToTile(2, 17),
+      wall_bottom_right_corner: spriteToTile(2, 19),
+      exit: spriteToTile(11,22),
+      wall_left: spriteToTile(1,17),
+      wall_right: spriteToTile(1,19),
+   });
+
    Constants.Items = Enum([
       'empty', 'potion', 'dagger', 'chest_closed', 'chest_open', 'key_normal',
       'key_special', 'orb', 'sword', 'sword_ice', 'sword_earth',
