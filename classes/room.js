@@ -16,7 +16,7 @@ ClassManager.create('Room', function(game) {
 
       isWalkable: function(x, y) {
          // TODO: Change this to !== when tiles is a 2D array for greater accuracy!
-         if (this.tiles[y][x] != C.TILES.floor) {
+         if (this.tiles[y][x] != C.TILES.floor && this.tiles[y][x] != C.TILES.empty) {
             return false;
          }
 

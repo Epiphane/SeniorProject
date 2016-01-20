@@ -17,25 +17,41 @@ ClassManager.create('RoomGenerator', function(game) {
       getNewRoom: function(roomType, difficulty) {
          var room = new Classes.Room();
 
-         for (var r = 0; r < C.MAP_WIDTH; r ++) {
+         for (var r = 0; r < C.MAP_WIDTH; r++) {
             var tile = C.TILES.floor;
             if (r === 0) tile = C.TILES.wall2;
             if (r === C.MAP_HEIGHT - 1) tile = C.TILES.wall;
 
-            room.tiles.push( 
-               C.TILES.wall +
-               new Array(C.MAP_WIDTH - 1).join(tile) +
-               C.TILES.wall
-            );
-         }
+            var row = [];
+            row.push(C.TILES.wall);
+            for (var a = 1; a < C.MAP_WIDTH-1; a++) {
+               row.push(tile);
+            }
+            row.push(C.TILES.wall);
 
-         room.loadData(room.tiles);
+            room.tiles.push(row);
+         }
 
          // TOOD - Add variable for adding exits
          var chance = new Chance();
-         
+         var exitCol = chance.natural({min:1, max:C.MAP_WIDTH-2});
 
+         console.log(exitCol);
 
+         room.tiles[0][exitCol] = C.TILES.empty;
+
+         console.log(room.tiles[0][exitCol]);
+
+         // Adding random fissures for spookiness
+         for (var i = 1; i<C.MAP_WIDTH-1; i++) {
+            for (var j = 1; j<C.MAP_HEIGHT-1; j++) {
+               if (chance.bool({likelihood:5})) {
+                  room.tiles[i][j] = C.TILES.fissure;
+               }
+            }
+         }
+
+         room.loadData(room.tiles);
 
          return room;
 
