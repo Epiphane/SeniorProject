@@ -15,8 +15,30 @@ ClassManager.create('Room', function(game) {
       },
 
       isWalkable: function(x, y) {
-         // TODO: Change this to === when tiles is a 2D array for greater accuracy!
-         return this.tiles[y][x] == C.TILES.floor;
+         // TODO: Change this to !== when tiles is a 2D array for greater accuracy!
+         if (this.tiles[y][x] != C.TILES.floor) {
+            return false;
+         }
+
+         for (var i = this.characters.length - 1; i >= 0; i--) {
+            if (this.characters[i].position.x === x &&
+                this.characters[i].position.y === y) {
+               return false;
+            }
+         };
+
+         if (game.currentScene.player.position.x === x &&
+             game.currentScene.player.position.y === y) {
+            return false;
+         }
+
+         return true;
+      },
+
+      action: function() {
+         this.characters.forEach(function(character) {
+            character.doAI();
+         });
       }
    });
 });

@@ -32,6 +32,7 @@ ClassManager.create('RoomGenerator', function(game) {
          room.loadData(room.tiles);
 
          // TOOD - Add variable for adding exits
+         var chance = new Chance();
          
 
 
