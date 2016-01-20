@@ -19,19 +19,12 @@ ClassManager.create('Player', function(game) {
          this.health -= 3;
       },
 
-      // Set the player's sprite to the direction it's facing, and advance its walk cycle
-      updateSpriteFrame: function() {
-         if (this.isMoving()) {
-            // Animate (3 frame animation) every two frames            
-            if (game.frame % 4 === 0) {
-               this.walkOffset = ++this.walkOffset % 3;
-            }
+      walkAnimSpeed: 4,
+      walkStartFrame: 1,
+      walkEndFrame: 4,
 
-         }
-         else {
-            this.walkOffset = 1;
-         }
-         this.frame = this.direction * C.P_WALK_ANIM_LEN + this.walkOffset;
+      getDirectionFrame: function() {
+         return 9 * this.direction;
       },
 
    });

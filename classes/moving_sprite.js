@@ -84,8 +84,37 @@ ClassManager.create('MovingSprite', function(game) {
          }
 
          this.updateSpriteFrame();
-      }
+      },
 
+      /* Animation info for walking */
+      walkAnimSpeed: 8,
+      walkStartFrame: 0,
+      walkEndFrame: 0,
+
+      /*
+       * If the sprite has different rows for each direction,
+       * you can add specialized code here.
+       */
+      getDirectionFrame: function() {
+         return 0;
+      },
+
+      updateSpriteFrame: function() {
+         if (this.isMoving()) {
+            // Animate through the enemy's walk cycle every three frames            
+            if (game.frame % this.walkAnimSpeed === 0) {
+               var walkCycleLength = this.walkEndFrame - this.walkStartFrame;
+               this.walkOffset = ++this.walkOffset % walkCycleLength;
+            }
+
+            this.frame = this.walkStartFrame + this.walkOffset;
+         }
+         else {
+            this.frame = this.walkStartFrame;
+         }
+
+         this.frame += this.getDirectionFrame();
+      },
 
    });
 });
