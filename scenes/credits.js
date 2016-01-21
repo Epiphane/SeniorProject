@@ -22,7 +22,7 @@ Scenes.Credits = Singletonify(function(game) {
    
    Credits.addEventListener(Event.INPUT_START, function() {
       if (game.input.select) {
-         var newSound = game.assets['assets/sounds/select2.wav'].clone();
+         var newSound = game.assets['assets/sounds/select2.mp3'].clone();
          newSound.play();
 
          // Return to title screen

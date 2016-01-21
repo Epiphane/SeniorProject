@@ -47,7 +47,7 @@ Scenes.Title = Singletonify(function(game) {
          moveCursor(game.input.up ? -1 : 1);
 
          // Play annoying sound
-         newSound = game.assets['assets/sounds/select1.wav'].clone();
+         newSound = game.assets['assets/sounds/select1.mp3'].clone();
          newSound.play();
       }
       else if (game.input.select) {
