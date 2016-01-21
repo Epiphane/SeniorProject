@@ -62,8 +62,8 @@ ClassManager.create('Room', function(game) {
          if (!item) return;
 
          item.position = { x: x, y: y };
-         item.x = x * C.TILE_SIZE;
-         item.y = y * C.TILE_SIZE;
+         item.x = Utils.to.screen(x);
+         item.y = Utils.to.screen(y);
          
          this.items.push(item);
          this.addChild(item);

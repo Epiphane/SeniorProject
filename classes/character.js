@@ -14,8 +14,8 @@ ClassManager.create('Character', function(game) {
          Sprite.call(this, C.TILE_SIZE, C.TILE_SIZE);
 
          // This is the position in screen coordinates
-         this.x = x * C.TILE_SIZE;
-         this.y = y * C.TILE_SIZE;
+         this.x = Utils.to.screen(x);
+         this.y = Utils.to.screen(y);
 
          // This is the position in game coordinates
          this.position = { x: x, y: y };
@@ -63,7 +63,7 @@ ClassManager.create('Character', function(game) {
        * Returns true if the player's screen position matches that of the game position (scaled)
        */
       isMoving: function() {
-         return !this.isAttacking() && !(this.x === this.position.x * C.TILE_SIZE && this.y === this.position.y * C.TILE_SIZE);
+         return !this.isAttacking() && !(this.x === Utils.to.screen(this.position.x) && this.y === Utils.to.screen(this.position.y));
       },
 
       /*
@@ -112,10 +112,10 @@ ClassManager.create('Character', function(game) {
             this.moveBy(dir[0], dir[1]);
          }
          else if (this.isMoving()) {
-            var walkSpeed = this.walkSpeed * C.TILE_SIZE;
+            var walkSpeed = Utils.to.screen(this.walkSpeed);
 
-            var dx = this.position.x * C.TILE_SIZE - this.x;
-            var dy = this.position.y * C.TILE_SIZE - this.y;
+            var dx = Utils.to.screen(this.position.x) - this.x;
+            var dy = Utils.to.screen(this.position.y) - this.y;
             if (dx >  walkSpeed) dx =  walkSpeed;
             if (dy >  walkSpeed) dy =  walkSpeed;
             if (dx < -walkSpeed) dx = -walkSpeed;

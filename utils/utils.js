@@ -27,28 +27,6 @@
       return label;
    }
 
-   /**
-   * Get a random floating point number between `min` and `max`.
-   * 
-   * @param {number} min - min number
-   * @param {number} max - max number
-   * @return {float} a random floating point number
-   */
-  Utils.getRandom = function (min, max) {
-      return Math.random() * (max - min) + min;
-  }
-
-   /**
-    * Get a random integer between `min` and `max`.
-    * 
-    * @param {number} min - min number
-    * @param {number} max - max number
-    * @return {int} a random integer
-    */
-   Utils.getRandomInt = function (min, max) {
-      return Math.floor(Math.random() * (max - min + 1) + min);
-   }
-
    // Conversions
    Utils.to = {};
 
@@ -81,4 +59,18 @@
       if (dir === C.P_DIR.UP   ) return [ 0, -1];
       if (dir === C.P_DIR.DOWN ) return [ 0,  1];
    }
+
+   /**
+    * Convert a value from screen to world coordinates
+    */
+   Utils.to.world = function(screen) {
+      return screen / C.TILE_SIZE;
+   };
+
+   /**
+    * Convert a value from world to screen coordinates
+    */
+   Utils.to.screen = function(world) {
+      return world * C.TILE_SIZE;
+   };
 })(window);
