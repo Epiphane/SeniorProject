@@ -100,7 +100,7 @@ ClassManager.create('Room', function(game) {
 
       isAnimating: function() {
          for (var i = this.characters.length - 1; i >= 0; i--) {
-            if (this.characters[i].isMoving()) {
+            if (this.characters[i].isAnimating()) {
                return true;
             }
          }

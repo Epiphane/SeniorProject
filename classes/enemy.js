@@ -16,7 +16,12 @@ ClassManager.create('Enemy', function(game) {
 
       doAI: function() {
          var randomDirection = Utils.getRandomInt(C.P_DIR.DOWN, C.P_DIR.UP);
-         this.action(randomDirection);
+         /* NOTE: fn.apply(this, arguments) calles the function, pretending each element
+          * of the arguments array is a separate parameter
+          *
+          * e.g. fn.apply(this, [1, 2, 3]) ---> fn(1, 2, 3)
+          */
+         this.action.apply(this, Utils.to.direction(randomDirection));
       }
    });
 });
