@@ -24,15 +24,21 @@ ClassManager.create('Player', function(game) {
       },
 
       walkAnimSpeed: 4,
-      walkStartFrame: 1,
-      walkEndFrame: 4,
+      walkStartFrame: 0,
+      walkEndFrame: 3,
 
       attackAnimSpeed: 4,
-      attackStartFrame: 7,
+      attackStartFrame: 6,
       attackEndFrame: 9,
+
+      initial_attack: 5,
 
       getDirectionFrame: function() {
          return 9 * this.direction;
+      },
+
+      getAttack: function() {
+         return this.attack + (this.weapon ? this.weapon.attack : 0);
       },
 
       action: function(dx, dy) {
@@ -61,9 +67,7 @@ ClassManager.create('Player', function(game) {
             var enemy = room.getCharacterAt(this.position.x + dx, this.position.y + dy);
 
             if (enemy instanceof Classes['Enemy']) {
-               console.log('Found enemy!');
-
-               this.attack(dx, dy);
+               this.doAttack(enemy, dx, dy);
             }
          }
       },

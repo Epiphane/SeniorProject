@@ -30,6 +30,18 @@ ClassManager.create('Character', function(game) {
 
          /* Attack cycle in "pseudo-frames" */
          this.attackOffset = 0;
+
+         this.health = this.initial_health;
+         this.max_health = this.initial_health;
+
+         this.attack = this.initial_attack;
+      },
+
+      initial_health: 10,
+      initial_attack: 0,
+
+      isDead: function() {
+         return this.health <= 0;
       },
 
       /*
@@ -79,13 +91,17 @@ ClassManager.create('Character', function(game) {
          return false;
       },
 
+      getAttack: function() {
+         return this.attack;
+      },
+
       /**
-       * Attack in a certain direction
-       *
-       * PS Does not do any actual damage!!! Extend this if you need it
+       * Do an attack in a certain direction
        */
-      attack: function(dx, dy) {
+      doAttack: function(victim, dx, dy) {
          this.attackOffset = 1;
+
+         victim.health -= this.getAttack(victim);
       },
       
       // Run the walking animation if you need to move

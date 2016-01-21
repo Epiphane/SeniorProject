@@ -93,9 +93,17 @@ ClassManager.create('Room', function(game) {
       },
 
       action: function() {
-         this.characters.forEach(function(character) {
-            character.doAI();
-         });
+         for (var i = this.characters.length - 1; i >= 0; i--) {
+            var character = this.characters[i];
+
+            if (character.isDead()) {
+               this.characters.splice(i, 1);
+               this.removeChild(character);
+            }
+            else {
+               character.doAI();
+            }
+         };
       },
 
       isAnimating: function() {
