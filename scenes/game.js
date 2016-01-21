@@ -11,20 +11,9 @@
       Game.currentRoom = RoomGen.getNewRoom('enemy', 1);
       
       Game.player = new Classes.Player(2, 2);
-      Game.enemy1 = new Classes.Slime(5, 5)
-      Game.enemy2 = new Classes.Bat(7, 5)
-
          
       Game.addChild(Game.currentRoom);
       Game.addChild(Game.player);
-
-      Game.addChild(Game.enemy1);
-      Game.addChild(Game.enemy2);
-
-      Game.enemies = [Game.enemy1, Game.enemy2];
-
-      // TODO this is totally unnecesary once room is a Group
-      Game.currentRoom.characters = Game.enemies;
 
       Game.addChild(new Classes.HUD(Game.player));
 
@@ -32,9 +21,7 @@
       var actionCooldown = 0;
       Game.waitingOnMovement = function() {
          if (Game.player.isMoving()) return true;
-         for (var ndx = 0; ndx < Game.enemies.length; ndx++) {
-            if (Game.enemies[ndx].isMoving()) return true;
-         }
+         if (Game.currentRoom.isAnimating()) return true;
 
          if (actionCooldown > 0) return true;
 
