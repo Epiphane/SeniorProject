@@ -92,12 +92,12 @@
    ];
 
    var sounds = [
-      "sword_swing.mp3",
-      "grunt.mp3",
-      "swap.mp3",
-      "shatter.mp3",
-      "select1.mp3",
-      "select2.mp3"
+      "sword_swing.wav",
+      "grunt.wav",
+      "swap.wav",
+      "shatter.wav",
+      "select1.wav",
+      "select2.wav"
    ];
    Constants.preloadAssets = function(game) {
       var assets = [];
