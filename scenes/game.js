@@ -20,7 +20,7 @@
       // Checks if any entity is still moving
       var actionCooldown = 0;
       Game.waitingOnMovement = function() {
-         if (Game.player.isMoving()) return true;
+         if (Game.player.isAnimating()) return true;
          if (Game.currentRoom.isAnimating()) return true;
 
          if (actionCooldown > 0) return true;
@@ -33,22 +33,22 @@
 
          if (!Game.waitingOnMovement()) {
             if (game.input.left) {
-               Game.action(C.P_DIR.LEFT);
+               Game.action(-1, 0);
             }
             else if (game.input.right) {
-               Game.action(C.P_DIR.RIGHT);
+               Game.action(1, 0);
             }
             else if (game.input.up) {
-               Game.action(C.P_DIR.UP);
+               Game.action(0, -1);
             }
             else if (game.input.down) {
-               Game.action(C.P_DIR.DOWN);
+               Game.action(0, 1);
             }
          }
       }
 
-      Game.action = function(direction) {
-         Game.player.action(direction);
+      Game.action = function(dir_x, dir_y) {
+         Game.player.action(dir_x, dir_y);
          Game.currentRoom.action();
 
          actionCooldown = 0.3;

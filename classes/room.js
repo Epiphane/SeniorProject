@@ -62,8 +62,8 @@ ClassManager.create('Room', function(game) {
          if (!item) return;
 
          item.position = { x: x, y: y };
-         item.x = x * C.TILE_SIZE;
-         item.y = y * C.TILE_SIZE;
+         item.x = Utils.to.screen(x);
+         item.y = Utils.to.screen(y);
          
          this.items.push(item);
          this.addChild(item);
@@ -93,14 +93,22 @@ ClassManager.create('Room', function(game) {
       },
 
       action: function() {
-         this.characters.forEach(function(character) {
-            character.doAI();
-         });
+         for (var i = this.characters.length - 1; i >= 0; i--) {
+            var character = this.characters[i];
+
+            if (character.isDead()) {
+               this.characters.splice(i, 1);
+               this.removeChild(character);
+            }
+            else {
+               character.doAI();
+            }
+         };
       },
 
       isAnimating: function() {
          for (var i = this.characters.length - 1; i >= 0; i--) {
-            if (this.characters[i].isMoving()) {
+            if (this.characters[i].isAnimating()) {
                return true;
             }
          }
