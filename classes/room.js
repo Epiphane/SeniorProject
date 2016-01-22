@@ -24,6 +24,21 @@ ClassManager.create('Room', function(game) {
 
          this.items = [];
          this.characters = [];
+
+         this.neighbors = [false, false, false, false];
+      },
+
+      getNeighbor: function(direction) {
+         if (this.neighbors[direction] === false) {
+            return null;
+         }
+         else if (this.neighbors[direction] instanceof Classes['Room']) {
+            return this.neighbors[direction];
+         }
+         else {
+            // Generate a new room here
+            return this.neighbors[direction] = game.currentScene.dungeonGenerator.nextRoom(this, direction);
+         }
       },
 
       loadData: function() {

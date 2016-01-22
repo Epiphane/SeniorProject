@@ -7,12 +7,17 @@
       var Game = new Scene();
       Game.backgroundColor = "black";
 
-      var RoomGen = new Classes.RoomGenerator();
-      Game.currentRoom = RoomGen.getNewRoom('enemy', 1);
-      
-      Game.player = new Classes.Player(2, 2);
-         
+      Game.dungeonGenerator = new Classes.DungeonGenerator();
+      Game.currentRoom = Game.dungeonGenerator.createDungeon();
       Game.addChild(Game.currentRoom);
+
+      Game.setRoom = function(room) {
+         Game.removeChild(Game.currentRoom);
+         Game.currentRoom = room;
+         Game.insertBefore(Game.currentRoom, Game.player);
+      };
+
+      Game.player = new Classes.Player(12, 2);         
       Game.addChild(Game.player);
 
       Game.addChild(new Classes.HUD(Game.player));
