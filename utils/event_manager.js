@@ -4,9 +4,10 @@
  * can sent to and restored from a Parse database
  */
 
-(function(window) {
+ var EventManager = window.EventManager = window.EM = {};
+
+EM.init = function(game) {
 	/* Holds all logging functions */
-	var EventManager = window.EventManager = window.EM = {};
 
 	EM.EVENT_TYPE = Enum([
 		'stats',	// For events relating to the player (increases/losses)
@@ -90,4 +91,4 @@
 			EM.events[newKey][subcategory] = value;
 		}
 	};
-})(window);
+}
