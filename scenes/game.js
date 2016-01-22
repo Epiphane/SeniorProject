@@ -56,7 +56,7 @@
          Game.player.action(dir_x, dir_y);
          Game.currentRoom.action();
 
-         actionCooldown = 0;//0.3;
+         actionCooldown = 0.3;
       }
       
       return Game;
