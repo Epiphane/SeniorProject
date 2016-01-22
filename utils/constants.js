@@ -35,6 +35,7 @@
       fissure: spriteToTile(8,12),
       wall_top_left_corner: spriteToTile(0, 17),
       wall: spriteToTile(0, 18),
+      stone: spriteToTile(10, 18),
       wall_top_right_corner: spriteToTile(0, 19),
       wall_bottom_left_corner: spriteToTile(2, 17),
       wall_bottom_right_corner: spriteToTile(2, 19),

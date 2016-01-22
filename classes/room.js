@@ -24,6 +24,45 @@ ClassManager.create('Room', function(game) {
 
          this.items = [];
          this.characters = [];
+
+         // N, S, E, and W neighbors
+         this.neighbors = [null, null, null, null];
+      },
+
+      addNeighbor: function(direction, neighbor) {
+         if (this.neighbors[direction] !== null) {
+            throw 'Neighbor has already been assigned for this room';
+         }
+
+         this.neighbors[direction] = neighbor;
+
+         // Update tiles
+         switch (direction) {
+            case C.P_DIR.LEFT:
+               this.tiles[C.MAP_HEIGHT / 2    ][0] = C.MAP_TILES.floor;
+               this.tiles[C.MAP_HEIGHT / 2 - 1][0] = C.MAP_TILES.wall_bottom_left_corner;
+               this.tiles[C.MAP_HEIGHT / 2 + 1][0] = C.MAP_TILES.wall_top_left_corner;
+               this.foreground[C.MAP_HEIGHT / 2][1] = C.MAP_TILES.empty;
+               break;
+            case C.P_DIR.RIGHT:
+               this.tiles[C.MAP_HEIGHT / 2    ][C.MAP_WIDTH - 1] = C.MAP_TILES.floor;
+               this.tiles[C.MAP_HEIGHT / 2 - 1][C.MAP_WIDTH - 1] = C.MAP_TILES.wall_bottom_left_corner;
+               this.tiles[C.MAP_HEIGHT / 2 + 1][C.MAP_WIDTH - 1] = C.MAP_TILES.wall_top_left_corner;
+               this.foreground[C.MAP_HEIGHT / 2][C.MAP_WIDTH - 2] = C.MAP_TILES.empty;
+               break;
+            case C.P_DIR.UP:
+               this.tiles[0][C.MAP_WIDTH / 2    ] = C.MAP_TILES.floor;
+               this.tiles[0][C.MAP_WIDTH / 2 - 1] = C.MAP_TILES.wall_bottom_right_corner;
+               this.tiles[0][C.MAP_WIDTH / 2 + 1] = C.MAP_TILES.wall_bottom_left_corner;
+               this.foreground[1][C.MAP_WIDTH / 2] = C.MAP_TILES.empty;
+               break;
+            case C.P_DIR.DOWN:
+               this.tiles[C.MAP_HEIGHT - 1][C.MAP_WIDTH / 2    ] = C.MAP_TILES.floor;
+               this.tiles[C.MAP_HEIGHT - 1][C.MAP_WIDTH / 2 - 1] = C.MAP_TILES.wall_top_right_corner;
+               this.tiles[C.MAP_HEIGHT - 1][C.MAP_WIDTH / 2 + 1] = C.MAP_TILES.wall_top_left_corner;
+               this.foreground[C.MAP_HEIGHT - 2][C.MAP_WIDTH / 2] = C.MAP_TILES.empty;
+               break;
+         }
       },
 
       loadData: function() {
