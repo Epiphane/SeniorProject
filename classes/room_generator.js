@@ -46,7 +46,7 @@
          foreground.push(fg_row);
       }
 
-      // Corners and exits
+      // Corners of the wall
       background[0][1] = C.MAP_TILES.wall_top_left_corner;
       background[0][C.MAP_WIDTH - 2] = C.MAP_TILES.wall_top_right_corner;
       background[C.MAP_HEIGHT - 1][1] = C.MAP_TILES.wall_bottom_left_corner;
@@ -59,6 +59,32 @@
                background[i][j] = C.MAP_TILES.fissure;
             }
          }
+      }
+
+      // Add exits
+      if (room.neighbors[C.P_DIR.LEFT]) {
+         background[C.MAP_HEIGHT / 2    ][0] = C.MAP_TILES.floor;
+         background[C.MAP_HEIGHT / 2 - 1][0] = C.MAP_TILES.wall_bottom_right_corner;
+         background[C.MAP_HEIGHT / 2 + 1][0] = C.MAP_TILES.wall_top_right_corner;
+         foreground[C.MAP_HEIGHT / 2][1] = C.MAP_TILES.empty;
+      }
+      if (room.neighbors[C.P_DIR.RIGHT]) {
+         background[C.MAP_HEIGHT / 2    ][C.MAP_WIDTH - 1] = C.MAP_TILES.floor;
+         background[C.MAP_HEIGHT / 2 - 1][C.MAP_WIDTH - 1] = C.MAP_TILES.wall_bottom_left_corner;
+         background[C.MAP_HEIGHT / 2 + 1][C.MAP_WIDTH - 1] = C.MAP_TILES.wall_top_left_corner;
+         foreground[C.MAP_HEIGHT / 2][C.MAP_WIDTH - 2] = C.MAP_TILES.empty;
+      }
+      if (room.neighbors[C.P_DIR.UP]) {
+         background[0][C.MAP_WIDTH / 2    ] = C.MAP_TILES.floor;
+         background[0][C.MAP_WIDTH / 2 - 1] = C.MAP_TILES.wall_bottom_right_corner;
+         background[0][C.MAP_WIDTH / 2 + 1] = C.MAP_TILES.wall_bottom_left_corner;
+         foreground[1][C.MAP_WIDTH / 2] = C.MAP_TILES.empty;
+      }
+      if (room.neighbors[C.P_DIR.DOWN]) {
+         background[C.MAP_HEIGHT - 1][C.MAP_WIDTH / 2    ] = C.MAP_TILES.floor;
+         background[C.MAP_HEIGHT - 1][C.MAP_WIDTH / 2 - 1] = C.MAP_TILES.wall_top_right_corner;
+         background[C.MAP_HEIGHT - 1][C.MAP_WIDTH / 2 + 1] = C.MAP_TILES.wall_top_left_corner;
+         foreground[C.MAP_HEIGHT - 2][C.MAP_WIDTH / 2] = C.MAP_TILES.empty;
       }
 
       // Load the tiles

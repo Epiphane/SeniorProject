@@ -7,14 +7,13 @@
       var Game = new Scene();
       Game.backgroundColor = "black";
 
-      var DungeonGenerator = new Classes.DungeonGenerator();
-      Game.currentRoom = DungeonGenerator.createDungeon();
+      Game.dungeonGenerator = new Classes.DungeonGenerator();
+      Game.currentRoom = Game.dungeonGenerator.createDungeon();
       Game.addChild(Game.currentRoom);
 
       Game.setRoom = function(room) {
          Game.removeChild(Game.currentRoom);
          Game.currentRoom = room;
-         console.log(room);
          Game.insertBefore(Game.currentRoom, Game.player);
       };
 
@@ -57,7 +56,7 @@
          Game.player.action(dir_x, dir_y);
          Game.currentRoom.action();
 
-         actionCooldown = 0.3;
+         actionCooldown = 0;//0.3;
       }
       
       return Game;
