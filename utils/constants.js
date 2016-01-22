@@ -17,16 +17,22 @@
       'glow_yellow', 'fissure', 'glow_green', 'glow_yellow2'
    ]);
 
+   function tileCoordToId(row, col) {
+      return row * 29 + col;
+   }
+
    Constants.ROOM_TYPES = Enum([
       'store', 'treasure', 'enemy', 'npc', 'boss'
    ]);
 
-   spriteToTile = function(row, col) {
-      return row * 30 + col;
+   var spriteToTile = function(row, col) {
+      return row * 29 + col;
    };
 
    Constants.MAP_TILES = Enum({
+      empty: -1,
       floor: spriteToTile(7,9),
+      fissure: spriteToTile(8,12),
       wall_top_left_corner: spriteToTile(0, 17),
       wall: spriteToTile(0, 18),
       wall_top_right_corner: spriteToTile(0, 19),
@@ -79,6 +85,7 @@
    /* Preloading assets */
    var images = [
       "map.png",
+      "map2.png",
       "player.png",
       "hud.png",
       "items.png",

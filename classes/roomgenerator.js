@@ -17,39 +17,62 @@ ClassManager.create('RoomGenerator', function(game) {
       getNewRoom: function(roomType, difficulty) {
          var room = new Classes.Room();
 
+         var background = [];
+         var foreground = [];
+
          // Generate basic room
-         for (var r = 0; r < C.MAP_WIDTH; r++) {
-            var tile = C.TILES.floor;
-            if (r === 0) tile = C.TILES.wall2;
-            if (r === C.MAP_HEIGHT - 1) tile = C.TILES.wall;
+         for (var r = 0; r < C.MAP_HEIGHT; r++) {
+            var top_or_bottom_row = (r === 0 || r === C.MAP_HEIGHT - 1);
 
-            var row = [];
-            row.push(C.TILES.wall);
-            for (var a = 1; a < C.MAP_WIDTH-1; a++) {
-               row.push(tile);
+            var tile = C.MAP_TILES.floor;
+            if (top_or_bottom_row) tile = C.MAP_TILES.wall;
+
+            // Background (floor)
+            var bg_row = [];
+            for (var c = 0; c < C.MAP_WIDTH; c ++) {
+               bg_row.push(tile);
             }
-            row.push(C.TILES.wall);
 
-            room.tiles.push(row);
+            background.push(bg_row);
+
+            // Foreground
+            var fg_row = [];
+            fg_row.push(top_or_bottom_row ? C.MAP_TILES.empty : C.MAP_TILES.wall_left);
+            for (var a = 1; a < C.MAP_WIDTH-1; a++) {
+               fg_row.push(C.MAP_TILES.empty);
+            }
+            fg_row.push(top_or_bottom_row ? C.MAP_TILES.empty : C.MAP_TILES.wall_right);
+
+            foreground.push(fg_row);
          }
+
+         // Corners and exits
+         background[0][0] = C.MAP_TILES.wall_top_left_corner;
+         background[0][C.MAP_WIDTH - 1] = C.MAP_TILES.wall_top_right_corner;
+         background[C.MAP_HEIGHT - 1][0] = C.MAP_TILES.wall_bottom_left_corner;
+         background[C.MAP_HEIGHT - 1][C.MAP_WIDTH - 1] = C.MAP_TILES.wall_bottom_right_corner;
 
          // TOOD - Add variable for adding exits
          var chance = new Chance();
-         var exitCol = chance.natural({min:1, max:C.MAP_WIDTH-2});
+         var exitCol = chance.natural({min:2, max:C.MAP_WIDTH - 3});
 
-         room.tiles[0][exitCol] = C.TILES.empty;
+         background[0][exitCol - 1] = C.MAP_TILES.wall_bottom_right_corner;
+         background[0][exitCol]     = C.MAP_TILES.floor;
+         background[0][exitCol + 1] = C.MAP_TILES.wall_bottom_left_corner;
 
          // Adding random fissures for spookiness
-         for (var i = 1; i<C.MAP_WIDTH-1; i++) {
+         for (var i = 1; i<C.MAP_HEIGHT-1; i++) {
             for (var j = 1; j<C.MAP_HEIGHT-1; j++) {
                if (chance.bool({likelihood:5})) {
-                  room.tiles[i][j] = C.TILES.fissure;
+                  background[i][j] = C.MAP_TILES.fissure;
                }
             }
          }
 
          // Load the tiles
-         room.loadData(room.tiles);
+         room.tiles = background;
+         room.foreground = foreground;
+         room.loadData();
 
          // Add enemies and items to room
          room.addCharacter(new Classes.Slime(15, 15));
