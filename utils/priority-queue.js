@@ -1,3 +1,8 @@
+function BinaryHeap(scoreFunction) {
+  this.content = [];
+  this.scoreFunction = scoreFunction;
+}
+
 window.BinaryHeap.prototype = {
   push: function(element) {
     // Add the new element to the end of the array.

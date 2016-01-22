@@ -1,40 +1,63 @@
-/* Implementation of A* in Javascript. Takes in the grid of  */
+window.astar = "";
+
+/* Implementation of A* in Javascript. Takes in the grid of tiles, and gives us the next tile to move to */
 (function() {
    astarGrid = [];
 
+   printArray = function(me, targ) {
+      var result = "";
+      for (var y = 0; y < astarGrid.length; y++) {
+         for (var x = 0; x < astarGrid[0].length; x++) {
+            if (me.x == x && me.y == y) {
+               result += "!! ";
+            }
+            else if (targ && targ.x == x && targ.y == y) {
+               result += "?? ";
+            }
+            else {
+               result += ("00" + astarGrid[x][y].g).substr(-2,2);
+               result += " ";
+            }
+         }
+         result += "\n";
+      }
+      console.log(result)
+   };
+
+   printPath = function(node) {
+      while(node.parent) {
+         console.log("X: " + node.pos.x + " Y: " + node.pos.y);
+         node = node.parent;
+      }
+   };
+
    /** Returns an array of the 4 cells around this cell. */
-   getNeighborCells = function(grid, cell) {
+   getNeighborCells = function(cell) {
       var ret = [];
-      var x = cell.x;
-      var y = cell.y;
+      var x = cell.pos.x;
+      var y = cell.pos.y;
 
       // West
-      if(grid[x-1] && grid[x-1][y]) {
-         ret.push(grid[x-1][y]);
+      if(astarGrid[x-1] && astarGrid[x-1][y]) {
+         ret.push(astarGrid[x-1][y]);
       }
 
       // East
-      if(grid[x+1] && grid[x+1][y]) {
-         ret.push(grid[x+1][y]);
+      if(astarGrid[x+1] && astarGrid[x+1][y]) {
+         ret.push(astarGrid[x+1][y]);
       }
 
       // South
-      if(grid[x] && grid[x][y-1]) {
-         ret.push(grid[x][y-1]);
+      if(astarGrid[x] && astarGrid[x][y-1]) {
+         ret.push(astarGrid[x][y-1]);
       }
 
       // North
-      if(grid[x] && grid[x][y+1]) {
-         ret.push(grid[x][y+1]);
+      if(astarGrid[x] && astarGrid[x][y+1]) {
+         ret.push(astarGrid[x][y+1]);
       }
 
       return ret;
-   };
-
-   cellDistance = function(nearCell, farCell) {
-      var diffX = Math.abs(nearCell.x - farCell.x);
-      var diffY = Math.abs(nearCell.y - farCell.y);
-      return diffX + diffY;
    };
 
    /* Return the cell that'll get us to our destination, A-star style. */
@@ -70,14 +93,14 @@
          }
       }
 
-      getNeighborCells();
+      validCells.push(astarGrid[currPos.x][currPos.y]);
 
-      while (validCells.length > 0) {
+      while (validCells.content.length > 0) {
          // Grab the lowest f(x) to process next.  Heap keeps this sorted for us.
-         var currentNode = validCells.dequeue();
+         var currentNode = validCells.pop();
 
          // End case -- result has been found, return the traced path.
-         if(currentNode === end) {
+         if(currentNode.pos.x == target.x && currentNode.pos.y == target.y) {
             var curr = currentNode;
             var prev = curr;
             while(curr.parent) {
@@ -91,14 +114,16 @@
          currentNode.closed = true;
 
          // Find all neighbors for the current node.
-         var neighbors = astar.getNeighborCells(grid, currentNode);
+         var neighbors = getNeighborCells(currentNode);
 
-         for(var i = 0, i < neighbors.length; i++) {
+         for(var i = 0; i < neighbors.length; i++) {
             var neighbor = neighbors[i];
 
-            if(neighbor.closed || game.currentScene.currentRoom.isWalkable(neighbor.pos.x, neighbor.pos.y)) {
-               // Not a valid node to process, skip to next neighbor.
-               continue;
+            if (!(neighbor.pos.x == target.x && neighbor.pos.y == target.y)) { // Neighbor == player!
+               if (neighbor.closed || !game.currentScene.currentRoom.isWalkable(neighbor.pos.x, neighbor.pos.y)) {
+                  // Not a valid node to process, skip to next neighbor.
+                  continue;
+               }
             }
 
             // The g score is the shortest distance from start to current node.
@@ -110,13 +135,13 @@
                // Found an optimal (so far) path to this node.  Take score for node to see how good it is.
                neighbor.visited = true;
                neighbor.parent = currentNode;
-               neighbor.h = cellDistance(neighbor.pos, end.pos);
+               neighbor.h = Utils.cellDistance(neighbor.pos, target);
                neighbor.g = gScore;
                neighbor.f = neighbor.g + neighbor.h;
 
                if (!beenVisited) {
                   // Pushing to heap will put it in proper place based on the 'f' value.
-                  validCells.queue(neighbor);
+                  validCells.push(neighbor);
                }
                else {
                   // Already seen the node, but since it has been rescored we need to reorder it in the heap

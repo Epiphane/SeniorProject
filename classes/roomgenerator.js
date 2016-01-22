@@ -52,8 +52,8 @@ ClassManager.create('RoomGenerator', function(game) {
          room.loadData(room.tiles);
 
          // Add enemies and items to room
-         room.addCharacter(new Classes.Slime(5, 5));
-         room.addCharacter(new Classes.Bat(7, 5));
+         room.addCharacter(new Classes.Slime(15, 15));
+         room.addCharacter(new Classes.Bat(17, 15));
 
          room.addItemAt(new Classes.Sword(), 4, 6);
 

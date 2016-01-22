@@ -15,10 +15,18 @@ ClassManager.create('Enemy', function(game) {
       },
 
       doAI: function() {
+         if (Utils.cellDistance(this.position, game.currentScene.player.position) == 1) {
+            // Monster is next door, do monster attack
+            console.log("I'M ATTACKIN U BOSS");
+         }
+
          var targetPosition = game.currentScene.player.position;
          var pathingTarget = astar(game, game.currentScene.currentRoom.tiles, this.position, targetPosition);
 
-         this.action.apply(this, Utils.to.direction(pathingDirection));
+         if (pathingTarget) { 
+            this.action(pathingTarget.pos.x - this.position.x, pathingTarget.pos.y - this.position.y);
+         }
+
       }
    });
 });

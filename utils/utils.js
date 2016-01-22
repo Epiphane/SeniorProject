@@ -25,7 +25,16 @@
       label.width = C.GAME_WIDTH; // No wrapping
 
       return label;
-   }
+   };
+
+   /**
+    * Manhatten distance of one cell to another
+    */
+   Utils.cellDistance = function(nearPos, farPos) {
+      var diffX = Math.abs(nearPos.x - farPos.x);
+      var diffY = Math.abs(nearPos.y - farPos.y); 
+      return diffX + diffY;
+   };
 
    // Conversions
    Utils.to = {};
@@ -58,7 +67,7 @@
       if (dir === C.P_DIR.RIGHT) return [ 1,  0];
       if (dir === C.P_DIR.UP   ) return [ 0, -1];
       if (dir === C.P_DIR.DOWN ) return [ 0,  1];
-   }
+   };
 
    /**
     * Convert a value from screen to world coordinates
