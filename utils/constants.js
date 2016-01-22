@@ -31,17 +31,43 @@
 
    Constants.MAP_TILES = Enum({
       empty: -1,
-      floor: spriteToTile(7,9),
+      floor: spriteToTile(12,18),
+      floor_blocked: spriteToTile(8,9),
       fissure: spriteToTile(8,12),
-      wall_top_left_corner: spriteToTile(0, 17),
-      wall: spriteToTile(0, 18),
+      wall: spriteToTile(0, 10),
       stone: spriteToTile(10, 18),
-      wall_top_right_corner: spriteToTile(0, 19),
-      wall_bottom_left_corner: spriteToTile(2, 17),
-      wall_bottom_right_corner: spriteToTile(2, 19),
+      wall_top_left_corner: spriteToTile(0, 12),//spriteToTile(0, 17),
+      wall_top_right_corner: spriteToTile(0, 13),//spriteToTile(0, 19),
+      wall_bottom_left_corner: spriteToTile(1, 12),//spriteToTile(2, 17),
+      wall_bottom_right_corner: spriteToTile(1, 13),//spriteToTile(2, 19),
+      wall_face: spriteToTile(4, 9),
       exit: spriteToTile(11,22),
-      wall_left: spriteToTile(1,17),
-      wall_right: spriteToTile(1,19),
+      wall_left: spriteToTile(1,11),//spriteToTile(1,17),
+      wall_right: spriteToTile(1,11),//spriteToTile(1,19),
+   });
+
+   Constants.BG_TILES = Enum({
+      empty: -1,
+      floor: spriteToTile(12, 18),
+      floor_blocked: spriteToTile(12, 16)
+   });
+
+   Constants.FG_TILES = Enum({
+      empty: -1,
+      wall_face_left: spriteToTile(4, 8),
+      wall_face: spriteToTile(4, 9),
+      wall_face_right: spriteToTile(4, 10),
+      wall_face_end: spriteToTile(4, 11),
+      wall_top_horiz_left: spriteToTile(0, 9),
+      wall_top_horiz:      spriteToTile(0, 10),
+      wall_top_horiz_right:spriteToTile(0, 11),
+      wall_top_vert_top:   spriteToTile(0, 8),
+      wall_top_vert:       spriteToTile(1, 11),
+      wall_top_vert_bottom:spriteToTile(1, 8),
+      wall_top_top_left_corner:     spriteToTile(0, 12),
+      wall_top_top_right_corner:    spriteToTile(0, 13),
+      wall_top_bottom_left_corner:  spriteToTile(1, 12),
+      wall_top_bottom_right_corner: spriteToTile(1, 13),
    });
 
    Constants.Items = Enum([
