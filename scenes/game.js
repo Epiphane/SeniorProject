@@ -6,7 +6,7 @@
    Scenes.Game = function(game) {
       var Game = new Scene();
       Game.backgroundColor = "black";
-      
+
       var RoomGen = new Classes.RoomGenerator();
       Game.currentRoom = RoomGen.getNewRoom('enemy', 1);
       

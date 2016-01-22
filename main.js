@@ -12,6 +12,7 @@ window.onload = function() {
    Constants.preloadAssets(game);
    Constants.bindKeys(game);
    ClassManager.initialize(game);
+   EM.init(game);
    
    game.onload = function() {
       game.pushScene(Scenes.Title(game));
