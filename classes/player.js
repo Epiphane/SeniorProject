@@ -17,7 +17,6 @@ ClassManager.create('Player', function(game) {
          this.cooldown = 0;
 
          this.health = this.max_health = 8;
-         this.health -= 3;
       
          this.weapon = null;
          this.armor = null;

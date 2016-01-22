@@ -52,6 +52,11 @@
          Game.currentRoom.action();
 
          actionCooldown = 0.3;
+
+         if (Game.player.isDead()) {
+            game.popScene();
+            game.pushScene(Scenes.Death(game));
+         }
       }
       
       return Game;
