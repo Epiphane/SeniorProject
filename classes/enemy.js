@@ -16,18 +16,7 @@ ClassManager.create('Enemy', function(game) {
 
       doAI: function() {
          var targetPosition = game.currentScene.player.position;
-
-         /* TODO: do A* pathfinding or something here */
-         var pathingDirection = C.P_DIR.UP;
-         var diffX = this.position.x - targetPosition.x;
-         var diffY = this.position.y - targetPosition.y;
-
-         if (Math.abs(diffX) > Math.abs(diffY)) { // Target is either LEFT or RIGHT from us
-            pathingDirection = (diffX < 0) ? C.P_DIR.RIGHT : C.P_DIR.LEFT;
-         }
-         else { // Target is either UP or DOWN
-            pathingDirection = (diffY < 0) ? C.P_DIR.DOWN : C.P_DIR.UP;  
-         }
+         var pathingTarget = astar(game, game.currentScene.currentRoom.tiles, this.position, targetPosition);
 
          this.action(pathingDirection);
       }
