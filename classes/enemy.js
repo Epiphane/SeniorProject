@@ -7,6 +7,7 @@
 ClassManager.create('Enemy', function(game) {
    return Class.create(Classes['Character'], {
       sprite: '',
+      initial_attack: 1,
 
       initialize: function(x, y) {
          Classes['Character'].call(this, x, y);
@@ -30,6 +31,19 @@ ClassManager.create('Enemy', function(game) {
          }
 
          this.action.apply(this, Utils.to.direction(pathingDirection));
+      },
+
+      action: function(dx, dy) {
+         var moved = Classes['Character'].prototype.action.apply(this, arguments);
+
+         var room = game.currentScene.currentRoom;
+         if (!moved) {
+            var enemy = room.getCharacterAt(this.position.x + dx, this.position.y + dy);
+
+            if (enemy instanceof Classes['Player']) {
+               this.doAttack(enemy, dx, dy);
+            }
+         }
       }
    });
 });
@@ -38,7 +52,7 @@ ClassManager.create('Bat', function(game) {
    return Class.create(Classes['Enemy'], {
       sprite: "monster1.gif",
       walkStartFrame: 3,
-      walkEndFrame:   5
+      walkEndFrame:   5,
    });
 });
 
