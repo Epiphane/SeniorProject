@@ -11,17 +11,27 @@ ClassManager.create('Room', function(game) {
          Group.call(this);
 
          this.map = new Map(C.TILE_SIZE, C.TILE_SIZE);
-         this.map.image = game.assets["assets/images/map.png"];
+         this.map.image = game.assets["assets/images/map2.png"];
 
+         this.floor = new Map(C.TILE_SIZE, C.TILE_SIZE);
+         this.floor.image = game.assets["assets/images/map2.png"];
+
+         this.addChild(this.floor);
          this.addChild(this.map);
 
          this.tiles = [];
+         this.foreground = [];
+
          this.items = [];
          this.characters = [];
       },
 
-      loadData: function(data) {
-         this.map.loadData(data);
+      loadData: function() {
+         this.floor.loadData(this.tiles);
+
+         if (this.foreground.length) {
+            this.map.loadData(this.foreground);
+         }
       },
 
       addCharacter: function(character) {
@@ -31,7 +41,7 @@ ClassManager.create('Room', function(game) {
 
       isWalkable: function(x, y) {
          // TODO: Change this to !== when tiles is a 2D array for greater accuracy!
-         if (this.tiles[y][x] != C.TILES.floor && this.tiles[y][x] != C.TILES.empty) {
+         if (this.tiles[y][x] != C.MAP_TILES.floor && this.tiles[y][x] != C.MAP_TILES.empty) {
             return false;
          }
 
