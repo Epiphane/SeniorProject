@@ -412,7 +412,8 @@ enchant.ENV = {
      * Determines if WebAudioAPI is enabled. (true: use WebAudioAPI instead of Audio element if possible)
      */
     USE_WEBAUDIO: (function(){
-        return location.protocol !== 'file:';
+        // BY THOMAS ROFL
+        // return location.protocol !== 'file:';
     }()),
     /**
      * Determines if animation feature is enabled. (true: Timeline instance will be generated in new Node)
@@ -5144,9 +5145,11 @@ enchant.WebAudioSound = enchant.Class.create(enchant.EventTarget, {
             }
             this.src = actx.createBufferSource();
             this.src.buffer = this.buffer;
-            this.src.gain.value = this._volume;
+            // BY THOMAS ROFL
+            // var gainNode = actx.createGain();
+            // gainNode.gain.value = this._volume;
             this.src.connect(this.connectTarget);
-            this.src.noteOn(0);
+            this.src.start();
         }
         this._state = 1;
     },

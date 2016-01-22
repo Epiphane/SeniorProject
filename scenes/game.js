@@ -11,30 +11,17 @@
       Game.currentRoom = RoomGen.getNewRoom('enemy', 1);
       
       Game.player = new Classes.Player(2, 2);
-      Game.enemy1 = new Classes.Slime(5, 5)
-      Game.enemy2 = new Classes.Bat(7, 5)
-
          
       Game.addChild(Game.currentRoom);
       Game.addChild(Game.player);
-
-      Game.addChild(Game.enemy1);
-      Game.addChild(Game.enemy2);
-
-      Game.enemies = [Game.enemy1, Game.enemy2];
-
-      // TODO this is totally unnecesary once room is a Group
-      Game.currentRoom.characters = Game.enemies;
 
       Game.addChild(new Classes.HUD(Game.player));
 
       // Checks if any entity is still moving
       var actionCooldown = 0;
       Game.waitingOnMovement = function() {
-         if (Game.player.isMoving()) return true;
-         for (var ndx = 0; ndx < Game.enemies.length; ndx++) {
-            if (Game.enemies[ndx].isMoving()) return true;
-         }
+         if (Game.player.isAnimating()) return true;
+         if (Game.currentRoom.isAnimating()) return true;
 
          if (actionCooldown > 0) return true;
 
@@ -46,22 +33,22 @@
 
          if (!Game.waitingOnMovement()) {
             if (game.input.left) {
-               Game.action(C.P_DIR.LEFT);
+               Game.action(-1, 0);
             }
             else if (game.input.right) {
-               Game.action(C.P_DIR.RIGHT);
+               Game.action(1, 0);
             }
             else if (game.input.up) {
-               Game.action(C.P_DIR.UP);
+               Game.action(0, -1);
             }
             else if (game.input.down) {
-               Game.action(C.P_DIR.DOWN);
+               Game.action(0, 1);
             }
          }
       }
 
-      Game.action = function(direction) {
-         Game.player.action(direction);
+      Game.action = function(dir_x, dir_y) {
+         Game.player.action(dir_x, dir_y);
          Game.currentRoom.action();
 
          actionCooldown = 0.3;

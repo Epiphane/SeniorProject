@@ -18,7 +18,7 @@ ClassManager.create('Enemy', function(game) {
          var targetPosition = game.currentScene.player.position;
          var pathingTarget = astar(game, game.currentScene.currentRoom.tiles, this.position, targetPosition);
 
-         this.action(pathingDirection);
+         this.action.apply(this, Utils.to.direction(pathingDirection));
       }
    });
 });

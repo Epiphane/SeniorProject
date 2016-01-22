@@ -17,6 +17,7 @@ ClassManager.create('RoomGenerator', function(game) {
       getNewRoom: function(roomType, difficulty) {
          var room = new Classes.Room();
 
+         // Generate basic room
          for (var r = 0; r < C.MAP_WIDTH; r++) {
             var tile = C.TILES.floor;
             if (r === 0) tile = C.TILES.wall2;
@@ -36,11 +37,7 @@ ClassManager.create('RoomGenerator', function(game) {
          var chance = new Chance();
          var exitCol = chance.natural({min:1, max:C.MAP_WIDTH-2});
 
-         console.log(exitCol);
-
          room.tiles[0][exitCol] = C.TILES.empty;
-
-         console.log(room.tiles[0][exitCol]);
 
          // Adding random fissures for spookiness
          for (var i = 1; i<C.MAP_WIDTH-1; i++) {
@@ -51,7 +48,14 @@ ClassManager.create('RoomGenerator', function(game) {
             }
          }
 
+         // Load the tiles
          room.loadData(room.tiles);
+
+         // Add enemies and items to room
+         room.addCharacter(new Classes.Slime(5, 5));
+         room.addCharacter(new Classes.Bat(7, 5));
+
+         room.addItemAt(new Classes.Sword(), 4, 6);
 
          return room;
 
