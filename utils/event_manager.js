@@ -44,12 +44,12 @@
 	EM.initialize = function() {
 		// TODO - Implement me
 		// Grab Parse data and fill in EM.<type>Events objects
-	}
+	};
 
 	EM.saveAll = function() {
 		// TODO - Implement me
 		// Sends all the data saved in EM.<type>Events objects to Parse DB
-	}
+	};
 
 	/* Logging methods */
 	// Logging works like so:
@@ -59,23 +59,22 @@
 	EM.log = function(game, eventType, key, value) {
 		// TODO - add game variable influence calculations
 
-		if (!(eventType in EM.events)) {
+		console.log(EM.events);
+		if (EM.events[eventType] !== undefined) {
 
-			if (!(EM.events[eventType])) {
-				EM.events[eventType][key] = value;
-			}
-			else if (!(eventObject[key])) {
+			var eventObject = EM.events[eventType];
+
+			if (eventObject[key] === undefined) {
 				eventObject[key] = value;
 			}
 			else {
 				eventObject[key] = eventObject[key] + value;
 			}
 
-			console.log("New Event value: " + EM.event[eventType][key]);
+			console.log("New Event value: " + EM.events[eventType][key]);
 		}
 		else {
-			console.log("ohh...... you can't really do that.....\nthis is awkward.....");
+			console.log("Event Type" + eventType + " does not exist.");
 		}
-	}
-
+	};
 })(window);

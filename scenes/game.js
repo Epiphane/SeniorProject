@@ -8,7 +8,7 @@
       Game.backgroundColor = "black";
 
       /* TESTING LOGGING */
-      EM.log(game, "test", "game_init", 999);
+      EM.log(game, EM.EVENT_TYPE.test, "fucking_retard", 999);
       
       var RoomGen = new Classes.RoomGenerator();
       Game.currentRoom = RoomGen.getNewRoom('enemy', 1);
