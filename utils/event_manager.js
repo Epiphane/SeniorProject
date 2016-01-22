@@ -29,24 +29,24 @@
 	]);
 
 	EM.events = new Object();
-	EM.events[EM.EVENT_TYPE.stats] = new Object();
-	EM.events[EM.EVENT_TYPE.duration] = new Object();
-	EM.events[EM.EVENT_TYPE.movement] = new Object();
-	EM.events[EM.EVENT_TYPE.items] = new Object();
-	EM.events[EM.EVENT_TYPE.combat] = new Object();
-	EM.events[EM.EVENT_TYPE.npc] = new Object();
-	EM.events[EM.EVENT_TYPE.puzzle] = new Object();
-	EM.events[EM.EVENT_TYPE.boss] = new Object();
-	EM.events[EM.EVENT_TYPE.test] = new Object();
+	EM.events["stats"] = new Object();	
+	EM.events["duration"] = new Object();
+	EM.events["movement"] = new Object();
+	EM.events["items"] = new Object();
+	EM.events["combat"] = new Object();
+	EM.events["npc"] = new Object();
+	EM.events["puzzle"] = new Object();
+	EM.events["boss"] = new Object();
+	EM.events["test"] = new Object();
 
 	/* Initializing Methods */
 
-	EM.initialize = function() {
+	EM.loadFromDB = function() {
 		// TODO - Implement me
 		// Grab Parse data and fill in EM.<type>Events objects
 	};
 
-	EM.saveAll = function() {
+	EM.saveToDB = function() {
 		// TODO - Implement me
 		// Sends all the data saved in EM.<type>Events objects to Parse DB
 	};
@@ -59,7 +59,6 @@
 	EM.log = function(game, eventType, key, value) {
 		// TODO - add game variable influence calculations
 
-		console.log(EM.events);
 		if (EM.events[eventType] !== undefined) {
 
 			var eventObject = EM.events[eventType];
@@ -70,11 +69,25 @@
 			else {
 				eventObject[key] = eventObject[key] + value;
 			}
-
-			console.log("New Event value: " + EM.events[eventType][key]);
 		}
 		else {
-			console.log("Event Type" + eventType + " does not exist.");
+			throw "eventType does not exist in events.";
+		}
+	};
+
+	// If you want to add your own EventType, use this method to log
+	EM.logCustom = function(game, newKey, subcategory, value) {
+		if (!(newKey instanceof String)) {
+			throw "newKey must be a string";
+		}
+
+		if (EM.events[newKey] !== undefined) {
+			EM.log(game, newKey, subcategory, value);
+			console.log("newKey already existed, calling console.log(...)");
+		}
+		else {
+			EM.events[newKey] = new Object();
+			EM.events[newKey][subcategory] = value;
 		}
 	};
 })(window);
