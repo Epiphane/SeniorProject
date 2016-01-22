@@ -16,35 +16,22 @@ ClassManager.create('Enemy', function(game) {
       },
 
       doAI: function() {
+         if (Utils.cellDistance(this.position, game.currentScene.player.position) == 1) {
+            // Monster is next door, do monster attack
+            this.doAttack(game.currentScene.player);
+            return;
+         }
+
          var targetPosition = game.currentScene.player.position;
+         var pathingTarget = astar(game, game.currentScene.currentRoom.tiles, this.position, targetPosition);
 
-         /* TODO: do A* pathfinding or something here */
-         var pathingDirection = C.P_DIR.UP;
-         var diffX = this.position.x - targetPosition.x;
-         var diffY = this.position.y - targetPosition.y;
-
-         if (Math.abs(diffX) > Math.abs(diffY)) { // Target is either LEFT or RIGHT from us
-            pathingDirection = (diffX < 0) ? C.P_DIR.RIGHT : C.P_DIR.LEFT;
+         if (pathingTarget) { 
+            this.action(pathingTarget.pos.x - this.position.x, pathingTarget.pos.y - this.position.y);
          }
-         else { // Target is either UP or DOWN
-            pathingDirection = (diffY < 0) ? C.P_DIR.DOWN : C.P_DIR.UP;  
+         else {
+            console.warn("WEIRD: A* returned, null, is the player unreachable from the enemy?");
          }
-
-         this.action.apply(this, Utils.to.direction(pathingDirection));
       },
-
-      action: function(dx, dy) {
-         var moved = Classes['Character'].prototype.action.apply(this, arguments);
-
-         var room = game.currentScene.currentRoom;
-         if (!moved) {
-            var enemy = room.getCharacterAt(this.position.x + dx, this.position.y + dy);
-
-            if (enemy instanceof Classes['Player']) {
-               this.doAttack(enemy, dx, dy);
-            }
-         }
-      }
    });
 });
 
