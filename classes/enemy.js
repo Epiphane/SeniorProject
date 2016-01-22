@@ -8,6 +8,7 @@ ClassManager.create('Enemy', function(game) {
    return Class.create(Classes['Character'], {
       sprite: '',
       initial_attack: 1,
+      attack_range: 1,
 
       initialize: function(x, y) {
          Classes['Character'].call(this, x, y);
@@ -16,7 +17,7 @@ ClassManager.create('Enemy', function(game) {
       },
 
       doAI: function() {
-         if (Utils.cellDistance(this.position, game.currentScene.player.position) == 1) {
+         if (Utils.cellDistance(this.position, game.currentScene.player.position) <= this.attack_range) {
             // Monster is next door, do monster attack
             this.doAttack(game.currentScene.player);
             return;
@@ -37,15 +38,17 @@ ClassManager.create('Enemy', function(game) {
 
 ClassManager.create('Bat', function(game) {
    return Class.create(Classes['Enemy'], {
-      sprite: "monster1.gif",
+      sprite: "monster2.gif",
+      attack_range: 2,
       walkStartFrame: 3,
       walkEndFrame:   5,
+      initial_attack: 0.5,
    });
 });
 
 ClassManager.create('Slime', function(game) {
    return Class.create(Classes['Enemy'], {
-      sprite: "monster2.gif",
+      sprite: "monster1.gif",
       walkStartFrame: 3,
       walkEndFrame:   5
    });
