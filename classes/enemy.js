@@ -7,6 +7,7 @@
 ClassManager.create('Enemy', function(game) {
    return Class.create(Classes['Character'], {
       sprite: '',
+      initial_attack: 1,
 
       initialize: function(x, y) {
          Classes['Character'].call(this, x, y);
@@ -17,7 +18,8 @@ ClassManager.create('Enemy', function(game) {
       doAI: function() {
          if (Utils.cellDistance(this.position, game.currentScene.player.position) == 1) {
             // Monster is next door, do monster attack
-            console.log("I'M ATTACKIN U BOSS");
+            this.doAttack(game.currentScene.player);
+            return;
          }
 
          var targetPosition = game.currentScene.player.position;
@@ -26,8 +28,10 @@ ClassManager.create('Enemy', function(game) {
          if (pathingTarget) { 
             this.action(pathingTarget.pos.x - this.position.x, pathingTarget.pos.y - this.position.y);
          }
-
-      }
+         else {
+            console.warn("WEIRD: A* returned, null, is the player unreachable from the enemy?");
+         }
+      },
    });
 });
 
@@ -35,7 +39,7 @@ ClassManager.create('Bat', function(game) {
    return Class.create(Classes['Enemy'], {
       sprite: "monster1.gif",
       walkStartFrame: 3,
-      walkEndFrame:   5
+      walkEndFrame:   5,
    });
 });
 
