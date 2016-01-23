@@ -30,7 +30,7 @@ ClassManager.create('Enemy', function(game) {
             this.action(pathingTarget.pos.x - this.position.x, pathingTarget.pos.y - this.position.y);
          }
          else {
-            console.warn("WEIRD: A* returned, null, is the player unreachable from the enemy?");
+            console.warn("WEIRD: A* returned, null, is the player unreachable from the enemy? OH NO!");
          }
       },
    });
