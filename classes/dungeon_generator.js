@@ -36,10 +36,12 @@ ClassManager.create('DungeonGenerator', function(game) {
          if (this.numRooms - this.roomsCreated < 4) {
             roomBounds.max = this.numRooms - this.roomsCreated;
          }
+
          if (this.unexploredRooms === 1) {
             roomBounds.min = 2;
          }
 
+         console.log("roomBounds: ",roomBounds.min,roomBounds.max);
          var numExits = chance.integer(roomBounds);
 
          if (from) {
@@ -51,25 +53,27 @@ ClassManager.create('DungeonGenerator', function(game) {
             this.unexploredRooms --;
          }
 
-         if (chance.bool({ likelihood: 100 * numExits / 4 }) && direction !== C.P_DIR.UP) {
+         console.log("numExits: " + numExits);
+
+         if (numExits > 0 || (chance.bool({ likelihood: 100 * numExits / 4 }) && direction !== C.P_DIR.UP)) {
             this.roomsCreated ++;
             this.unexploredRooms ++;
             nextRoom.neighbors[C.P_DIR.UP] = true;
             numExits --;
          }
-         if (chance.bool({ likelihood: 100 * numExits / 3 }) && direction !== C.P_DIR.LEFT) {
+         if (numExits > 0 || (chance.bool({ likelihood: 100 * numExits / 3 }) && direction !== C.P_DIR.LEFT)) {
             this.roomsCreated ++;
             this.unexploredRooms ++;
             nextRoom.neighbors[C.P_DIR.LEFT] = true;
             numExits --;
          }
-         if (chance.bool({ likelihood: 100 * numExits / 2 }) && direction !== C.P_DIR.RIGHT) {
+         if (numExits > 0 || (chance.bool({ likelihood: 100 * numExits / 2 }) && direction !== C.P_DIR.RIGHT)) {
             this.roomsCreated ++;
             this.unexploredRooms ++;
             nextRoom.neighbors[C.P_DIR.RIGHT] = true;
             numExits --;
          }
-         if (chance.bool({ likelihood: 100 * numExits }) && direction !== C.P_DIR.DOWN) {
+         if (numExits > 0 || (chance.bool({ likelihood: 100 * numExits }) && direction !== C.P_DIR.DOWN)) {
             this.roomsCreated ++;
             this.unexploredRooms ++;
             nextRoom.neighbors[C.P_DIR.DOWN] = true;
