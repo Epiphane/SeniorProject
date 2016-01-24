@@ -11,7 +11,7 @@ ClassManager.create('Enemy', function(game) {
       attack_range: 1,
 
       initialize: function(x, y) {
-         Classes['Character'].call(this, x, y);
+         Classes.Character.call(this, x, y);
 
          this.image = game.assets["assets/images/" + this.sprite];
       },
