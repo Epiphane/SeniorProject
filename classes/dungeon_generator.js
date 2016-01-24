@@ -10,16 +10,6 @@ ClassManager.create('DungeonGenerator', function(game) {
          this.unexploredRooms = 0;
          this.difficulty = 1;
       },
-      printLayout: function(layout) {
-         for (var r = 0; r < layout.length; r ++) {
-            var str = '';
-            for (var c = 0; c < layout[r].length; c ++) {
-               str += layout[r][c] ? 'x' : ' ';
-            }
-
-            console.log(str);
-         }
-      },
       /*
        * Generate a new dungeon, that will contain room connections and information
        */
@@ -33,13 +23,17 @@ ClassManager.create('DungeonGenerator', function(game) {
          var nextRoom = new Classes['Room']();
 
          var roomBounds = { min: 1, max: 4 };
+         // Make sure we don't add too many rooms!
          if (this.numRooms - this.roomsCreated < 4) {
             roomBounds.max = this.numRooms - this.roomsCreated;
          }
+         // If this new room is the only one you haven't explored,
+         // then we don't want to make a dead end.
          if (this.unexploredRooms === 1) {
             roomBounds.min = 2;
          }
 
+         // Random number of exits
          var numExits = chance.integer(roomBounds);
 
          if (from) {
@@ -51,29 +45,16 @@ ClassManager.create('DungeonGenerator', function(game) {
             this.unexploredRooms --;
          }
 
-         if (chance.bool({ likelihood: 100 * numExits / 4 }) && direction !== C.P_DIR.UP) {
-            this.roomsCreated ++;
-            this.unexploredRooms ++;
-            nextRoom.neighbors[C.P_DIR.UP] = true;
-            numExits --;
-         }
-         if (chance.bool({ likelihood: 100 * numExits / 3 }) && direction !== C.P_DIR.LEFT) {
-            this.roomsCreated ++;
-            this.unexploredRooms ++;
-            nextRoom.neighbors[C.P_DIR.LEFT] = true;
-            numExits --;
-         }
-         if (chance.bool({ likelihood: 100 * numExits / 2 }) && direction !== C.P_DIR.RIGHT) {
-            this.roomsCreated ++;
-            this.unexploredRooms ++;
-            nextRoom.neighbors[C.P_DIR.RIGHT] = true;
-            numExits --;
-         }
-         if (chance.bool({ likelihood: 100 * numExits }) && direction !== C.P_DIR.DOWN) {
-            this.roomsCreated ++;
-            this.unexploredRooms ++;
-            nextRoom.neighbors[C.P_DIR.DOWN] = true;
-            numExits --;
+         // Iterate through the 4 possibilities of door directions
+         for (var dir = 0; dir < 4; dir ++) {
+            // There is a numExits / (dir + 1) chance we add a new exit here
+            // This makes it equal e.g. 1/4, 1/3, 1/2, 1/1 chances stack up
+            if (chance.bool({ likelihood: 100 * numExits / (4 - dir) }) && direction !== dir) {
+               this.roomsCreated ++;
+               this.unexploredRooms ++;
+               nextRoom.neighbors[dir] = true;
+               numExits --;
+            }
          }
 
          return RoomGenerator.fillRoom(nextRoom, { /* params */ });
