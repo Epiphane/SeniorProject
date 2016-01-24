@@ -14,12 +14,14 @@ ClassManager.create('Enemy', function(game) {
          Classes['Character'].call(this, x, y);
 
          this.image = game.assets["assets/images/" + this.sprite];
+         this.damagePlayerSound = game.assets['assets/sounds/grunt.wav'].clone();
       },
 
       doAI: function() {
          if (Utils.cellDistance(this.position, game.currentScene.player.position) <= this.attack_range) {
             // Monster is next door, do monster attack
             this.doAttack(game.currentScene.player);
+            this.damagePlayerSound.play();
             return;
          }
 
