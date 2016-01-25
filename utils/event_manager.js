@@ -45,6 +45,7 @@ EM.init = function(game) {
 	EM.loadFromDB = function() {
 		// TODO - Implement me
 		// Grab Parse data and fill in EM.<type>Events objects
+		
 	};
 
 	EM.saveToDB = function() {
