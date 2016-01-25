@@ -27,6 +27,7 @@ ClassManager.create('DungeonGenerator', function(game) {
          if (this.numRooms - this.roomsCreated < 4) {
             roomBounds.max = this.numRooms - this.roomsCreated;
          }
+
          // If this new room is the only one you haven't explored,
          // then we don't want to make a dead end.
          if (this.unexploredRooms === 1) {
