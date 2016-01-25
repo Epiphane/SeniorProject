@@ -11,15 +11,6 @@
    Constants.P_WALK_ANIM_LEN = 9;
    
    Constants.TILE_SIZE = 32;
-   Constants.TILES = Enum([
-      'floor', 'wall', 'wall2', 'empty', 'stair_down', 'stair_up',
-      'stair_wall', 'portal', 'floor2', 'floor3', 'floor4', 'floor5',
-      'glow_yellow', 'fissure', 'glow_green', 'glow_yellow2'
-   ]);
-
-   function tileCoordToId(row, col) {
-      return row * 29 + col;
-   }
 
    Constants.ROOM_TYPES = Enum([
       'store', 'treasure', 'enemy', 'npc', 'boss'
