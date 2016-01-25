@@ -8,24 +8,44 @@
 (function(window) {
    var RoomGenerator = window.RoomGenerator = {};
 
+   RoomGenerator.defaults = {
+      width: C.MAP_WIDTH - 4,
+      height: C.MAP_HEIGHT - 4
+   };
+
    RoomGenerator.createRoom = function(params) {
       return this.fillRoom(new Classes['Room'](), params);
    };
 
    RoomGenerator.fillRoom = function(room, params) {
+      // Add default parameters
+      params = params || {};
+      for (var prop in RoomGenerator.defaults) {
+         params[prop] = params[prop] || RoomGenerator.defaults[prop];
+      }
+
+      params.height2 = Math.ceil(params.height / 2);
+      params.width2  = Math.ceil(params.width / 2);
+
       var background = [];
       var foreground = [];
 
-      // Generate basic room
-      for (var r = 0; r < C.MAP_HEIGHT; r++) {
+      // Generate basic room (go from -width/2 to width/2 to center it)
+      for (var r = -C.MAP_HEIGHT / 2; r < C.MAP_HEIGHT / 2; r++) {
          // Background (floor)
          var bg_row = [];
-         for (var c = 0; c < C.MAP_WIDTH; c ++) {
-            if (r <= 1 || r === C.MAP_HEIGHT - 1 ||
-                c === 0 || c === C.MAP_WIDTH - 1)
+         for (var c = -C.MAP_WIDTH / 2; c < C.MAP_WIDTH / 2; c ++) {
+            // Outside the room (only applies if params.width is less than MAP_WIDTH)
+            if (r < -params.height2 || r >= params.height2 || c < -params.width2 || c >= params.width2) {
+               bg_row.push(C.BG_TILES.empty);
+            }
+            // Doorways
+            else if (r <= 1 - params.height2 || r === params.height2 - 1 || c === -params.width2 || c === params.width2 - 1) {
                bg_row.push(C.BG_TILES.floor_blocked);
-            else
+            }
+            else {
                bg_row.push(C.BG_TILES.floor);
+            }
          }
          background.push(bg_row);
 
@@ -37,55 +57,75 @@
          foreground.push(fg_row);
       }
 
+      var center = { x: Math.floor(C.MAP_WIDTH / 2), y: Math.floor(C.MAP_HEIGHT / 2) };
+      var TOP = 0 - params.height2;
+      var BOT = params.height2 - 1;
+      var LEFT = 0 - params.width2;
+      var RGHT = params.width2 - 1;
+      function setTile(tileset, x, y, val) {
+         y += center.y;
+         x += center.x;
+         if (tileset[y] && tileset[y][x] != undefined) {
+            tileset[y][x] = val;
+         }
+      }
+      function setFG(x, y, val) { setTile(foreground, x, y, val); }
+      function setBG(x, y, val) { setTile(background, x, y, val); }
+
       // Create the actual wall!
-      for (var c = 1; c < C.MAP_WIDTH - 1; c ++) {
-         foreground[0][c] = C.FG_TILES.wall_top_horiz;
-         foreground[1][c] = C.FG_TILES.wall_face;
-         foreground[C.MAP_HEIGHT - 1][c] = C.FG_TILES.wall_top_horiz;
+      for (var x = LEFT; x <= RGHT; x ++) {
+         setFG(x, TOP,     C.FG_TILES.wall_top_horiz);
+         setFG(x, TOP + 1, C.FG_TILES.wall_face);
+         setFG(x, BOT,     C.FG_TILES.wall_top_horiz);
+         setFG(x, BOT + 1, C.FG_TILES.wall_face);
       }
-      for (var r = 1; r < C.MAP_HEIGHT - 1; r ++) {
-         foreground[r][0] = C.FG_TILES.wall_top_vert;
-         foreground[r][C.MAP_WIDTH - 1] = C.FG_TILES.wall_top_vert;
+      for (var y = TOP; y <= BOT; y ++) {
+         setFG(LEFT, y, C.FG_TILES.wall_top_vert);
+         setFG(RGHT, y, C.FG_TILES.wall_top_vert);
       }
 
-      // Corners of the wall
-      foreground[0][0] = C.FG_TILES.wall_top_top_left_corner;
-      foreground[0][C.MAP_WIDTH - 1] = C.FG_TILES.wall_top_top_right_corner;
-      foreground[C.MAP_HEIGHT - 1][0] = C.FG_TILES.wall_top_bottom_left_corner;
-      foreground[C.MAP_HEIGHT - 1][C.MAP_WIDTH - 1] = C.FG_TILES.wall_top_bottom_right_corner;
+      // // Corners of the wall
+      setFG(LEFT, TOP, C.FG_TILES.wall_top_top_left_corner);
+      setFG(LEFT, BOT, C.FG_TILES.wall_top_bottom_left_corner);
+      setFG(RGHT, TOP, C.FG_TILES.wall_top_top_right_corner);
+      setFG(RGHT, BOT, C.FG_TILES.wall_top_bottom_right_corner);
 
-      // Add exits
-      var exit_y = Math.floor(C.MAP_HEIGHT / 2) - 1;
-      var exit_x = Math.floor(C.MAP_WIDTH / 2);
+      // // Add exits
       if (room.neighbors[C.P_DIR.LEFT]) {
-         background[exit_y][0] = C.BG_TILES.floor;
-         foreground[exit_y - 2][0] = C.FG_TILES.wall_top_vert_bottom;
-         foreground[exit_y - 1][0] = C.FG_TILES.wall_face_end;
-         foreground[exit_y + 1][0] = C.FG_TILES.wall_top_vert_top;
-         foreground[exit_y][0] = C.FG_TILES.empty;
+         setBG(LEFT, 0, C.BG_TILES.floor);
+         setFG(LEFT,-2, C.FG_TILES.wall_top_vert_bottom);
+         setFG(LEFT,-1, C.FG_TILES.wall_face_end);
+         setFG(LEFT, 0, C.FG_TILES.empty);
+         setFG(LEFT, 1, C.FG_TILES.wall_top_vert_top);
       }
       if (room.neighbors[C.P_DIR.RIGHT]) {
-         background[exit_y][C.MAP_WIDTH - 1] = C.BG_TILES.floor;
-         foreground[exit_y - 2][C.MAP_WIDTH - 1] = C.FG_TILES.wall_top_vert_bottom;
-         foreground[exit_y - 1][C.MAP_WIDTH - 1] = C.FG_TILES.wall_face_end;
-         foreground[exit_y + 1][C.MAP_WIDTH - 1] = C.FG_TILES.wall_top_vert_top;
-         foreground[exit_y][C.MAP_WIDTH - 1] = C.FG_TILES.empty;
+         setBG(RGHT, 0, C.BG_TILES.floor);
+         setFG(RGHT,-2, C.FG_TILES.wall_top_vert_bottom);
+         setFG(RGHT,-1, C.FG_TILES.wall_face_end);
+         setFG(RGHT, 0, C.FG_TILES.empty);
+         setFG(RGHT, 1, C.FG_TILES.wall_top_vert_top);
       }
       if (room.neighbors[C.P_DIR.UP]) {
-         background[0][exit_x] = C.BG_TILES.floor;
-         background[1][exit_x] = C.BG_TILES.floor;
-         foreground[0][exit_x] = C.FG_TILES.empty;
-         foreground[0][exit_x - 1] = C.FG_TILES.wall_top_horiz_right;
-         foreground[0][exit_x + 1] = C.FG_TILES.wall_top_horiz_left;
-         foreground[1][exit_x] = C.FG_TILES.empty;
-         foreground[1][exit_x - 1] = C.FG_TILES.wall_face_right;
-         foreground[1][exit_x + 1] = C.FG_TILES.wall_face_left;
+         setBG( 0, TOP, C.BG_TILES.floor);
+         setBG( 0, TOP + 1, C.BG_TILES.floor);
+
+         setFG(-1, TOP, C.FG_TILES.wall_top_horiz_right);
+         setFG( 1, TOP, C.FG_TILES.wall_top_horiz_left);
+         setFG( 0, TOP, C.FG_TILES.empty);
+         setFG(-1, TOP + 1, C.FG_TILES.wall_face_right);
+         setFG( 0, TOP + 1, C.FG_TILES.empty);
+         setFG( 1, TOP + 1, C.FG_TILES.wall_face_left);
       }
       if (room.neighbors[C.P_DIR.DOWN]) {
-         background[C.MAP_HEIGHT - 1][exit_x] = C.BG_TILES.floor;
-         foreground[C.MAP_HEIGHT - 1][exit_x] = C.FG_TILES.empty;
-         foreground[C.MAP_HEIGHT - 1][exit_x - 1] = C.FG_TILES.wall_top_horiz_right;
-         foreground[C.MAP_HEIGHT - 1][exit_x + 1] = C.FG_TILES.wall_top_horiz_left;
+         setBG( 0, BOT, C.BG_TILES.floor);
+         setBG( 0, BOT + 1, C.BG_TILES.floor);
+         
+         setFG(-1, BOT, C.FG_TILES.wall_top_horiz_right);
+         setFG( 1, BOT, C.FG_TILES.wall_top_horiz_left);
+         setFG( 0, BOT, C.FG_TILES.empty);
+         setFG(-1, BOT + 1, C.FG_TILES.wall_face_right);
+         setFG( 0, BOT + 1, C.FG_TILES.empty);
+         setFG( 1, BOT + 1, C.FG_TILES.wall_face_left);
       }
 
       // Load the tiles
