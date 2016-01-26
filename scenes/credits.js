@@ -13,7 +13,7 @@ Scenes.Credits = Singletonify(function(game) {
       Utils.createLabel('CREDITS', 50, 50, { font: '28px sans-serif' }),
       Utils.createLabel('Senior Project by Cameron Thibodeaux, 2014<br> <br>' +
                         'aud.js Procedural Music Generator - Timothey Adam', 50, 110, { font: '14px sans-serif' }),
-      Utils.createLabel('Press space to return to menu', 50, GAME_HEIGHT - 50, { font: '14px sans-serif' }),
+      Utils.createLabel('Press space to return to menu', 50, C.GAME_HEIGHT - 50, { font: '14px sans-serif' }),
    ];
 
    labels.forEach(function(label) {

@@ -8,12 +8,14 @@
 Scenes.Title = Singletonify(function(game) {
    var Title = new Scene();
    Title.backgroundColor = 'black';
+   Title.bgm = game.assets["assets/sounds/menu.mp3"].clone();
 
    // Main Menu Labels
    var title        = Utils.createLabel('PEARL OF THE WORLD', 0, 150, { font: '32px sans-serif', align: 'center' });
    var instructions = Utils.createLabel('Up/Down to navigate, Space to select', 20, C.GAME_HEIGHT - 50, { font: '12px sans-serif' });
    Title.addChild(title);
    Title.addChild(instructions);
+   Title.bgm.play();
 
    // Menu options
    var opts = { font: '14px sans-serif', color: 'white', align: 'center' };
@@ -55,6 +57,9 @@ Scenes.Title = Singletonify(function(game) {
          var result = options[selection].action(game);
 
          if (result instanceof Scene) {
+            if (selection === 0) {
+               Title.bgm.stop();
+            }
             game.pushScene(result);
          }
       }
