@@ -9,6 +9,11 @@ ClassManager.create('DungeonGenerator', function(game) {
          this.roomsCreated = 0;
          this.unexploredRooms = 0;
          this.difficulty = 1;
+
+         this.defaults = {
+            height: C.MAP_HEIGHT - 4,
+            width: C.MAP_WIDTH - 4,
+         };
       },
       /*
        * Generate a new dungeon, that will contain room connections and information
@@ -20,7 +25,9 @@ ClassManager.create('DungeonGenerator', function(game) {
        * Get the next room for the dungeon
        */
       nextRoom: function(from, direction) {
-         var nextRoom = new Classes['Room']();
+         var width = this.defaults.width;
+         var height = this.defaults.height;
+         var nextRoom = new Classes['Room'](width, height);
 
          var roomBounds = { min: 1, max: 4 };
          // Make sure we don't add too many rooms!

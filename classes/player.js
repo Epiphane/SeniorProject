@@ -41,36 +41,13 @@ ClassManager.create('Player', function(game) {
          return this.attack + (this.weapon ? this.weapon.attack : 0);
       },
 
-      action: function(dx, dy) {
-         var room = game.currentScene.currentRoom;
+      action: function(dx, dy, gameScene, room) {
          // Try to move between rooms first
-         if (this.position.x + dx < 0) {
-            game.currentScene.setRoom(room.getNeighbor(C.P_DIR.LEFT));
-            this.position.x = C.MAP_WIDTH - 1;
-            this.x = Utils.to.screen(C.MAP_WIDTH);
-
-            return true;
-         }
-         else if (this.position.y + dy < 0) {
-            game.currentScene.setRoom(room.getNeighbor(C.P_DIR.UP));
-            this.position.y = C.MAP_HEIGHT - 1;
-            this.y = Utils.to.screen(C.MAP_HEIGHT);
-
-            return true;
-         }
-         else if (this.position.x + dx > C.MAP_WIDTH - 1) {
-            game.currentScene.setRoom(room.getNeighbor(C.P_DIR.RIGHT));
-            this.position.x = 0;
-            this.x = Utils.to.screen(-1);
-
-            return true;
-         }
-         else if (this.position.y + dy > C.MAP_HEIGHT - 1) {
-            game.currentScene.setRoom(room.getNeighbor(C.P_DIR.DOWN));
-            this.position.y = 0;
-            this.y = Utils.to.screen(-1);
-
-            return true;
+         if (room.isExit(this.position.x + dx, this.position.y + dy)) {
+            this.direction = Utils.to.P_DIR(dx, dy);
+            gameScene.moveRooms(this.direction);
+            // this.position.x += dx;
+            // this.position.y += dy;
          }
 
          // Otherwise just move around 'n stuff

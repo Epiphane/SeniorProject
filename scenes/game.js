@@ -7,20 +7,33 @@
       var Game = new Scene();
       Game.backgroundColor = "black";
 
-      Game.dungeonGenerator = new Classes.DungeonGenerator();
-      Game.currentRoom = Game.dungeonGenerator.createDungeon();
-      Game.addChild(Game.currentRoom);
+      Game.moveRooms = function(dir) {
+         Game.setRoom(Game.currentRoom.getNeighbor(dir));
 
-      Game.setRoom = function(room) {
-         Game.removeChild(Game.currentRoom);
-         Game.currentRoom = room;
-         Game.insertBefore(Game.currentRoom, Game.player);
+         Game.currentRoom.movePlayerToDoorway(Game.player, Utils.to.opposite(dir));
       };
 
-      Game.player = new Classes.Player(12, 2);         
-      Game.addChild(Game.player);
+      Game.setRoom = function(room) {
+         // Remove old room
+         if (Game.currentRoom) {
+            Game.currentRoom.removeChild(Game.player);
+            Game.currentRoom.removeChild(Game.HUD);
+            Game.removeChild(Game.currentRoom);
+         }
 
-      Game.addChild(new Classes.HUD(Game.player));
+         // Add new room
+         Game.currentRoom = room;
+         Game.addChild(Game.currentRoom);
+         Game.currentRoom.addToScene(Game.player);
+         Game.currentRoom.addChild(Game.HUD);
+      };
+
+      Game.player = new Classes.Player(12, 2);
+      Game.HUD = new Classes.HUD(Game.player);
+
+      // Create first room
+      Game.dungeonGenerator = new Classes.DungeonGenerator();
+      Game.setRoom(Game.dungeonGenerator.createDungeon());
 
       // Checks if any entity is still moving
       var actionCooldown = 0;
@@ -53,7 +66,7 @@
       }
 
       Game.action = function(dir_x, dir_y) {
-         Game.player.action(dir_x, dir_y);
+         Game.player.action(dir_x, dir_y, Game, Game.currentRoom);
          Game.currentRoom.action();
 
          actionCooldown = 0.3;

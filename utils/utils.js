@@ -70,6 +70,19 @@
    };
 
    /**
+    * Switch a P_DIR direction
+    *
+    * @param {int} P_DIR enum
+    * @return {int} P_DIR enum
+    */
+   Utils.to.opposite = function(dir) {
+      if (dir === C.P_DIR.LEFT ) return C.P_DIR.RIGHT;
+      if (dir === C.P_DIR.RIGHT) return C.P_DIR.LEFT;
+      if (dir === C.P_DIR.UP   ) return C.P_DIR.DOWN;
+      if (dir === C.P_DIR.DOWN ) return C.P_DIR.UP;
+   };
+
+   /**
     * Convert a value from screen to world coordinates
     */
    Utils.to.world = function(screen) {
