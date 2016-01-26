@@ -122,7 +122,10 @@
       "swap.wav",
       "shatter.wav",
       "select1.wav",
-      "select2.wav"
+      "select2.wav",
+      "dungeon.mp3",
+      "gameover.mp3",
+      "menu.mp3"
    ];
    Constants.preloadAssets = function(game) {
       var assets = [];
