@@ -11,8 +11,8 @@ ClassManager.create('DungeonGenerator', function(game) {
          this.difficulty = 1;
 
          this.defaults = {
-            height: C.MAP_HEIGHT - 4,
-            width: C.MAP_WIDTH - 4,
+            height: C.MAP_HEIGHT - 2,
+            width: C.MAP_WIDTH - 2,
          };
       },
       /*

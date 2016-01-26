@@ -41,6 +41,13 @@
          if (!isWalkable(x + 0, y + 2)) wallTileScore += 1 << 7;
          if (!isWalkable(x + 1, y + 2)) wallTileScore += 1 << 8;
 
+         if (!wallTiles[wallTileScore] && floor[y][x] === C.BG_TILES.floor_blocked) {
+            console.log('Nothing found for this config:');
+            console.log((wallTileScore & 1) ? 1 : 0, (wallTileScore & 2) ? 1 : 0, (wallTileScore & 4) ? 1 : 0)
+            console.log((wallTileScore & 8) ? 1 : 0, (wallTileScore & 16) ? 1 : 0, (wallTileScore & 32) ? 1 : 0)
+            console.log((wallTileScore & 64) ? 1 : 0, (wallTileScore & 128) ? 1 : 0, (wallTileScore & 256) ? 1 : 0)
+         }
+
          return wallTiles[wallTileScore] || C.FG_TILES.empty;
       }
 
@@ -100,19 +107,34 @@
 
       // // Add exits
       if (room.neighbors[C.P_DIR.LEFT]) {
-         setBG(LEFT, 0, C.BG_TILES.floor);
-         setBG(LEFT, 1, C.BG_TILES.floor);
+         setBG(LEFT    , 0, C.BG_TILES.floor);
+         setBG(LEFT    , 1, C.BG_TILES.floor);
+         setBG(LEFT - 1,-1, C.BG_TILES.floor_blocked);
+         setBG(LEFT - 1, 0, C.BG_TILES.floor);
+         setBG(LEFT - 1, 1, C.BG_TILES.floor);
+         setBG(LEFT - 1, 2, C.BG_TILES.floor_blocked);
       }
       if (room.neighbors[C.P_DIR.RIGHT]) {
-         setBG(RGHT, 0, C.BG_TILES.floor);
-         setBG(RGHT, 1, C.BG_TILES.floor);
+         setBG(RGHT    , 0, C.BG_TILES.floor);
+         setBG(RGHT    , 1, C.BG_TILES.floor);
+         setBG(RGHT + 1,-1, C.BG_TILES.floor_blocked);
+         setBG(RGHT + 1, 0, C.BG_TILES.floor);
+         setBG(RGHT + 1, 1, C.BG_TILES.floor);
+         setBG(RGHT + 1, 2, C.BG_TILES.floor_blocked);
       }
       if (room.neighbors[C.P_DIR.UP]) {
-         setBG( 0, TOP, C.BG_TILES.floor);
+         setBG( 0, TOP,     C.BG_TILES.floor);
          setBG( 0, TOP + 1, C.BG_TILES.floor);
+         setBG(-1, TOP - 1, C.BG_TILES.floor_blocked);
+         setBG( 0, TOP - 1, C.BG_TILES.floor);
+         setBG( 0, TOP - 2, C.BG_TILES.floor);
+         setBG( 1, TOP - 1, C.BG_TILES.floor_blocked);
       }
       if (room.neighbors[C.P_DIR.DOWN]) {
-         setBG( 0, BOT, C.BG_TILES.floor);
+         setBG( 0, BOT,     C.BG_TILES.floor);
+         setBG(-1, BOT + 1, C.BG_TILES.floor_blocked);
+         setBG( 0, BOT + 1, C.BG_TILES.floor);
+         setBG( 1, BOT + 1, C.BG_TILES.floor_blocked);
       }
 
       // Add in the walls
@@ -171,8 +193,8 @@
    var configs = {
       wall_face_right: [
          2, 2, 0,
-         0, 0, 0,
-         0, 0, 0
+         1, 0, 1,
+         1, 1, 1
       ],
       wall_face: [
          2, 2, 2,
@@ -181,18 +203,18 @@
       ],
       wall_face_left: [
          0, 2, 2,
-         0, 0, 0,
-         0, 0, 0
+         0, 0, 1,
+         1, 1, 1
       ],
       wall_face_end: [
          0, 2, 0,
-         0, 0, 0,
-         0, 0, 0
+         1, 0, 1,
+         1, 1, 1
       ],
       wall_top_horiz_left: [
-         0, 0, 0,
+         0, 0, 1,
          0, 2, 2,
-         0, 0, 0
+         0, 0, 1
       ],
       wall_top_horiz: [
          1, 0, 1,
@@ -200,9 +222,9 @@
          1, 0, 1
       ],
       wall_top_horiz_right: [
-         0, 0, 0,
+         1, 0, 0,
          2, 2, 0,
-         0, 0, 0
+         1, 0, 0
       ],
       wall_top_vert_top: [
          0, 0, 0,
@@ -211,12 +233,12 @@
       ],
       wall_top_vert: [
          1, 2, 1,
-         0, 2, 0,
+         1, 2, 1,
          1, 2, 1
       ],
       wall_top_vert_bottom: [
-         0, 2, 0,
-         0, 2, 0,
+         1, 2, 1,
+         1, 2, 1,
          0, 0, 0
       ],
       wall_top_top_left_corner: [
