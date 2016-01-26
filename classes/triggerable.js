@@ -18,7 +18,7 @@ ClassManager.create('Triggerable', function(game) {
          className: 'Potion',
          itemName: 'potion',
          act: function(player) {
-            player.health = player.health >= (player.max_health-4) ? player.max_health : player.health + player.healing;
+            player.health = Math.min(player.health + 4, player.max_health);
          }
       }
    ].forEach(function(item) {
