@@ -172,6 +172,7 @@
          this.addCharacter(room, new Classes.Bat(), 1, 2);
 
          this.addItem(room, new Classes.Sword(), -2, -3);
+         this.addItem(room, new Classes.Potion(), -2, 2);
       }
    });
 

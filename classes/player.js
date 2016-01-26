@@ -64,6 +64,11 @@ ClassManager.create('Player', function(game) {
                   room.addItemAt(this.weapon, this.position.x, this.position.y);
                   this.weapon = item;
                }
+               else if (item instanceof Classes['Potion']) {
+                  this.health = this.health >= (this.max_health-4) ? this.max_health : this.health + item.healing;
+
+                  // play healing sound maybe
+               }
                else if (item instanceof Classes['Armor']) {
                   // Swap out my armor
                   room.addItemAt(this.armor, this.position.x, this.position.y);
