@@ -13,12 +13,9 @@ ClassManager.create('Character', function(game) {
       initialize: function(x, y) {
          Sprite.call(this, C.TILE_SIZE, C.TILE_SIZE);
 
-         // This is the position in screen coordinates
-         this.x = Utils.to.screen(x);
-         this.y = Utils.to.screen(y);
-
          // This is the position in game coordinates
-         this.position = { x: x, y: y };
+         this.position = { x: x || 0, y: y || 0 };
+         this.snapToPosition();
 
          /* The REAL 'frame' property, actually used by the Sprite class to set the sprite's frame. */
          this.frame = 0;
@@ -37,6 +34,11 @@ ClassManager.create('Character', function(game) {
          this.attack = this.initial_attack;
       },
 
+      snapToPosition: function() {
+         this.x = Utils.to.screen(this.position.x);
+         this.y = Utils.to.screen(this.position.y);
+      },
+
       initial_health: 10,
       initial_attack: 0,
 
@@ -47,7 +49,7 @@ ClassManager.create('Character', function(game) {
       /*
        * Attempt to make a move (or attack) in the specified direction
        */
-      action: function(dir_x, dir_y) {
+      action: function(dir_x, dir_y, gameScene, room) {
          this.direction = Utils.to.P_DIR(dir_x, dir_y);
 
          return this.tryMove(dir_x, dir_y);

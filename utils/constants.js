@@ -20,23 +20,6 @@
       return row * 29 + col;
    };
 
-   Constants.MAP_TILES = Enum({
-      empty: -1,
-      floor: spriteToTile(12,18),
-      floor_blocked: spriteToTile(8,9),
-      fissure: spriteToTile(8,12),
-      wall: spriteToTile(0, 10),
-      stone: spriteToTile(10, 18),
-      wall_top_left_corner: spriteToTile(0, 12),//spriteToTile(0, 17),
-      wall_top_right_corner: spriteToTile(0, 13),//spriteToTile(0, 19),
-      wall_bottom_left_corner: spriteToTile(1, 12),//spriteToTile(2, 17),
-      wall_bottom_right_corner: spriteToTile(1, 13),//spriteToTile(2, 19),
-      wall_face: spriteToTile(4, 9),
-      exit: spriteToTile(11,22),
-      wall_left: spriteToTile(1,11),//spriteToTile(1,17),
-      wall_right: spriteToTile(1,11),//spriteToTile(1,19),
-   });
-
    Constants.BG_TILES = Enum({
       empty: -1,
       floor: spriteToTile(12, 18),
