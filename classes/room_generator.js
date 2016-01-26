@@ -6,175 +6,174 @@
  *    x, y, z = Coordinates of this room in relation to the first room of the level
  */
 (function(window) {
-   var RoomGenerator = window.RoomGenerator = {};
-
    // Populated later on down...
    var wallTiles = {};
 
-   RoomGenerator.defaults = {};
+   var defaults = {};
+   window.RoomGenerator = Class.create(Object, {
+      createRoom: function(params) {
+         return this.fillRoom(new Classes['Room'](), params);
+      },
 
-   RoomGenerator.createRoom = function(params) {
-      return this.fillRoom(new Classes['Room'](), params);
-   };
+      /**
+       * Create a bunch'a walls dynamically
+       */
+      createWalls: function(floor) {
+         var foreground = [];
+         for (var r = 0; r < C.MAP_HEIGHT; r ++)
+            foreground.push(new Array(C.MAP_WIDTH));
 
-   /**
-    * Create a bunch'a walls dynamically
-    */
-   RoomGenerator.createWalls = function(floor) {
-      var foreground = [];
-      for (var r = 0; r < C.MAP_HEIGHT; r ++)
-         foreground.push(new Array(C.MAP_WIDTH));
-
-      function isWalkable(x, y) {
-         return (floor[y] && floor[y][x] !== C.BG_TILES.floor_blocked);
-      }
-
-      function tileFor(x, y) {
-         var wallTileScore = 0;
-         if (!isWalkable(x - 1, y + 0)) wallTileScore += 1 << 0;
-         if (!isWalkable(x + 0, y + 0)) wallTileScore += 1 << 1;
-         if (!isWalkable(x + 1, y + 0)) wallTileScore += 1 << 2;
-         if (!isWalkable(x - 1, y + 1)) wallTileScore += 1 << 3;
-         if (!isWalkable(x + 0, y + 1)) wallTileScore += 1 << 4;
-         if (!isWalkable(x + 1, y + 1)) wallTileScore += 1 << 5;
-         if (!isWalkable(x - 1, y + 2)) wallTileScore += 1 << 6;
-         if (!isWalkable(x + 0, y + 2)) wallTileScore += 1 << 7;
-         if (!isWalkable(x + 1, y + 2)) wallTileScore += 1 << 8;
-
-         if (!wallTiles[wallTileScore] && floor[y][x] === C.BG_TILES.floor_blocked) {
-            console.log('Nothing found for this config:');
-            console.log((wallTileScore & 1) ? 1 : 0, (wallTileScore & 2) ? 1 : 0, (wallTileScore & 4) ? 1 : 0)
-            console.log((wallTileScore & 8) ? 1 : 0, (wallTileScore & 16) ? 1 : 0, (wallTileScore & 32) ? 1 : 0)
-            console.log((wallTileScore & 64) ? 1 : 0, (wallTileScore & 128) ? 1 : 0, (wallTileScore & 256) ? 1 : 0)
+         function isWalkable(x, y) {
+            return (floor[y] && floor[y][x] !== C.BG_TILES.floor_blocked);
          }
 
-         return wallTiles[wallTileScore] || C.FG_TILES.empty;
-      }
+         function tileFor(x, y) {
+            var wallTileScore = 0;
+            if (!isWalkable(x - 1, y + 0)) wallTileScore += 1 << 0;
+            if (!isWalkable(x + 0, y + 0)) wallTileScore += 1 << 1;
+            if (!isWalkable(x + 1, y + 0)) wallTileScore += 1 << 2;
+            if (!isWalkable(x - 1, y + 1)) wallTileScore += 1 << 3;
+            if (!isWalkable(x + 0, y + 1)) wallTileScore += 1 << 4;
+            if (!isWalkable(x + 1, y + 1)) wallTileScore += 1 << 5;
+            if (!isWalkable(x - 1, y + 2)) wallTileScore += 1 << 6;
+            if (!isWalkable(x + 0, y + 2)) wallTileScore += 1 << 7;
+            if (!isWalkable(x + 1, y + 2)) wallTileScore += 1 << 8;
 
-      // Compute tile types
-      for (var y = 0; y < C.MAP_HEIGHT; y ++) {
-         for (var x = 0; x < C.MAP_WIDTH; x ++) {
-            foreground[y][x] = tileFor(x, y);
-         }
-      }      
-
-      return foreground;
-   };
-
-   RoomGenerator.fillRoom = function(room, params) {
-      // Add default parameters
-      params = params || {};
-      for (var prop in RoomGenerator.defaults) {
-         params[prop] = params[prop] || RoomGenerator.defaults[prop];
-      }
-
-      var height_2 = Math.ceil(room.height / 2);
-      var width_2  = Math.ceil(room.width / 2);
-
-      var background = [];
-
-      // Generate basic room (go from -width/2 to width/2 to center it)
-      for (var r = -C.MAP_HEIGHT / 2; r < C.MAP_HEIGHT / 2; r++) {
-         var bg_row = [];
-         for (var c = -C.MAP_WIDTH / 2; c < C.MAP_WIDTH / 2; c ++) {
-            // Outside the room (only applies if params.width is less than MAP_WIDTH)
-            if (r < -height_2 || r >= height_2 || c < -width_2 || c >= width_2) {
-               bg_row.push(C.BG_TILES.empty);
+            if (!wallTiles[wallTileScore] && floor[y][x] === C.BG_TILES.floor_blocked) {
+               console.log('Nothing found for this config:');
+               console.log((wallTileScore & 1) ? 1 : 0, (wallTileScore & 2) ? 1 : 0, (wallTileScore & 4) ? 1 : 0)
+               console.log((wallTileScore & 8) ? 1 : 0, (wallTileScore & 16) ? 1 : 0, (wallTileScore & 32) ? 1 : 0)
+               console.log((wallTileScore & 64) ? 1 : 0, (wallTileScore & 128) ? 1 : 0, (wallTileScore & 256) ? 1 : 0)
             }
-            // Doorways
-            else if (r <= 0 - height_2 || r === height_2 - 1 || c === -width_2 || c === width_2 - 1) {
-               bg_row.push(C.BG_TILES.floor_blocked);
+
+            return wallTiles[wallTileScore] || C.FG_TILES.empty;
+         }
+
+         // Compute tile types
+         for (var y = 0; y < C.MAP_HEIGHT; y ++) {
+            for (var x = 0; x < C.MAP_WIDTH; x ++) {
+               foreground[y][x] = tileFor(x, y);
             }
-            else {
-               bg_row.push(C.BG_TILES.floor);
+         }      
+
+         return foreground;
+      },
+
+      fillRoom: function(room, params) {
+         // Add default parameters
+         params = params || {};
+         for (var prop in defaults) {
+            params[prop] = params[prop] || defaults[prop];
+         }
+
+         var height_2 = Math.ceil(room.height / 2);
+         var width_2  = Math.ceil(room.width / 2);
+
+         var background = [];
+
+         // Generate basic room (go from -width/2 to width/2 to center it)
+         for (var r = -C.MAP_HEIGHT / 2; r < C.MAP_HEIGHT / 2; r++) {
+            var bg_row = [];
+            for (var c = -C.MAP_WIDTH / 2; c < C.MAP_WIDTH / 2; c ++) {
+               // Outside the room (only applies if params.width is less than MAP_WIDTH)
+               if (r < -height_2 || r >= height_2 || c < -width_2 || c >= width_2) {
+                  bg_row.push(C.BG_TILES.empty);
+               }
+               // Doorways
+               else if (r <= 0 - height_2 || r === height_2 - 1 || c === -width_2 || c === width_2 - 1) {
+                  bg_row.push(C.BG_TILES.floor_blocked);
+               }
+               else {
+                  bg_row.push(C.BG_TILES.floor);
+               }
+            }
+            background.push(bg_row);
+         }
+
+         var center = { x: Math.floor(C.MAP_WIDTH / 2), y: Math.floor(C.MAP_HEIGHT / 2) };
+         var TOP = 0 - height_2;
+         var BOT = height_2 - 1;
+         var LEFT = 0 - width_2;
+         var RGHT = width_2 - 1;
+         function setBG(x, y, val) {
+            y += center.y;
+            x += center.x;
+            if (background[y] && background[y][x] != undefined) {
+               background[y][x] = val;
             }
          }
-         background.push(bg_row);
-      }
 
-      var center = { x: Math.floor(C.MAP_WIDTH / 2), y: Math.floor(C.MAP_HEIGHT / 2) };
-      var TOP = 0 - height_2;
-      var BOT = height_2 - 1;
-      var LEFT = 0 - width_2;
-      var RGHT = width_2 - 1;
-      function setBG(x, y, val) {
-         y += center.y;
-         x += center.x;
-         if (background[y] && background[y][x] != undefined) {
-            background[y][x] = val;
+         // // Add exits
+         if (room.neighbors[C.P_DIR.LEFT]) {
+            setBG(LEFT    , 0, C.BG_TILES.floor);
+            setBG(LEFT    , 1, C.BG_TILES.floor);
+            setBG(LEFT - 1,-1, C.BG_TILES.floor_blocked);
+            setBG(LEFT - 1, 0, C.BG_TILES.floor);
+            setBG(LEFT - 1, 1, C.BG_TILES.floor);
+            setBG(LEFT - 1, 2, C.BG_TILES.floor_blocked);
          }
+         if (room.neighbors[C.P_DIR.RIGHT]) {
+            setBG(RGHT    , 0, C.BG_TILES.floor);
+            setBG(RGHT    , 1, C.BG_TILES.floor);
+            setBG(RGHT + 1,-1, C.BG_TILES.floor_blocked);
+            setBG(RGHT + 1, 0, C.BG_TILES.floor);
+            setBG(RGHT + 1, 1, C.BG_TILES.floor);
+            setBG(RGHT + 1, 2, C.BG_TILES.floor_blocked);
+         }
+         if (room.neighbors[C.P_DIR.UP]) {
+            setBG( 0, TOP,     C.BG_TILES.floor);
+            setBG( 0, TOP + 1, C.BG_TILES.floor);
+            setBG(-1, TOP - 1, C.BG_TILES.floor_blocked);
+            setBG( 0, TOP - 1, C.BG_TILES.floor);
+            setBG( 0, TOP - 2, C.BG_TILES.floor);
+            setBG( 1, TOP - 1, C.BG_TILES.floor_blocked);
+         }
+         if (room.neighbors[C.P_DIR.DOWN]) {
+            setBG( 0, BOT,     C.BG_TILES.floor);
+            setBG(-1, BOT + 1, C.BG_TILES.floor_blocked);
+            setBG( 0, BOT + 1, C.BG_TILES.floor);
+            setBG( 1, BOT + 1, C.BG_TILES.floor_blocked);
+         }
+
+         // Add in the walls
+         foreground = this.createWalls(background);
+
+         // Load the tiles
+         room.tiles = background;
+         room.foreground = foreground;
+         room.loadData();
+
+         this.populateRoom(room);
+
+         return room;
+      },
+
+      addCharacter: function(room, character, x, y) {
+         x += Math.floor(C.MAP_WIDTH / 2);
+         y += Math.floor(C.MAP_HEIGHT / 2);
+
+         character.position.x = x;
+         character.position.y = y;
+         character.snapToPosition();
+
+         room.addCharacter(character);
+      },
+
+      addItem: function(room, item, x, y) {
+         x += Math.floor(C.MAP_WIDTH / 2);
+         y += Math.floor(C.MAP_HEIGHT / 2);
+
+         room.addItemAt(item, x, y);
+      },
+
+      populateRoom: function(room) {
+         // Add enemies and items to room
+         this.addCharacter(room, new Classes.Slime(), 2, 3);
+         this.addCharacter(room, new Classes.Bat(), 1, 2);
+
+         this.addItem(room, new Classes.Sword(), -2, -3);
       }
-
-      // // Add exits
-      if (room.neighbors[C.P_DIR.LEFT]) {
-         setBG(LEFT    , 0, C.BG_TILES.floor);
-         setBG(LEFT    , 1, C.BG_TILES.floor);
-         setBG(LEFT - 1,-1, C.BG_TILES.floor_blocked);
-         setBG(LEFT - 1, 0, C.BG_TILES.floor);
-         setBG(LEFT - 1, 1, C.BG_TILES.floor);
-         setBG(LEFT - 1, 2, C.BG_TILES.floor_blocked);
-      }
-      if (room.neighbors[C.P_DIR.RIGHT]) {
-         setBG(RGHT    , 0, C.BG_TILES.floor);
-         setBG(RGHT    , 1, C.BG_TILES.floor);
-         setBG(RGHT + 1,-1, C.BG_TILES.floor_blocked);
-         setBG(RGHT + 1, 0, C.BG_TILES.floor);
-         setBG(RGHT + 1, 1, C.BG_TILES.floor);
-         setBG(RGHT + 1, 2, C.BG_TILES.floor_blocked);
-      }
-      if (room.neighbors[C.P_DIR.UP]) {
-         setBG( 0, TOP,     C.BG_TILES.floor);
-         setBG( 0, TOP + 1, C.BG_TILES.floor);
-         setBG(-1, TOP - 1, C.BG_TILES.floor_blocked);
-         setBG( 0, TOP - 1, C.BG_TILES.floor);
-         setBG( 0, TOP - 2, C.BG_TILES.floor);
-         setBG( 1, TOP - 1, C.BG_TILES.floor_blocked);
-      }
-      if (room.neighbors[C.P_DIR.DOWN]) {
-         setBG( 0, BOT,     C.BG_TILES.floor);
-         setBG(-1, BOT + 1, C.BG_TILES.floor_blocked);
-         setBG( 0, BOT + 1, C.BG_TILES.floor);
-         setBG( 1, BOT + 1, C.BG_TILES.floor_blocked);
-      }
-
-      // Add in the walls
-      foreground = RoomGenerator.createWalls(background);
-
-      // Load the tiles
-      room.tiles = background;
-      room.foreground = foreground;
-      room.loadData();
-
-      this.populateRoom(room);
-
-      return room;
-   };
-
-   RoomGenerator.addCharacter = function(room, character, x, y) {
-      x += Math.floor(C.MAP_WIDTH / 2);
-      y += Math.floor(C.MAP_HEIGHT / 2);
-
-      character.position.x = x;
-      character.position.y = y;
-      character.snapToPosition();
-
-      room.addCharacter(character);
-   };
-
-   RoomGenerator.addItem = function(room, item, x, y) {
-      x += Math.floor(C.MAP_WIDTH / 2);
-      y += Math.floor(C.MAP_HEIGHT / 2);
-
-      room.addItemAt(item, x, y);
-   };
-
-   RoomGenerator.populateRoom = function(room) {
-      // Add enemies and items to room
-      this.addCharacter(room, new Classes.Slime(), 2, 3);
-      this.addCharacter(room, new Classes.Bat(), 1, 2);
-
-      this.addItem(room, new Classes.Sword(), -2, -3);
-   };
+   });
 
    /**
     * Register all the different wall tiles

@@ -65,7 +65,9 @@ ClassManager.create('DungeonGenerator', function(game) {
             }
          }
 
-         return RoomGenerator.fillRoom(nextRoom, { /* params */ });
+         var generator = new RoomGenerator();
+         if (chance.bool({ likelihood: 50 })) generator = new CombatRoomGenerator();
+         return generator.fillRoom(nextRoom, { /* params */ });
       }
 
    });
