@@ -1,10 +1,11 @@
 /* 
  * A sprite representing an item
  */
-ClassManager.create('Potion', function(game) {
+ClassManager.create('Triggerable', function(game) {
    // Create the base class
    return Class.create(Classes.Item, {
-      healing: 0
+      act: function() {}
+      
    });
 });
 
@@ -16,11 +17,13 @@ ClassManager.create('Potion', function(game) {
       {
          className: 'Potion',
          itemName: 'potion',
-         healing: 4
+         act: function(player) {
+            player.health = player.health >= (player.max_health-4) ? player.max_health : player.health + player.healing;
+         }
       }
    ].forEach(function(item) {
       ClassManager.create(item.className, function(game) {
-         return Class.create(Classes.Potion, item);
+         return Class.create(Classes.Triggerable, item);
       });
    });
 })();
