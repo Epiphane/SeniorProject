@@ -28,7 +28,7 @@
          Game.currentRoom.addChild(Game.HUD);
       };
 
-      Game.player = new Classes.Player(12, 2);
+      Game.player = new Classes.Player(Math.floor(C.MAP_WIDTH / 2), Math.floor(C.MAP_HEIGHT / 2));
       Game.HUD = new Classes.HUD(Game.player);
 
       // Create first room

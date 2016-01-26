@@ -14,5 +14,11 @@ ClassManager.create('Item', function(game) {
 
          this.position = { x: -1, y: -1 };
       },
+
+      setPosition: function(x, y) {
+         this.position.x = x;
+         this.x = Utils.to.screen(this.position.x);
+         this.y = Utils.to.screen(this.position.y);
+      },
    });
 });

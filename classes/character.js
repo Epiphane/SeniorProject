@@ -14,7 +14,7 @@ ClassManager.create('Character', function(game) {
          Sprite.call(this, C.TILE_SIZE, C.TILE_SIZE);
 
          // This is the position in game coordinates
-         this.position = { x: x, y: y };
+         this.position = { x: x || 0, y: y || 0 };
          this.snapToPosition();
 
          /* The REAL 'frame' property, actually used by the Sprite class to set the sprite's frame. */

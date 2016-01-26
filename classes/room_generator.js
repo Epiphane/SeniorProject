@@ -145,13 +145,35 @@
       room.foreground = foreground;
       room.loadData();
 
-      // Add enemies and items to room
-      room.addCharacter(new Classes.Slime(15, 15));
-      room.addCharacter(new Classes.Bat(17, 15));
-
-      room.addItemAt(new Classes.Sword(), 4, 6);
+      this.populateRoom(room);
 
       return room;
+   };
+
+   RoomGenerator.addCharacter = function(room, character, x, y) {
+      x += Math.floor(C.MAP_WIDTH / 2);
+      y += Math.floor(C.MAP_HEIGHT / 2);
+
+      character.position.x = x;
+      character.position.y = y;
+      character.snapToPosition();
+
+      room.addCharacter(character);
+   };
+
+   RoomGenerator.addItem = function(room, item, x, y) {
+      x += Math.floor(C.MAP_WIDTH / 2);
+      y += Math.floor(C.MAP_HEIGHT / 2);
+
+      room.addItemAt(item, x, y);
+   };
+
+   RoomGenerator.populateRoom = function(room) {
+      // Add enemies and items to room
+      this.addCharacter(room, new Classes.Slime(), 2, 3);
+      this.addCharacter(room, new Classes.Bat(), 1, 2);
+
+      this.addItem(room, new Classes.Sword(), -2, -3);
    };
 
    /**
