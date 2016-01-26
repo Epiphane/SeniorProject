@@ -8,6 +8,8 @@
 Scenes.Death = Singletonify(function(game) {
    var Death = new Scene();
    Death.backgroundColor = "black";
+   Death.bgm = game.assets["assets/sounds/gameover.mp3"].clone();
+   Death.bgm.play();
    
    var labels = [
       Utils.createLabel('YOU HAVE DIED', 50, 50, { font: '28px serif' }),
@@ -25,6 +27,7 @@ Scenes.Death = Singletonify(function(game) {
 
          // Return to title screen
          game.popScene();
+         Death.bgm.stop();
       }
    });
 
