@@ -11,7 +11,7 @@ ClassManager.create('Enemy', function(game) {
       attack_range: 1,
 
       initialize: function(x, y) {
-         Classes['Character'].call(this, x, y);
+         Classes.Character.call(this, x, y);
 
          this.image = game.assets["assets/images/" + this.sprite];
          this.damagePlayerSound = game.assets['assets/sounds/grunt.wav'].clone();
@@ -32,7 +32,7 @@ ClassManager.create('Enemy', function(game) {
             this.action(pathingTarget.pos.x - this.position.x, pathingTarget.pos.y - this.position.y);
          }
          else {
-            console.warn("WEIRD: A* returned, null, is the player unreachable from the enemy?");
+            console.warn("WEIRD: A* returned, null, is the player unreachable from the enemy? OH NO!");
          }
       },
    });

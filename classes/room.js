@@ -173,6 +173,7 @@ ClassManager.create('Room', function(game) {
             var character = this.characters[i];
 
             if (character.isDead()) {
+               EM.log(game, "combat", "murder", character.sprite);
                this.characters.splice(i, 1);
                this.removeChild(character);
             }
