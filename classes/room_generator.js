@@ -59,16 +59,17 @@
          return foreground;
       },
 
-      fillRoom: function(room, params) {
-         // Add default parameters
-         params = params || {};
-         for (var prop in defaults) {
-            params[prop] = params[prop] || defaults[prop];
+      setTile: function(tiles, x, y, val) {
+         var center = { x: Math.floor(C.MAP_WIDTH / 2), y: Math.floor(C.MAP_HEIGHT / 2) };
+
+         y += center.y;
+         x += center.x;
+         if (tiles[y] && tiles[y][x] != undefined) {
+            tiles[y][x] = val;
          }
+      },
 
-         var height_2 = Math.ceil(room.height / 2);
-         var width_2  = Math.ceil(room.width / 2);
-
+      createFloor: function(params) {
          var background = [];
 
          // Generate basic room (go from -width/2 to width/2 to center it)
@@ -76,11 +77,11 @@
             var bg_row = [];
             for (var c = -C.MAP_WIDTH / 2; c < C.MAP_WIDTH / 2; c ++) {
                // Outside the room (only applies if params.width is less than MAP_WIDTH)
-               if (r < -height_2 || r >= height_2 || c < -width_2 || c >= width_2) {
+               if (r < -params.height_2 || r >= params.height_2 || c < -params.width_2 || c >= params.width_2) {
                   bg_row.push(C.BG_TILES.empty);
                }
                // Doorways
-               else if (r <= 0 - height_2 || r === height_2 - 1 || c === -width_2 || c === width_2 - 1) {
+               else if (r <= 0 - params.height_2 || r === params.height_2 - 1 || c === -params.width_2 || c === params.width_2 - 1) {
                   bg_row.push(C.BG_TILES.floor_blocked);
                }
                else {
@@ -90,44 +91,53 @@
             background.push(bg_row);
          }
 
-         var center = { x: Math.floor(C.MAP_WIDTH / 2), y: Math.floor(C.MAP_HEIGHT / 2) };
-         var TOP = 0 - height_2;
-         var BOT = height_2 - 1;
-         var LEFT = 0 - width_2;
-         var RGHT = width_2 - 1;
-         function setBG(x, y, val) {
-            y += center.y;
-            x += center.x;
-            if (background[y] && background[y][x] != undefined) {
-               background[y][x] = val;
-            }
+         return background;
+      },
+
+      fillRoom: function(room, params) {
+         // Add default parameters
+         params = params || {};
+         for (var prop in defaults) {
+            params[prop] = params[prop] || defaults[prop];
          }
 
-         // // Add exits
+         params.height = room.height;
+         params.width = room.width;
+         params.height_2 = Math.ceil(params.height / 2);
+         params.width_2  = Math.ceil(params.width / 2);
+         params.TOP  = 0 - params.height_2;
+         params.BOT  = params.height_2 - 1;
+         params.LEFT = 0 - params.width_2;
+         params.RGHT = params.width_2 - 1;
+
+         // Create the floor first
+         background = this.createFloor(params);
+
+         // Add exits
          if (room.neighbors[C.P_DIR.LEFT]) {
-            setBG(LEFT    , 0, C.BG_TILES.floor);
-            setBG(LEFT - 1,-1, C.BG_TILES.floor_blocked);
-            setBG(LEFT - 1, 0, C.BG_TILES.floor);
-            setBG(LEFT - 1, 1, C.BG_TILES.floor_blocked);
+            this.setTile(background, params.LEFT    , 0, C.BG_TILES.floor);
+            this.setTile(background, params.LEFT - 1,-1, C.BG_TILES.floor_blocked);
+            this.setTile(background, params.LEFT - 1, 0, C.BG_TILES.floor);
+            this.setTile(background, params.LEFT - 1, 1, C.BG_TILES.floor_blocked);
          }
          if (room.neighbors[C.P_DIR.RIGHT]) {
-            setBG(RGHT    , 0, C.BG_TILES.floor);
-            setBG(RGHT + 1,-1, C.BG_TILES.floor_blocked);
-            setBG(RGHT + 1, 0, C.BG_TILES.floor);
-            setBG(RGHT + 1, 1, C.BG_TILES.floor_blocked);
+            this.setTile(background, params.RGHT    , 0, C.BG_TILES.floor);
+            this.setTile(background, params.RGHT + 1,-1, C.BG_TILES.floor_blocked);
+            this.setTile(background, params.RGHT + 1, 0, C.BG_TILES.floor);
+            this.setTile(background, params.RGHT + 1, 1, C.BG_TILES.floor_blocked);
          }
          if (room.neighbors[C.P_DIR.UP]) {
-            setBG( 0, TOP,     C.BG_TILES.floor);
-            setBG( 0, TOP + 1, C.BG_TILES.floor);
-            setBG(-1, TOP - 1, C.BG_TILES.floor_blocked);
-            setBG( 0, TOP - 1, C.BG_TILES.floor);
-            setBG( 1, TOP - 1, C.BG_TILES.floor_blocked);
+            this.setTile(background,  0, params.TOP,     C.BG_TILES.floor);
+            this.setTile(background,  0, params.TOP + 1, C.BG_TILES.floor);
+            this.setTile(background, -1, params.TOP - 1, C.BG_TILES.floor_blocked);
+            this.setTile(background,  0, params.TOP - 1, C.BG_TILES.floor);
+            this.setTile(background,  1, params.TOP - 1, C.BG_TILES.floor_blocked);
          }
          if (room.neighbors[C.P_DIR.DOWN]) {
-            setBG( 0, BOT,     C.BG_TILES.floor);
-            setBG(-1, BOT + 1, C.BG_TILES.floor_blocked);
-            setBG( 0, BOT + 1, C.BG_TILES.floor);
-            setBG( 1, BOT + 1, C.BG_TILES.floor_blocked);
+            this.setTile(background,  0, params.BOT,     C.BG_TILES.floor);
+            this.setTile(background, -1, params.BOT + 1, C.BG_TILES.floor_blocked);
+            this.setTile(background,  0, params.BOT + 1, C.BG_TILES.floor);
+            this.setTile(background,  1, params.BOT + 1, C.BG_TILES.floor_blocked);
          }
 
          // Add in the walls
@@ -261,15 +271,15 @@
       wall_top_top_left_corner: [
          0, 0, 0,
          0, 2, 2,
-         0, 2, 0
+         0, 2, 1
       ],
       wall_top_top_right_corner: [
          0, 0, 0,
          2, 2, 0,
-         0, 2, 0
+         1, 2, 0
       ],
       wall_top_bottom_left_corner: [
-         0, 2, 0,
+         0, 2, 1,
          0, 2, 2,
          0, 0, 0
       ],
