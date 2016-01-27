@@ -106,26 +106,21 @@
          // // Add exits
          if (room.neighbors[C.P_DIR.LEFT]) {
             setBG(LEFT    , 0, C.BG_TILES.floor);
-            setBG(LEFT    , 1, C.BG_TILES.floor);
             setBG(LEFT - 1,-1, C.BG_TILES.floor_blocked);
             setBG(LEFT - 1, 0, C.BG_TILES.floor);
-            setBG(LEFT - 1, 1, C.BG_TILES.floor);
-            setBG(LEFT - 1, 2, C.BG_TILES.floor_blocked);
+            setBG(LEFT - 1, 1, C.BG_TILES.floor_blocked);
          }
          if (room.neighbors[C.P_DIR.RIGHT]) {
             setBG(RGHT    , 0, C.BG_TILES.floor);
-            setBG(RGHT    , 1, C.BG_TILES.floor);
             setBG(RGHT + 1,-1, C.BG_TILES.floor_blocked);
             setBG(RGHT + 1, 0, C.BG_TILES.floor);
-            setBG(RGHT + 1, 1, C.BG_TILES.floor);
-            setBG(RGHT + 1, 2, C.BG_TILES.floor_blocked);
+            setBG(RGHT + 1, 1, C.BG_TILES.floor_blocked);
          }
          if (room.neighbors[C.P_DIR.UP]) {
             setBG( 0, TOP,     C.BG_TILES.floor);
             setBG( 0, TOP + 1, C.BG_TILES.floor);
             setBG(-1, TOP - 1, C.BG_TILES.floor_blocked);
             setBG( 0, TOP - 1, C.BG_TILES.floor);
-            setBG( 0, TOP - 2, C.BG_TILES.floor);
             setBG( 1, TOP - 1, C.BG_TILES.floor_blocked);
          }
          if (room.neighbors[C.P_DIR.DOWN]) {
