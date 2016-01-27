@@ -51,6 +51,7 @@ EM.init = function(game) {
 	EM.saveToDB = function() {
 		// TODO - Implement me
 		// Sends all the data saved in EM.<type>Events objects to Parse DB
+
 	};
 
 	/* Logging methods */
@@ -71,6 +72,11 @@ EM.init = function(game) {
 			else {
 				eventObject[key] = eventObject[key] + value;
 			}
+
+			var newEvent = new ParseEvent();
+			newEvent.save({eventType: eventType, subcategory: key, user_placeholder: user_obj, value: value}).fail(function(error) {
+				console.warn("PROBLEM! Parse failed to save event: " + error)
+			});
 		}
 		else {
 			throw "eventType does not exist in events.";
