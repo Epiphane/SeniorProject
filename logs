@@ -1,0 +1,815 @@
+commit 47ee77455e9069b07033130680a056f5e99a0c60
+Merge: 74d10ff 0628db8
+Author: Thomas Steinke <exyphnos@gmail.com>
+Date:   Thu Jan 28 09:39:19 2016 -0800
+
+    Merge pull request #23 from Epiphane/thomas
+    
+    Now you can put walls in the middle of a room!
+
+commit 74d10ff52d89fa54d1b1b1275c7c971d8c344d45
+Author: Thomas Steinke <exyphnos@gmail.com>
+Date:   Wed Jan 27 14:30:54 2016 -0800
+
+    Example in the combat room
+
+commit a2e7dde88e6058e3932c58dcd6f77831da90d0b2
+Author: Thomas Steinke <exyphnos@gmail.com>
+Date:   Wed Jan 27 14:28:48 2016 -0800
+
+    Floor modification
+
+commit eb2b9f7b7d62cd522fc2bd884d7a030670c7c6bd
+Author: Thomas Steinke <exyphnos@gmail.com>
+Date:   Tue Jan 26 16:04:27 2016 -0800
+
+    Wall vision improved
+
+commit 562446f478f1206f8137fbac61e9494d7184bbb5
+Author: mlinsenbard <m.linsenbard@gmail.com>
+Date:   Wed Jan 27 22:44:06 2016 -0800
+
+    added sound when collecting HP
+
+commit 0628db8c744f792a5a0daa1a173ceedbe9a4465f
+Author: Thomas Steinke <exyphnos@gmail.com>
+Date:   Wed Jan 27 14:30:54 2016 -0800
+
+    Example in the combat room
+
+commit 194356cacb8823c006f0986b77bdc1b9dc6f57d7
+Author: Thomas Steinke <exyphnos@gmail.com>
+Date:   Wed Jan 27 14:28:48 2016 -0800
+
+    Floor modification
+
+commit f1ede24911a7843f0a5d002c1510a4572d508633
+Merge: 23726b3 259b004
+Author: Thomas Steinke <exyphnos@gmail.com>
+Date:   Wed Jan 27 01:23:55 2016 -0800
+
+    Merge pull request #22 from Epiphane/elliot
+    
+    Parse foundationals
+
+commit 259b0044a12f589299980610d6db5edf9c89648e
+Author: elliotfiske <elliotfiske@gmail.com>
+Date:   Tue Jan 26 23:19:32 2016 -0800
+
+    Parse now remembers all the murders you've done
+
+commit 4a7f9a9c6383a007f2c31777f86d8dd530ffd2df
+Author: Thomas Steinke <exyphnos@gmail.com>
+Date:   Tue Jan 26 16:04:27 2016 -0800
+
+    Wall vision improved
+
+commit 23726b34448758f1a42f481fd1c0ca491ec5425f
+Merge: 9e2d4a0 2cf0393
+Author: mlinsenbard <m.linsenbard@gmail.com>
+Date:   Tue Jan 26 16:00:46 2016 -0800
+
+    Merge pull request #21 from Epiphane/max
+    
+    dungeons no longer impossible. health potions added
+
+commit 2cf039367a3465b28b599d604a7b2e46a26d9f36
+Author: mlinsenbard <mlinsenb@calpoly.edu>
+Date:   Tue Jan 26 15:56:08 2016 -0800
+
+    #NOTTRASH
+
+commit 5dc93db194a78b7a865eb3f9b9bda271cb4d21ae
+Author: mlinsenbard <mlinsenb@calpoly.edu>
+Date:   Tue Jan 26 15:49:35 2016 -0800
+
+    potions are now part of a triggerable class, which can be used to alter the status of something as it walks over it
+
+commit 560675a2b6c2917b56a7423868d40e747cd492ef
+Author: mlinsenbard <mlinsenb@calpoly.edu>
+Date:   Tue Jan 26 15:14:22 2016 -0800
+
+    dungeons no longer impossible. health potions added
+
+commit 9e2d4a04f002adff047ee87564f3b6388ea4c657
+Merge: b24f74f 9e8f6e0
+Author: mlinsenbard <m.linsenbard@gmail.com>
+Date:   Tue Jan 26 14:33:39 2016 -0800
+
+    Merge pull request #20 from Epiphane/thomas
+    
+    Room Generation + "Combat" rooms
+
+commit 9e8f6e0c7cd7662527005687e84873d06f235e45
+Merge: 9de7e15 b24f74f
+Author: mlinsenbard <mlinsenb@calpoly.edu>
+Date:   Tue Jan 26 14:33:12 2016 -0800
+
+    solved merge conflict, will merge back into master
+
+commit b24f74f3d511dcaa3f3f4714a775d075248cab43
+Merge: b343bfa 4ca3615
+Author: mlinsenbard <m.linsenbard@gmail.com>
+Date:   Tue Jan 26 14:19:53 2016 -0800
+
+    Merge pull request #19 from Epiphane/max_music
+    
+    plopped some music in, enchant is trash, yadda yadda
+
+commit 4ca3615b174f8dc56e77bf906c7da351a8120ed2
+Author: mlinsenbard <mlinsenb@calpoly.edu>
+Date:   Tue Jan 26 14:19:34 2016 -0800
+
+    CREDITS
+
+commit 9de7e15f169fbedd0ce823124d997f6360f8ce73
+Author: Thomas Steinke <exyphnos@gmail.com>
+Date:   Tue Jan 26 14:18:12 2016 -0800
+
+    Random types of rooms are generated now
+
+commit 710de7f3db03a8ef8009a927e4002c98bbeaaa43
+Author: Thomas Steinke <exyphnos@gmail.com>
+Date:   Tue Jan 26 14:04:21 2016 -0800
+
+    Spawning inside the room
+
+commit 9318aa2c4d8cf8f053adfbddf5a879e444620fe5
+Author: Thomas Steinke <exyphnos@gmail.com>
+Date:   Tue Jan 26 13:27:59 2016 -0800
+
+    Variable room sizes complete. Need to add correct spawning
+
+commit e2b4ec89ae0f3f8e513a8427100c3b7213e68a1b
+Author: Thomas Steinke <exyphnos@gmail.com>
+Date:   Tue Jan 26 13:13:06 2016 -0800
+
+    Moving between rooms works again
+
+commit 77f3c2cecfbefb7de621100100509a53097089bd
+Author: Thomas Steinke <exyphnos@gmail.com>
+Date:   Tue Jan 26 12:30:12 2016 -0800
+
+    Room wall tiles seem to place correctly
+
+commit 74a32eab9d122898e0d2e4555bb21b3e81ca8f48
+Author: mlinsenbard <mlinsenb@calpoly.edu>
+Date:   Mon Jan 25 21:42:27 2016 -0800
+
+    reused some music to make the game nicer feeling. Enchant is trash and doesn't natively support looping so the looping is garbage.
+
+commit dfa6edcbbae4b82972d5d3c0e37c47ac2ba1a8fd
+Author: Thomas Steinke <exyphnos@gmail.com>
+Date:   Mon Jan 25 15:08:18 2016 -0800
+
+    Variable room sizes
+
+commit f050fd2da8d55d73722a5ceb1ddf69fc1435a2c7
+Merge: a8b7e2d b343bfa
+Author: elliotfiske <elliotfiske@gmail.com>
+Date:   Mon Jan 25 08:01:41 2016 -0800
+
+    Merge branch 'master' of https://github.com/Epiphane/SeniorProject into elliot
+
+commit a8b7e2d858573222b7d79e06cedce4f80449a8ce
+Author: elliotfiske <elliotfiske@gmail.com>
+Date:   Mon Jan 25 08:01:24 2016 -0800
+
+    LOL pretend I did this last night
+
+commit b343bfaf0d0d7765da24896785f0e43ef2d11642
+Merge: 130bd62 392580d
+Author: Thomas Steinke <exyphnos@gmail.com>
+Date:   Sun Jan 24 23:37:52 2016 -0800
+
+    Merge pull request #18 from Epiphane/thomas
+    
+    Better tileset + dungeon gen
+
+commit 392580dcf9ba13688516df681f8106747ff8c116
+Author: Thomas Steinke <exyphnos@gmail.com>
+Date:   Sun Jan 24 23:37:38 2016 -0800
+
+    Took out old tileset enum
+
+commit 5ffd03aa5327fdade35aca43a5af38b28e56a4e9
+Merge: dcd9977 130bd62
+Author: Thomas Steinke <exyphnos@gmail.com>
+Date:   Sun Jan 24 23:35:54 2016 -0800
+
+    Merge branch 'master' into thomas
+
+commit 130bd62a48000786b9c920d162fc51535a0ac7ba
+Merge: d4cc363 cc6088d
+Author: mlinsenbard <m.linsenbard@gmail.com>
+Date:   Sun Jan 24 02:14:45 2016 -0800
+
+    Merge pull request #17 from Epiphane/max
+    
+    Bug fixes and GRUNTS
+
+commit cc6088dc4c9546cc8938d91475945d2ee48bd73f
+Author: mlinsenbard <m.linsenbard@gmail.com>
+Date:   Sun Jan 24 02:10:00 2016 -0800
+
+    fixed thomas' silly dungeon_generator bug, added audio feedback on attack/damage reception
+
+commit 965caf005ad37cb4572cd20e705b769391ac52cc
+Author: elliotfiske <elliotfiske@gmail.com>
+Date:   Sun Jan 24 00:00:37 2016 -0800
+
+    Very Important Commit
+
+commit aa0a10f0976d46fddb3fd1a11ed4a6823ee232fe
+Merge: 1f88dee dcd9977
+Author: elliotfiske <elliotfiske@gmail.com>
+Date:   Sat Jan 23 23:59:15 2016 -0800
+
+    Merge branch 'thomas' of https://github.com/Epiphane/SeniorProject into elliot
+
+commit dcd9977ae1b2f0a070180c849d47a08ec6e527a4
+Author: Thomas Steinke <exyphnos@gmail.com>
+Date:   Sat Jan 23 23:07:20 2016 -0800
+
+    Cleaned a lil dungeon gen code
+
+commit dfb9743d72722810756e265890321117ed85109b
+Merge: 29eb14e d4cc363
+Author: Thomas Steinke <exyphnos@gmail.com>
+Date:   Sat Jan 23 23:01:47 2016 -0800
+
+    Merge branch 'master' into thomas
+
+commit 1f88dee552804b84fb2f0c5543deda527c1e9565
+Author: elliotfiske <elliotfiske@gmail.com>
+Date:   Fri Jan 22 23:38:51 2016 -0800
+
+    DUMB COMMIT LOL
+
+commit 29eb14ebcceb8db23b8c43e443b8aa971d1d62e4
+Author: Thomas Steinke <exyphnos@gmail.com>
+Date:   Fri Jan 22 15:20:22 2016 -0800
+
+    Beautiful exits
+
+commit d4cc363065a7de55d689ba18bd5f400b1f76a301
+Merge: 85c6947 481c2d0
+Author: Thomas Steinke <exyphnos@gmail.com>
+Date:   Fri Jan 22 14:53:09 2016 -0800
+
+    Merge pull request #16 from Epiphane/max_enemies
+    
+    Ranged enemies, death imminent
+
+commit 481c2d014a1ad53123172687b891c1919bbe99cb
+Author: mlinsenbard <mlinsenb@calpoly.edu>
+Date:   Fri Jan 22 14:49:03 2016 -0800
+
+    enemies now have attack range, proper sprites assigned to existing enemies
+
+commit 85c6947857d6e797d5d6691d6bb033138c7cca05
+Merge: f59c1f5 9ba827f
+Author: Thomas Steinke <exyphnos@gmail.com>
+Date:   Fri Jan 22 14:11:41 2016 -0800
+
+    Merge pull request #15 from Epiphane/thomas
+    
+    Dungeon generation and moving between rooms
+
+commit 9ba827f5652d425f6d97efef54db4c5afe7e78ef
+Author: Thomas Steinke <exyphnos@gmail.com>
+Date:   Fri Jan 22 14:10:44 2016 -0800
+
+    Added move delay back in
+
+commit 0844233b35e4411f3a381f42772acc7725a96571
+Author: Thomas Steinke <exyphnos@gmail.com>
+Date:   Fri Jan 22 14:10:11 2016 -0800
+
+    Dungeon generates a specific number of rooms
+
+commit 1e4120880afaf8057d2dace0e3f055d7e4518051
+Author: mlinsenbard <mlinsenb@calpoly.edu>
+Date:   Fri Jan 22 13:59:52 2016 -0800
+
+    you can die now
+
+commit f59c1f5e5e5f28e9850afb132508f0946e7f500c
+Author: mlinsenbard <mlinsenb@calpoly.edu>
+Date:   Fri Jan 22 00:39:29 2016 -0800
+
+    adding death scene, will make new branch to work on enemy damage.
+
+commit 67f70f3ef06f9224a561749ff289eb45373a4477
+Author: Thomas Steinke <exyphnos@gmail.com>
+Date:   Fri Jan 22 00:28:19 2016 -0800
+
+    Removed useless dungeon file
+
+commit b0b4c0b4dfd60dd52471506f09e0dec99009f18f
+Author: Thomas Steinke <exyphnos@gmail.com>
+Date:   Fri Jan 22 00:26:51 2016 -0800
+
+    Dungeon generation with moving between rooms
+
+commit 3709debc43aeceb909b1a31945534d5e083379c3
+Merge: 1032abd 5f91d5f
+Author: Thomas Steinke <exyphnos@gmail.com>
+Date:   Thu Jan 21 23:06:32 2016 -0800
+
+    Merge pull request #14 from Epiphane/new_tiles
+    
+    New tileset!
+
+commit 1032abdda6f4f87f7f781c533d992aadf6e02d9c
+Merge: 31d4768 8145e69
+Author: mlinsenbard <m.linsenbard@gmail.com>
+Date:   Thu Jan 21 23:01:39 2016 -0800
+
+    Merge pull request #13 from Epiphane/elliot
+    
+    GANGSTA A STAR PATHFINDING
+
+commit 5f91d5f6ab4e2a1ccc37edcd2f51ac269a955da3
+Author: Thomas Steinke <exyphnos@gmail.com>
+Date:   Thu Jan 21 22:58:13 2016 -0800
+
+    New tileset
+
+commit 8145e693202ac83e910e69f10f608944c239ba85
+Merge: 8f2595d 31d4768
+Author: elliotfiske <elliotfiske@gmail.com>
+Date:   Thu Jan 21 22:53:35 2016 -0800
+
+    MERGIN MERGE MERGE MEREG CONFLICTS LOLOLOLLOLOLOLOLOL
+
+commit 8f2595d5fb0b6f81c5e02c4b7996a007cf29fd0d
+Merge: 3dcff74 56630ce
+Author: elliotfiske <elliotfiske@gmail.com>
+Date:   Thu Jan 21 22:52:40 2016 -0800
+
+    A STAR PATH FINDARINO
+
+commit 31d47681459d7779b5d9344781002c44b28d3a07
+Merge: 9868675 47a48d7
+Author: Thomas Steinke <exyphnos@gmail.com>
+Date:   Thu Jan 21 22:48:42 2016 -0800
+
+    Merge pull request #12 from Epiphane/max
+    
+    EventManager basic implementation
+
+commit 47a48d7b60b81d88cf03f449ff06e15a6cb09b99
+Author: mlinsenbard <mlinsenb@calpoly.edu>
+Date:   Thu Jan 21 22:42:53 2016 -0800
+
+    changed construction of event_manager, added init to main
+
+commit 55a6acc7853590c9074e45abf6281f5c29357b2e
+Author: mlinsenbard <m.linsenbard@gmail.com>
+Date:   Thu Jan 21 22:19:04 2016 -0800
+
+    Removed unnecessary logs and added logCustom method. Good for pr
+
+commit f121b51e9571afb87ec8ae6983841135412944d9
+Author: mlinsenbard <m.linsenbard@gmail.com>
+Date:   Thu Jan 21 21:35:43 2016 -0800
+
+    Event logging now works.
+
+commit f558f7910dddb86b459150fbc7ac31e0ecb3d827
+Author: mlinsenbard <m.linsenbard@gmail.com>
+Date:   Thu Jan 21 20:32:58 2016 -0800
+
+    initial commit, event manager is kinda there, but some weird stuff is happening
+
+commit 3dcff746784cd9df6245454ebe9b0cc8ef14c7e4
+Author: elliotfiske <elliotfiske@gmail.com>
+Date:   Thu Jan 21 18:34:23 2016 -0800
+
+    A STAR PATHFINDING DONE
+
+commit 98686755ec44aa78b5787411ece23eb917f8540c
+Merge: a88c15e 56630ce
+Author: Thomas Steinke <exyphnos@gmail.com>
+Date:   Thu Jan 21 17:37:48 2016 -0800
+
+    Merge pull request #11 from Epiphane/thomas
+    
+    Enemies fight back
+
+commit 56630ce433b776583ad1e6e93477a30ec8263eb6
+Author: Thomas Steinke <exyphnos@gmail.com>
+Date:   Thu Jan 21 17:37:10 2016 -0800
+
+    Enemies fight back
+
+commit 74a0b2ceb611b8a88a6c4b2ef5e5923221745042
+Merge: d1ac342 a88c15e
+Author: elliotfiske <elliotfiske@gmail.com>
+Date:   Thu Jan 21 17:08:05 2016 -0800
+
+    Merge branch 'master' of https://github.com/Epiphane/SeniorProject into elliot
+
+commit d1ac342caa2dacc70bca8f3c8f64421f2df9ab99
+Author: elliotfiske <elliotfiske@gmail.com>
+Date:   Thu Jan 21 17:07:59 2016 -0800
+
+    A star underway
+
+commit a88c15e484a3e9f36cb4ce1f0287d53bc381f205
+Author: Thomas Steinke <exyphnos@gmail.com>
+Date:   Thu Jan 21 15:22:14 2016 -0800
+
+    Firefox audio support
+
+commit 7ff4b78dc650f069b86dd55288ddd675e1fe8445
+Author: Thomas Steinke <exyphnos@gmail.com>
+Date:   Thu Jan 21 14:45:14 2016 -0800
+
+    mp3 files and fixed enchant js
+
+commit 9a9307c7a73ba1efd617cdee918259d4b66bfe39
+Merge: 8a79a55 ebe8790
+Author: Thomas Steinke <exyphnos@gmail.com>
+Date:   Thu Jan 21 13:57:23 2016 -0800
+
+    Merge pull request #10 from Epiphane/thomas
+    
+    Combat!
+
+commit ebe87901529b6b5157440d7af929e20f32246710
+Author: Thomas Steinke <exyphnos@gmail.com>
+Date:   Thu Jan 21 13:56:03 2016 -0800
+
+    Took out chance and added conversions
+
+commit 9c46940aa6e3a52cf76426a6de4219f7b325f50a
+Merge: 73f306e 8c5d1f1
+Author: Thomas Steinke <exyphnos@gmail.com>
+Date:   Thu Jan 21 13:04:24 2016 -0800
+
+    Merge branch 'elliot' into thomas
+
+commit 73f306e1723ae35051f4bd5bf644300f7f388ea1
+Author: Thomas Steinke <exyphnos@gmail.com>
+Date:   Thu Jan 21 13:03:17 2016 -0800
+
+    Kill the enemies
+
+commit 9a2bf29f10529bbe03b559e70118945ebea329ab
+Author: Thomas Steinke <exyphnos@gmail.com>
+Date:   Thu Jan 21 12:46:25 2016 -0800
+
+    Attack animation
+
+commit 8a79a55b9fc3d1314ede1a22d1bdab64e56ffe74
+Merge: ccccb1a 0ba0d56
+Author: Thomas Steinke <exyphnos@gmail.com>
+Date:   Thu Jan 21 09:30:05 2016 -0800
+
+    Merge pull request #9 from Epiphane/thomas
+    
+    Item pick ups
+
+commit 8c5d1f16894e51f5acc209f2c8327933076f000b
+Author: elliotfiske <elliotfiske@gmail.com>
+Date:   Wed Jan 20 23:59:56 2016 -0800
+
+    Added simple enemy pathfinding
+
+commit 0ba0d565b13b010ae7be6cc74850aa17f5f7efb2
+Author: Thomas Steinke <exyphnos@gmail.com>
+Date:   Wed Jan 20 14:35:14 2016 -0800
+
+    You can pick up items
+
+commit ccccb1a1e3ad55477a3b69fd8a1ce2aefcfc8198
+Merge: f37b8ea 8a2993e
+Author: Thomas Steinke <exyphnos@gmail.com>
+Date:   Wed Jan 20 13:48:23 2016 -0800
+
+    Merge pull request #8 from Epiphane/max_maps
+    
+    Basic map generation
+
+commit 8a2993e6ab3d90c5e6be66f4a0112bb5382905a5
+Author: mlinsenbard <mlinsenb@calpoly.edu>
+Date:   Wed Jan 20 13:31:09 2016 -0800
+
+    basic map generation is in
+
+commit b26d26defc2dce3423ebea088c9e2216f7c76e3b
+Merge: 37b6cc6 f37b8ea
+Author: mlinsenbard <mlinsenb@calpoly.edu>
+Date:   Wed Jan 20 12:50:57 2016 -0800
+
+    merged master, integrated chance
+
+commit 37b6cc6b977e8981ff3b4126da468a87a8e3d957
+Author: mlinsenbard <mlinsenb@calpoly.edu>
+Date:   Wed Jan 20 12:42:29 2016 -0800
+
+    commit before merge with master
+
+commit 456017df11edf155dba21c80f529522fd88bf063
+Merge: 1b3bf5e 6754cb1
+Author: mlinsenbard <mlinsenb@calpoly.edu>
+Date:   Wed Jan 20 01:11:23 2016 -0800
+
+    solved merge conflict, why there was one on my branch I dont know but... here we are
+
+commit 1b3bf5e1d1ff682a0a9ff8e47c9761f8b5a0a13a
+Author: mlinsenbard <mlinsenb@calpoly.edu>
+Date:   Wed Jan 20 01:05:13 2016 -0800
+
+    Committing before I checkout master to check something, no real content in this commit
+
+commit f37b8ea484614d2610bfdae07f47cf641880752d
+Merge: 9bbbc90 7597db7
+Author: Thomas Steinke <exyphnos@gmail.com>
+Date:   Tue Jan 19 18:41:41 2016 -0800
+
+    Merge pull request #7 from Epiphane/thomas
+    
+    Basic collision avoidance
+
+commit 7597db7aa0730c425ed8e6414ba350f8db47345f
+Author: Thomas Steinke <exyphnos@gmail.com>
+Date:   Tue Jan 19 18:41:19 2016 -0800
+
+    Basic collision avoidance
+
+commit 9bbbc90f55fb276783c6ee700570e11909f203fb
+Merge: e6422aa 2f1e2bb
+Author: Thomas Steinke <exyphnos@gmail.com>
+Date:   Tue Jan 19 18:11:48 2016 -0800
+
+    Merge pull request #6 from Epiphane/thomas
+    
+    Enemys are classes
+
+commit 2f1e2bb0095feb2ec5a4e1cf6465e258e0d21de4
+Author: Thomas Steinke <exyphnos@gmail.com>
+Date:   Tue Jan 19 18:10:35 2016 -0800
+
+    Player animation directions
+
+commit e6422aadced12214a9da6d3a50ba48db39c2627b
+Author: Thomas Steinke <exyphnos@gmail.com>
+Date:   Tue Jan 19 17:48:50 2016 -0800
+
+    Feeeeeeel
+
+commit 34265e126e522dd241448c30e8932a7b5bcd9b75
+Merge: b70111e 6ca72c8
+Author: elliotfiske <elliotfiske@gmail.com>
+Date:   Tue Jan 19 16:26:05 2016 -0800
+
+    Merge branch 'master' of https://github.com/Epiphane/SeniorProject into elliot
+
+commit b70111e93cd3ae5ba959f8447e1e99d9d302e667
+Author: elliotfiske <elliotfiske@gmail.com>
+Date:   Tue Jan 19 16:03:08 2016 -0800
+
+    Enemies move around and have feelings
+
+commit 6ca72c8df805b847a75051d8b078590d34ed1045
+Author: Thomas Steinke <exyphnos@gmail.com>
+Date:   Tue Jan 19 15:44:59 2016 -0800
+
+    Added HUD sprite constant
+
+commit 0134fa0a2b169c51b177d48b43b9b95e352bebcc
+Merge: e21217b 80df893
+Author: Thomas Steinke <exyphnos@gmail.com>
+Date:   Tue Jan 19 15:27:10 2016 -0800
+
+    Merge branch 'master' into thomas
+
+commit 80df893565b520eebefe89d9b021d406ea9e1266
+Merge: f5bfad0 8cb9f95
+Author: Thomas Steinke <exyphnos@gmail.com>
+Date:   Tue Jan 19 15:26:00 2016 -0800
+
+    Merge pull request #4 from Epiphane/elliot
+    
+    Elliot says: DIE.
+
+commit e21217b40c7625868855f5c0618d2641904d049e
+Author: Thomas Steinke <exyphnos@gmail.com>
+Date:   Tue Jan 19 15:25:34 2016 -0800
+
+    Hearts reflect the player's health
+
+commit 8cb9f95552acdf37f1fd9509067ca86a468e5489
+Merge: 804b3b3 f5bfad0
+Author: elliotfiske <elliotfiske@gmail.com>
+Date:   Tue Jan 19 15:08:46 2016 -0800
+
+    Merge branch 'master' of https://github.com/Epiphane/SeniorProject into elliot
+    
+     Conflicts:
+    	classes/player.js
+    index.html
+    	scenes/game.js
+
+commit 804b3b37f45883d8dd3115301d5bda964e1bd302
+Author: elliotfiske <elliotfiske@gmail.com>
+Date:   Tue Jan 19 15:06:42 2016 -0800
+
+    Added moving character
+
+commit f5bfad06d7d7a474cdaf981118dec9df9a05147f
+Merge: 749d8d5 c4c611b
+Author: Thomas Steinke <exyphnos@gmail.com>
+Date:   Tue Jan 19 15:05:02 2016 -0800
+
+    Merge pull request #3 from Epiphane/thomas
+    
+    Basic (static) HUD
+
+commit c4c611bfc19d056fd2663c922d28039ffda19a3e
+Author: Thomas Steinke <exyphnos@gmail.com>
+Date:   Tue Jan 19 14:59:09 2016 -0800
+
+    Switching to map mode
+
+commit 5efc00ff1c7e371b9092733376b2b1200bbd64d9
+Author: Thomas Steinke <exyphnos@gmail.com>
+Date:   Tue Jan 19 14:41:01 2016 -0800
+
+    Empty item image
+
+commit f68ec470383f5f5661f18cf48e5bbefd776caa65
+Author: Thomas Steinke <exyphnos@gmail.com>
+Date:   Tue Jan 19 14:29:15 2016 -0800
+
+    Basic (static) HUD
+
+commit 749d8d5c6d695bf863858e50573aa4761f4f28a0
+Author: Thomas Steinke <exyphnos@gmail.com>
+Date:   Tue Jan 19 14:59:48 2016 -0800
+
+    New tileset
+
+commit ecd84acf08c2e38b1d17ecbc2dca32e4bfc24c65
+Author: elliotfiske <elliotfiske@gmail.com>
+Date:   Tue Jan 19 14:47:03 2016 -0800
+
+    Player now works split into moving_sprite and player and enemy
+
+commit 482b34412d6d1e4f9f47911309d857a598d173c6
+Author: mlinsenbard <mlinsenb@calpoly.edu>
+Date:   Tue Jan 19 14:31:19 2016 -0800
+
+    added constants, working on genroom method
+
+commit 90bc31df28b1b0b45f717dbf819ba43e210219cc
+Author: mlinsenbard <mlinsenb@calpoly.edu>
+Date:   Tue Jan 19 13:04:54 2016 -0800
+
+    initial commit, roomgenerator.js class added
+
+commit 6754cb1958663dfdad7d4ab0f965bcd28861a144
+Author: mlinsenbard <mlinsenb@calpoly.edu>
+Date:   Tue Jan 19 14:31:19 2016 -0800
+
+    added constants, working on genroom method
+
+commit e13eb7948571a6d636e718d2c9750bf242e62aff
+Merge: 2eb814f 442c674
+Author: elliotfiske <elliotfiske@gmail.com>
+Date:   Tue Jan 19 13:25:55 2016 -0800
+
+    Merge branch 'master' of https://github.com/Epiphane/SeniorProject into elliot
+    
+     Conflicts:
+    	scenes/game.js
+
+commit 2eb814fddb1662ad25b44e4479ba1c9d32a6ee7c
+Author: elliotfiske <elliotfiske@gmail.com>
+Date:   Tue Jan 19 13:25:30 2016 -0800
+
+    Basic enemy class
+
+commit 442c6742a907753c2ba4ddce67f337e980236955
+Author: Thomas Steinke <exyphnos@gmail.com>
+Date:   Tue Jan 19 13:12:20 2016 -0800
+
+    Max did this
+
+commit af2382d75d39c4b33a94b013ab9cc4141577a2c4
+Merge: f6c52b9 528ab68
+Author: Thomas Steinke <exyphnos@gmail.com>
+Date:   Tue Jan 19 13:08:44 2016 -0800
+
+    Merge pull request #2 from Epiphane/thomas
+    
+    Turn-based movements
+
+commit 528ab68ca3a02ef0fe4ca2e3533e0fd0f9a5645c
+Author: Thomas Steinke <exyphnos@gmail.com>
+Date:   Tue Jan 19 13:08:00 2016 -0800
+
+    Turn-based movements
+
+commit 60912bd4a0b4b745cd0c44b40f84ec4b1f7d1955
+Author: mlinsenbard <mlinsenb@calpoly.edu>
+Date:   Tue Jan 19 13:04:54 2016 -0800
+
+    initial commit, roomgenerator.js class added
+
+commit f6c52b984a92472f133fb8ff2b9dd3ed4ffd16c7
+Author: Thomas Steinke <exyphnos@gmail.com>
+Date:   Tue Jan 19 12:36:50 2016 -0800
+
+    Player move quicker
+
+commit 096272559c278801626f48385c8509ae834d9954
+Merge: d16c94f 1703925
+Author: Thomas Steinke <exyphnos@gmail.com>
+Date:   Tue Jan 19 12:00:33 2016 -0800
+
+    Merge branch 'thomas'
+
+commit 17039258fbb9498f05d28084bd3faa6f104bc0ee
+Author: Thomas Steinke <exyphnos@gmail.com>
+Date:   Tue Jan 19 12:00:27 2016 -0800
+
+    Added parse dependency
+
+commit d16c94fe5ef0aac3f74999e4b59acdf45a9f0927
+Author: mlinsenbard <mlinsenb@calpoly.edu>
+Date:   Thu Jan 14 12:01:34 2016 -0800
+
+    removed DS_Store and added a git ignore file
+
+commit d9c57998a9ceaa8230876d6ba10776814e35a088
+Merge: 9467c2c 08fe470
+Author: Thomas Steinke <exyphnos@gmail.com>
+Date:   Thu Jan 14 11:53:10 2016 -0800
+
+    Merge pull request #1 from Epiphane/thomas
+    
+    Thomas
+
+commit 08fe4704344397e8b482ad0b80aff959630c27cb
+Author: Thomas Steinke <exyphnos@gmail.com>
+Date:   Thu Jan 14 11:52:35 2016 -0800
+
+    Took out canWalk checkg
+
+commit 3a2a59d61933c1344001a9080565f19f401919b3
+Author: Thomas Steinke <exyphnos@gmail.com>
+Date:   Thu Jan 14 11:51:28 2016 -0800
+
+    Animation length constant
+
+commit 9467c2c65e452c37c1b3374ab8aa285cf2a4a43e
+Author: Thomas Steinke <exyphnos@gmail.com>
+Date:   Wed Jan 13 12:13:45 2016 -0800
+
+    I herd u liek frames
+
+commit 78a4bae80eb5e7e6793b9ecfd8713c907a56350e
+Author: Thomas Steinke <exyphnos@gmail.com>
+Date:   Wed Jan 13 12:07:31 2016 -0800
+
+    Big ol' room
+
+commit a2b4ae672519b6e1757c850aaf6cdba2f8aa4977
+Author: Thomas Steinke <exyphnos@gmail.com>
+Date:   Tue Jan 12 13:39:12 2016 -0800
+
+    Class manager and player
+
+commit 5e5b35ead8ccbcb72a504a5a723d5f3cfea34ab4
+Author: Thomas Steinke <exyphnos@gmail.com>
+Date:   Tue Jan 12 13:13:57 2016 -0800
+
+    Fully functioning menu screens
+
+commit b7f3970044eba1140b152ce22dc542bed0531f5b
+Author: Thomas Steinke <exyphnos@gmail.com>
+Date:   Mon Jan 11 01:09:31 2016 -0800
+
+    Yay only 640 lines in main!
+
+commit 6fc07732a118b1ed7d7c3df0fd9863eb3ee8647d
+Author: Thomas Steinke <exyphnos@gmail.com>
+Date:   Mon Jan 11 01:09:02 2016 -0800
+
+    Working menu
+
+commit 1f7660079aaa3d4b415aa489fc8123eb802d6524
+Author: Thomas Steinke <exyphnos@gmail.com>
+Date:   Sun Jan 10 23:19:21 2016 -0800
+
+    it "works"
+
+commit 063158cc9973d973ad85db01b960258423144ebb
+Author: Thomas Steinke <exyphnos@gmail.com>
+Date:   Sun Jan 10 22:47:34 2016 -0800
+
+    Inital Committer
