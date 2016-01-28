@@ -108,7 +108,8 @@
       "select2.wav",
       "dungeon.mp3",
       "gameover.mp3",
-      "menu.mp3"
+      "menu.mp3",
+      "powerup.mp3"
    ];
    Constants.preloadAssets = function(game) {
       var assets = [];
