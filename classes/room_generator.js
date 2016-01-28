@@ -9,10 +9,17 @@
    // Populated later on down...
    var wallTiles = {};
 
-   var defaults = {};
+   var defaults = {
+      height: C.MAP_HEIGHT - 4,
+      width: C.MAP_WIDTH - 4,
+   };
    window.RoomGenerator = Class.create(Object, {
       createRoom: function(params) {
-         return this.fillRoom(new Classes['Room'](), params);
+         return this.fillRoom(this.createEmptyRoom(), params);
+      },
+
+      createEmptyRoom: function() {
+         return new Classes['Room'](defaults.width, defaults.height);
       },
 
       /**
@@ -114,26 +121,26 @@
          background = this.createFloor(params);
 
          // Add exits
-         if (room.neighbors[C.P_DIR.LEFT]) {
+         if (room.neighbors[C.P_DIR.LEFT] !== false) {
             this.setTile(background, params.LEFT    , 0, C.BG_TILES.floor);
             this.setTile(background, params.LEFT - 1,-1, C.BG_TILES.floor_blocked);
             this.setTile(background, params.LEFT - 1, 0, C.BG_TILES.floor);
             this.setTile(background, params.LEFT - 1, 1, C.BG_TILES.floor_blocked);
          }
-         if (room.neighbors[C.P_DIR.RIGHT]) {
+         if (room.neighbors[C.P_DIR.RIGHT] !== false) {
             this.setTile(background, params.RGHT    , 0, C.BG_TILES.floor);
             this.setTile(background, params.RGHT + 1,-1, C.BG_TILES.floor_blocked);
             this.setTile(background, params.RGHT + 1, 0, C.BG_TILES.floor);
             this.setTile(background, params.RGHT + 1, 1, C.BG_TILES.floor_blocked);
          }
-         if (room.neighbors[C.P_DIR.UP]) {
+         if (room.neighbors[C.P_DIR.UP] !== false) {
             this.setTile(background,  0, params.TOP,     C.BG_TILES.floor);
             this.setTile(background,  0, params.TOP + 1, C.BG_TILES.floor);
             this.setTile(background, -1, params.TOP - 1, C.BG_TILES.floor_blocked);
             this.setTile(background,  0, params.TOP - 1, C.BG_TILES.floor);
             this.setTile(background,  1, params.TOP - 1, C.BG_TILES.floor_blocked);
          }
-         if (room.neighbors[C.P_DIR.DOWN]) {
+         if (room.neighbors[C.P_DIR.DOWN] !== false) {
             this.setTile(background,  0, params.BOT,     C.BG_TILES.floor);
             this.setTile(background, -1, params.BOT + 1, C.BG_TILES.floor_blocked);
             this.setTile(background,  0, params.BOT + 1, C.BG_TILES.floor);
