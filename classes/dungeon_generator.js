@@ -97,8 +97,7 @@ ClassManager.create('DungeonGenerator', function(game) {
          for (var dir = 0; dir < 4; dir ++) {
             // There is a numExits / (dir + 1) chance we add a new exit here
             // This makes it equal e.g. 1/4, 1/3, 1/2, 1/1 chances stack up
-            console.log('num exits', numExits, dir, 'likelihood', 100 * numExits / (4 - dir));
-            if (chance.bool({ likelihood: 100 * numExits / (4 - dir) }) && direction !== dir) {
+            if (chance.bool({ likelihood: Math.min(100 * numExits / (4 - dir), 100) }) && direction !== dir) {
                numExits --;
 
                // Decide what type of room our neighbor is
