@@ -10,6 +10,8 @@ ClassManager.create('Room', function(game) {
       initialize: function(width, height) {
          Group.call(this);
 
+         this.roomType = C.ROOM_TYPES.random;
+
          this.map = new Map(C.TILE_SIZE, C.TILE_SIZE);
          this.map.image = game.assets["assets/images/map2.png"];
 
@@ -34,6 +36,32 @@ ClassManager.create('Room', function(game) {
          this.characters = [];
 
          this.neighbors = [false, false, false, false];
+      
+         // Player activity statistics
+         this.timesVisited = 0;
+         this.actionsTaken = 0;
+         this.genocide = false;
+      },
+
+      onEnter: function() {
+         this.timesVisited ++;
+
+         // TODO: Should this stay at the existing value?
+         this.actionsTaken = 0;
+
+         EM.log(game, 'dungeon', 'visit', {
+            value: this.timesVisited
+            roomType: this.type,
+            isEmpty: this.items.length === 0 && this.characters.length === 0
+         });
+      },
+
+      onExit: function() {
+         EM.log(game, 'duration', 'actionsTakenInRoom', {
+            value: this.actionsTaken,
+            roomType: this.type,
+            genocide: this.genocide
+         });
       },
 
       getNeighbor: function(direction) {
@@ -169,6 +197,8 @@ ClassManager.create('Room', function(game) {
       },
 
       action: function() {
+         this.actionsTaken ++;
+
          for (var i = this.characters.length - 1; i >= 0; i--) {
             var character = this.characters[i];
 
@@ -176,6 +206,12 @@ ClassManager.create('Room', function(game) {
                EM.log(game, "combat", "murder", character.sprite);
                this.characters.splice(i, 1);
                this.removeChild(character);
+
+               // TODO: We should see if the player has killed all non-violent
+               // characters, not just all characters
+               if (this.characters.length === 0) {
+                  this.genocide = true;
+               }
             }
             else {
                character.doAI();
