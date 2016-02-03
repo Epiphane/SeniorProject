@@ -50,7 +50,7 @@ ClassManager.create('Room', function(game) {
          this.actionsTaken = 0;
 
          EM.log(game, 'dungeon', 'visit', {
-            value: this.timesVisited
+            value: this.timesVisited,
             roomType: this.type,
             isEmpty: this.items.length === 0 && this.characters.length === 0
          });
