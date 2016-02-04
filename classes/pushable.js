@@ -6,5 +6,3 @@ ClassManager.create('Pushable', function(game) {
 		},
  	});
 });
-
-life is pain
