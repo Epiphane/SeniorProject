@@ -54,8 +54,6 @@ ClassManager.create('Room', function(game) {
             roomType: this.type,
             genocide: this.parseObj.get('genocide')
          });
-
-         this.parseObj.save(null);
       },
 
       getNeighbor: function(direction) {
@@ -199,7 +197,6 @@ ClassManager.create('Room', function(game) {
             var character = this.characters[i];
 
             if (character.isDead()) {
-               EM.log("combat", "murder", character.sprite);
                this.characters.splice(i, 1);
                this.removeChild(character);
 
@@ -208,6 +205,9 @@ ClassManager.create('Room', function(game) {
                if (this.characters.length === 0) {
                   this.parseObj.set('genocide', true);
                }
+
+               // Log the murder
+               EM.log("combat", "murder", character.sprite);
             }
             else {
                character.doAI();

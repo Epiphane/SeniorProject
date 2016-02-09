@@ -71,11 +71,11 @@ EM.init = function(game) {
          details: details
       };
 
-      if (game.currentScene instanceof Scenes['Game']) {
+      if (game.currentScene.currentRoom) {
          params.room = game.currentScene.currentRoom.parseObj;
-      }
 
-      console.log(params);
+         params.room.save(null);
+      }
 
       if (EM.events[eventType] !== undefined) {
 
