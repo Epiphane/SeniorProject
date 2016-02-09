@@ -81,6 +81,7 @@ ClassManager.create('DungeonGenerator', function(game) {
          }
 
          var nextRoom = generator.createEmptyRoom();
+         nextRoom.type = roomType;
 
          if (from) {
             // Place an exit to our source room

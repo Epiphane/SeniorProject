@@ -14,6 +14,8 @@ EM.init = function(game) {
 					// EX: health loss, atk up, def down, etc.
 		'duration', // For events relating to time spent on something
 					// EX: time to "complete" room (puzzle, killing, enemies)
+		'dungeon', // For events relating to the dungeon itself
+					// EX: how many times the player visits a room, BFS/DFS exploring
 		'movement', // For events relating to movement of player
 					// EX: movement speed (avg. spaces moved per min?)
 		'items',	// For events relating to using*/picking up/dropping items
@@ -91,7 +93,7 @@ EM.init = function(game) {
 
 		if (EM.events[newKey] !== undefined) {
 			EM.log(game, newKey, subcategory, value);
-			console.log("newKey already existed, calling console.log(...)");
+			console.log("newKey already existed, calling EM.log(...)");
 		}
 		else {
 			EM.events[newKey] = new Object();
