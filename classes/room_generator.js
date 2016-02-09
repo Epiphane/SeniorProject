@@ -18,8 +18,8 @@
          return this.fillRoom(this.createEmptyRoom(), params);
       },
 
-      createEmptyRoom: function() {
-         return new Classes['Room'](defaults.width, defaults.height);
+      createEmptyRoom: function(parseObj) {
+         return new Classes['Room'](parseObj);
       },
 
       /**
