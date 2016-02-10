@@ -81,7 +81,7 @@
          Game.player.action(dir_x, dir_y, Game, Game.currentRoom);
          Game.currentRoom.action();
 
-         actionCooldown = 0.3;
+         actionCooldown = 0.1;
 
          if (Game.player.isDead()) {
             game.popScene();

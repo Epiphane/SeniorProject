@@ -36,21 +36,21 @@
 
          function tileFor(x, y) {
             var wallTileScore = 0;
-            if (!isWalkable(x - 1, y + 0)) wallTileScore += 1 << 0;
-            if (!isWalkable(x + 0, y + 0)) wallTileScore += 1 << 1;
-            if (!isWalkable(x + 1, y + 0)) wallTileScore += 1 << 2;
-            if (!isWalkable(x - 1, y + 1)) wallTileScore += 1 << 3;
-            if (!isWalkable(x + 0, y + 1)) wallTileScore += 1 << 4;
-            if (!isWalkable(x + 1, y + 1)) wallTileScore += 1 << 5;
-            if (!isWalkable(x - 1, y + 2)) wallTileScore += 1 << 6;
-            if (!isWalkable(x + 0, y + 2)) wallTileScore += 1 << 7;
-            if (!isWalkable(x + 1, y + 2)) wallTileScore += 1 << 8;
+            var shift = 0;
+            for (var j = -1; j <= 2; j ++) {
+               for (var i = -1; i <= 1; i ++) {
+                  if (!isWalkable(x + i, y + j)) wallTileScore += 1 << shift;
+                  shift ++;
+               }
+            }
 
             if (!wallTiles[wallTileScore] && floor[y][x] === C.BG_TILES.floor_blocked) {
+               shift = 0;
                console.log('Nothing found for this config:');
-               console.log((wallTileScore & 1) ? 1 : 0, (wallTileScore & 2) ? 1 : 0, (wallTileScore & 4) ? 1 : 0)
-               console.log((wallTileScore & 8) ? 1 : 0, (wallTileScore & 16) ? 1 : 0, (wallTileScore & 32) ? 1 : 0)
-               console.log((wallTileScore & 64) ? 1 : 0, (wallTileScore & 128) ? 1 : 0, (wallTileScore & 256) ? 1 : 0)
+               console.log((wallTileScore & (1 << shift++)) ? 1 : 0, (wallTileScore & (i << shift++)) ? 1 : 0, (wallTileScore & (1 << shift++)) ? 1 : 0)
+               console.log((wallTileScore & (1 << shift++)) ? 1 : 0, (wallTileScore & (i << shift++)) ? 1 : 0, (wallTileScore & (1 << shift++)) ? 1 : 0)
+               console.log((wallTileScore & (1 << shift++)) ? 1 : 0, (wallTileScore & (i << shift++)) ? 1 : 0, (wallTileScore & (1 << shift++)) ? 1 : 0)
+               console.log((wallTileScore & (1 << shift++)) ? 1 : 0, (wallTileScore & (i << shift++)) ? 1 : 0, (wallTileScore & (1 << shift++)) ? 1 : 0)
             }
 
             return wallTiles[wallTileScore] || C.FG_TILES.empty;
@@ -180,11 +180,6 @@
 
       populateRoom: function(room) {
          // Add enemies and items to room
-         this.addCharacter(room, new Classes.Slime(), 2, 3);
-         this.addCharacter(room, new Classes.Bat(), 1, 2);
-
-         this.addItem(room, new Classes.Sword(), -2, -3);
-         this.addItem(room, new Classes.Potion(), -2, 2);
       }
    });
 
@@ -199,7 +194,7 @@
    function registerWallTile(tile, config) {
       var wallTileScore = 0;
       var variants = [];
-      for (var i = 0; i < 9; i ++) {
+      for (var i = 0; i < config.length; i ++) {
          if (config[i] === 2) {
             wallTileScore += 1 << i;
          }
@@ -226,71 +221,85 @@
 
    var configs = {
       wall_face_right: [
+         1, 1, 1,
          2, 2, 0,
          1, 0, 1,
          1, 1, 1
       ],
       wall_face: [
+         1, 1, 1,
          2, 2, 2,
          1, 0, 1,
          1, 1, 1
       ],
       wall_face_left: [
+         1, 1, 1,
          0, 2, 2,
          0, 0, 1,
          1, 1, 1
       ],
       wall_face_end: [
+         1, 1, 1,
          0, 2, 0,
          1, 0, 1,
          1, 1, 1
       ],
       wall_top_horiz_left: [
+         1, 1, 1,
          0, 0, 1,
          0, 2, 2,
          0, 0, 1
       ],
       wall_top_horiz: [
+         1, 1, 1,
          1, 0, 1,
          2, 2, 2,
          1, 0, 1
       ],
       wall_top_horiz_right: [
+         1, 1, 1,
          1, 0, 0,
          2, 2, 0,
          1, 0, 0
       ],
       wall_top_vert_top: [
+         1, 1, 1,
          0, 0, 0,
          0, 2, 0,
          1, 2, 1
       ],
       wall_top_vert: [
+         1, 1, 1,
          1, 2, 1,
          1, 2, 1,
          1, 2, 1
       ],
       wall_top_vert_bottom: [
+         1, 1, 1,
          1, 2, 1,
          1, 2, 1,
          0, 0, 0
       ],
       wall_top_top_left_corner: [
+         1, 1, 1,
          0, 0, 0,
          0, 2, 2,
          0, 2, 1
       ],
       wall_top_top_right_corner: [
+         1, 1, 1,
          0, 0, 0,
          2, 2, 0,
          1, 2, 0
       ],
       wall_top_bottom_left_corner: [
+         1, 1, 1,
          0, 2, 1,
          0, 2, 2,
          0, 0, 0
       ],
       wall_top_bottom_right_corner: [
+         1, 1, 1,
          1, 2, 0,
          2, 2, 0,
          0, 0, 0

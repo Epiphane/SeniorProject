@@ -13,7 +13,7 @@
    Constants.TILE_SIZE = 32;
 
    Constants.ROOM_TYPES = Enum([
-      'random', 'store', 'treasure', 'enemy', 'npc', 'boss'
+      'random', 'store', 'treasure', 'combat', 'npc', 'boss'
    ]);
 
    var spriteToTile = function(row, col) {
