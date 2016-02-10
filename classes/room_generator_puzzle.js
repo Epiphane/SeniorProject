@@ -8,7 +8,9 @@
       populateRoom: function(room) {
          // Add boulders and switches to the room
          this.addCharacter(room, new Classes.Slime(), 2, 3);
-         room.addItemAt(new Classes.Pushable(), 4, 4);
+         this.addItem(room, new Classes.Pushable(), -3, -3);
+
+         this.addItem(room, new Classes.Sword(), -2, -3);
       }
    });
 })(window);

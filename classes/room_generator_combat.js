@@ -5,6 +5,17 @@
    var defaults = {};
 
    window.CombatRoomGenerator = Class.create(RoomGenerator, {
+      createFloor: function(params) {
+         var background = RoomGenerator.prototype.createFloor.apply(this, arguments);
+
+         for (var y = -params.height_2 + 4; y < params.height_2 - 4; y ++) {
+            this.setTile(background, 0, y, C.BG_TILES.floor_blocked);
+            this.setTile(background,-1, y, C.BG_TILES.floor_blocked);
+         }
+
+         return background;
+      },
+
       populateRoom: function(room) {
          // Add enemies and items to room
          this.addCharacter(room, new Classes.Slime(), 2, 3);

@@ -55,3 +55,11 @@ ClassManager.create('Slime', function(game) {
       walkEndFrame:   5
    });
 });
+
+ClassManager.create('Boss', function(game) {
+   return Class.create(Classes['Enemy'], {
+      sprite: "boss1.png",
+      walkStartFrame: 3,
+      walkEndFrame:   5
+   });
+});
