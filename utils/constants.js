@@ -99,27 +99,12 @@
       "monster2poison.gif",
       "dialogue.png"
    ];
-
-   var sounds = [
-      "sword_swing.wav",
-      "grunt.wav",
-      "swap.wav",
-      "shatter.wav",
-      "select1.wav",
-      "select2.wav",
-      "dungeon.mp3",
-      "gameover.mp3",
-      "menu.mp3",
-      "powerup.mp3"
-   ];
+   
    Constants.preloadAssets = function(game) {
       var assets = [];
       // Collect all assets into one array
       images.forEach(function(filename) {
          assets.push('assets/images/' + filename);
-      });
-      sounds.forEach(function(filename) {
-         assets.push('assets/sounds/' + filename);
       });
 
       // Call game.preload with a variable number of arguments

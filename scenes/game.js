@@ -8,7 +8,7 @@
       Game.backgroundColor = "black";
       // Really don't know why clone is needed
       // but the game flips out without it
-      Game.bgm = game.assets["assets/sounds/dungeon.mp3"].clone();
+      Game.bgm = new buzz.sound("assets/sounds/dungeon.mp3", {loop:true});
 
       Game.moveRooms = function(dir) {
          Game.setRoom(Game.currentRoom.getNeighbor(dir));

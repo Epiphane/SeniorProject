@@ -8,7 +8,7 @@
 Scenes.Title = Singletonify(function(game) {
    var Title = new Scene();
    Title.backgroundColor = 'black';
-   Title.bgm = game.assets["assets/sounds/menu.mp3"].clone();
+   Title.bgm = new buzz.sound("assets/sounds/menu.mp3", {loop:true});
 
    // Main Menu Labels
    var title        = Utils.createLabel('PEARL OF THE WORLD', 0, 150, { font: '32px sans-serif', align: 'center' });
@@ -49,7 +49,7 @@ Scenes.Title = Singletonify(function(game) {
          moveCursor(game.input.up ? -1 : 1);
 
          // Play annoying sound
-         newSound = game.assets['assets/sounds/select1.wav'].clone();
+         newSound = new buzz.sound('assets/sounds/select1.wav');
          newSound.play();
       }
       else if (game.input.select) {
