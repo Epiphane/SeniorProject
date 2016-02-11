@@ -43,8 +43,17 @@ ClassManager.create('DungeonGenerator', function(game) {
        */
       nextRoom: function(from, direction) {
          var generator = new RoomGenerator();
-         var roomType = C.ROOM_TYPES.random;
-         if (from) roomType = from.neighbors[direction];
+         
+         var parseObj = null;
+         if (from) {
+            parseObj = from.neighbors[direction];
+         }
+         else {
+            parseObj = new ParseRoom({
+               type: C.ROOM_TYPES.random
+            });
+         }
+         var roomType = parseObj.type;
 
          var numExitBounds = { min: 1, max: 4 };
          // Make sure we don't add too many rooms!
@@ -80,7 +89,8 @@ ClassManager.create('DungeonGenerator', function(game) {
                break;
          }
 
-         var nextRoom = generator.createEmptyRoom();
+         var nextRoom = generator.createEmptyRoom(parseObj);
+         nextRoom.type = roomType;
 
          if (from) {
             // Place an exit to our source room
@@ -101,7 +111,10 @@ ClassManager.create('DungeonGenerator', function(game) {
                numExits --;
 
                // Decide what type of room our neighbor is
-               nextRoom.neighbors[dir] = this.nextRoomType(dir);
+               nextRoom.neighbors[dir] = new ParseRoom({
+                  type: this.nextRoomType(dir)
+               });
+               nextRoom.neighbors[dir].save();
             }
          }
 

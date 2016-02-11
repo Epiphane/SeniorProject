@@ -9,6 +9,20 @@
    }
 
    window.ParseEvent = Parse.Object.extend("Event");
+   window.ParseRoom = Parse.Object.extend("Room", {
+      defaults: {
+         timesVisited: 0,
+         actionsTaken: 0,
+         genocide: false,
+         height: C.MAP_HEIGHT - 4,
+         width: C.MAP_WIDTH - 4,
+      },
+      initialize: function(attrs, options) {
+         for (var key in this.defaults) {
+            attrs[key] = attrs[key] || this.defaults[key];
+         }
+      }
+   });
 
 })(window);
 

@@ -7,8 +7,12 @@
  */
 ClassManager.create('Room', function(game) {
    return Class.create(Group, {
-      initialize: function(width, height) {
+      initialize: function(parseObj) {
          Group.call(this);
+
+         this.parseObj = parseObj || {};
+
+         this.roomType = C.ROOM_TYPES.random;
 
          this.map = new Map(C.TILE_SIZE, C.TILE_SIZE);
          this.map.image = game.assets["assets/images/map2.png"];
@@ -16,8 +20,8 @@ ClassManager.create('Room', function(game) {
          this.floor = new Map(C.TILE_SIZE, C.TILE_SIZE);
          this.floor.image = game.assets["assets/images/map2.png"];
 
-         this.width  = width  || C.MAP_WIDTH;
-         this.height = height || C.MAP_HEIGHT;
+         this.width  = parseObj.get('width')  || C.MAP_WIDTH;
+         this.height = parseObj.get('height') || C.MAP_HEIGHT;
 
          this.left = Math.floor((C.MAP_WIDTH - this.width) / 2);
          this.right = this.left + this.width;
@@ -34,6 +38,22 @@ ClassManager.create('Room', function(game) {
          this.characters = [];
 
          this.neighbors = [false, false, false, false];
+      },
+
+      onEnter: function() {
+         this.parseObj.increment('timesVisited');
+
+         EM.log('dungeon', 'visit', this.parseObj.get('timesVisited'), {
+            roomType: this.type,
+            isEmpty: this.items.length === 0 && this.characters.length === 0
+         });
+      },
+
+      onExit: function() {
+         EM.log('duration', 'actionsTakenInRoom', this.parseObj.actionsTaken, {
+            roomType: this.type,
+            genocide: this.parseObj.get('genocide')
+         });
       },
 
       getNeighbor: function(direction) {
@@ -64,6 +84,8 @@ ClassManager.create('Room', function(game) {
       addCharacter: function(character) {
          this.characters.push(character);
          this.addToScene(character);
+
+         this.parseObj.set('genocide', false);
       },
 
       /**
@@ -169,13 +191,23 @@ ClassManager.create('Room', function(game) {
       },
 
       action: function() {
+         this.parseObj.increment('actionsTaken');
+
          for (var i = this.characters.length - 1; i >= 0; i--) {
             var character = this.characters[i];
 
             if (character.isDead()) {
-               EM.log(game, "combat", "murder", character.sprite);
                this.characters.splice(i, 1);
                this.removeChild(character);
+
+               // TODO: We should see if the player has killed all non-violent
+               // characters, not just all characters
+               if (this.characters.length === 0) {
+                  this.parseObj.set('genocide', true);
+               }
+
+               // Log the murder
+               EM.log("combat", "murder", character.sprite);
             }
             else {
                character.doAI();

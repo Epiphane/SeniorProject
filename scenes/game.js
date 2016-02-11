@@ -19,6 +19,7 @@
       Game.setRoom = function(room) {
          // Remove old room
          if (Game.currentRoom) {
+            Game.currentRoom.onExit();
             Game.currentRoom.removeChild(Game.player);
             Game.currentRoom.removeChild(Game.HUD);
             Game.removeChild(Game.currentRoom);
@@ -29,6 +30,7 @@
          Game.addChild(Game.currentRoom);
          Game.currentRoom.addToScene(Game.player);
          Game.currentRoom.addChild(Game.HUD);
+         Game.currentRoom.onEnter();
       };
 
       Game.player = new Classes.Player(Math.floor(C.MAP_WIDTH / 2), Math.floor(C.MAP_HEIGHT / 2));
