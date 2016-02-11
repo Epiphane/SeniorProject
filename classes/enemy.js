@@ -8,6 +8,7 @@ ClassManager.create('Enemy', function(game) {
    return Class.create(Classes['Character'], {
       sprite: '',
       initial_attack: 1,
+      initial_health: 10,
       attack_range: 1,
 
       initialize: function(x, y) {
@@ -44,7 +45,8 @@ ClassManager.create('Bat', function(game) {
       attack_range: 2,
       walkStartFrame: 3,
       walkEndFrame:   5,
-      initial_attack: 0.5,
+      initial_attack: 1,
+      initial_health: 5,
    });
 });
 
@@ -52,7 +54,26 @@ ClassManager.create('Slime', function(game) {
    return Class.create(Classes['Enemy'], {
       sprite: "monster1.gif",
       walkStartFrame: 3,
-      walkEndFrame:   5
+      walkEndFrame:   5,
+      initial_health: 15,
+
+      initialize: function() {
+         // Call super constructor
+         Classes.Enemy.prototype.initialize.apply(this, arguments);
+
+         this.waiting = chance.bool({ likelihood: 50 });
+      },
+
+      doAI: function() {
+         // move every other turn
+         if (this.waiting) {
+            this.waiting = false;
+            return;
+         }
+
+         this.waiting = true;
+         return Classes['Enemy'].prototype.doAI.apply(this, arguments);
+      }
    });
 });
 
