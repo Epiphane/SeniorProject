@@ -8,7 +8,7 @@
 Scenes.Death = Singletonify(function(game) {
    var Death = new Scene();
    Death.backgroundColor = "black";
-   Death.bgm = game.assets["assets/sounds/gameover.mp3"].clone();
+   Death.bgm = new buzz.sound("assets/sounds/gameover.mp3");
    Death.bgm.play();
    
    var labels = [

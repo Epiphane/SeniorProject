@@ -12,7 +12,8 @@ ClassManager.create('Player', function(game) {
       initialize: function(x, y) {
          Classes['Character'].call(this, x, y);
          this.image = game.assets["assets/images/player.png"];
-         this.attackSound = game.assets['assets/sounds/sword_swing.wav'].clone();
+         this.sfxAttack = new buzz.sound('assets/sounds/sword_swing.wav');
+         this.sfxPowerup = new buzz.sound('assets/sounds/powerup.mp3');
 
          this.attackCounter = 0;
          this.cooldown = 0;
@@ -78,7 +79,7 @@ ClassManager.create('Player', function(game) {
             var enemy = room.getCharacterAt(this.position.x + dx, this.position.y + dy);
 
             if (enemy instanceof Classes['Enemy']) {
-               this.attackSound.play();
+               this.sfxAttack.play();
                this.doAttack(enemy, dx, dy);
             }
          }
