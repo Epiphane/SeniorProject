@@ -31,8 +31,12 @@ ClassManager.create('DungeonGenerator', function(game) {
             }
          }
 
-         if (chance.bool({ likelihood: 50 })) {
+         if (chance.bool({ likelihood: 33 })) {
             return C.ROOM_TYPES.combat;
+         }
+
+         if (chance.bool({ likelihood: 50 })) {
+            return C.ROOM_TYPES.treasure;
          }
 
          return C.ROOM_TYPES.random;
@@ -77,6 +81,7 @@ ClassManager.create('DungeonGenerator', function(game) {
             case C.ROOM_TYPES.store:
                break;
             case C.ROOM_TYPES.treasure:
+               generator = new ItemRoomGenerator();
                break;
             case C.ROOM_TYPES.combat:
                generator = new CombatRoomGenerator();

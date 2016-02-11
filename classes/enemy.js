@@ -19,6 +19,10 @@ ClassManager.create('Enemy', function(game) {
       },
 
       doAI: function() {
+         return this.act();
+      },
+
+      act: function() {
          if (Utils.cellDistance(this.position, game.currentScene.player.position) <= this.attack_range) {
             // Monster is next door, do monster attack
             this.doAttack(game.currentScene.player);
@@ -35,14 +39,45 @@ ClassManager.create('Enemy', function(game) {
          else {
             console.warn("WEIRD: A* returned, null, is the player unreachable from the enemy? OH NO!");
          }
+
+         return true;
+      }
+   });
+});
+
+/**
+ * WaitingEnemy is a type of enemy that only takes action every, say, two turns
+ * That way the player can stagger actions to win fights more easily, but we can
+ * also punish the player more
+ */
+ClassManager.create('WaitingEnemy', function(game) {
+   return Class.create(Classes['Enemy'], {
+      cooldown: 1,
+
+      initialize: function() {
+         // Call super constructor
+         Classes.Enemy.prototype.initialize.apply(this, arguments);
+
+         this.waiting = chance.integer({ min: 0, max: this.cooldown });
       },
+
+      doAI: function() {
+         // move every "cooldown" turn
+         if (this.waiting > 0) {
+            this.waiting --;
+            return false;
+         }
+
+         this.waiting = this.cooldown;
+         return this.act.apply(this, arguments);
+      }
    });
 });
 
 ClassManager.create('Bat', function(game) {
    return Class.create(Classes['Enemy'], {
       sprite: "monster2.gif",
-      attack_range: 2,
+      // attack_range: 2,
       walkStartFrame: 3,
       walkEndFrame:   5,
       initial_attack: 1,
@@ -51,36 +86,20 @@ ClassManager.create('Bat', function(game) {
 });
 
 ClassManager.create('Slime', function(game) {
-   return Class.create(Classes['Enemy'], {
+   return Class.create(Classes['WaitingEnemy'], {
       sprite: "monster1.gif",
       walkStartFrame: 3,
       walkEndFrame:   5,
       initial_health: 15,
-
-      initialize: function() {
-         // Call super constructor
-         Classes.Enemy.prototype.initialize.apply(this, arguments);
-
-         this.waiting = chance.bool({ likelihood: 50 });
-      },
-
-      doAI: function() {
-         // move every other turn
-         if (this.waiting) {
-            this.waiting = false;
-            return;
-         }
-
-         this.waiting = true;
-         return Classes['Enemy'].prototype.doAI.apply(this, arguments);
-      }
    });
 });
 
 ClassManager.create('Boss', function(game) {
-   return Class.create(Classes['Enemy'], {
+   return Class.create(Classes['WaitingEnemy'], {
       sprite: "boss1.png",
       walkStartFrame: 3,
-      walkEndFrame:   5
+      walkEndFrame:   5,
+      initial_health: 40,
+      cooldown: 2
    });
 });
