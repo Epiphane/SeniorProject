@@ -6,10 +6,10 @@
    Scenes.Game = function(game) {
       var Game = new Scene();
       Game.backgroundColor = "black";
-      // Really don't know why clone is needed
-      // but the game flips out without it
       Game.bgm = new buzz.sound("assets/sounds/dungeon.mp3", {loop:true});
+      var muteTimer = 20;
 
+      // Not sure where else to put this
       Game.moveRooms = function(dir) {
          Game.setRoom(Game.currentRoom.getNeighbor(dir));
 
@@ -53,12 +53,6 @@
       }
 
       Game.onenterframe = function() {
-         // Enchant doesn't support looping... what garbage
-         // Have to loop bgm manually
-         if (Game.bgm.currentTime >= Game.bgm.duration ) {
-            Game.bgm.play();
-         }
-
          if (actionCooldown > 0) actionCooldown -= 1 / 60;
 
          if (!Game.waitingOnMovement()) {
@@ -75,6 +69,12 @@
                Game.action(0, 1);
             }
          }
+         if (game.input.mute && muteTimer<=0) {
+            buzz.all().toggleMute();
+            muteTimer = 20;
+         }
+         muteTimer = Math.max(muteTimer-1, 0);
+
       }
 
       Game.action = function(dir_x, dir_y) {

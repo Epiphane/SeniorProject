@@ -72,7 +72,7 @@
       // 76: 'attackRight',
       // 73: 'attackUp',
       // 75: 'attackDown',
-      // 77: 'swapItem',
+       77: 'mute',
       // 78: 'usePotion',
       32: 'select'
    };
@@ -97,7 +97,9 @@
       "monster2slow.gif",
       "monster1poison.gif",
       "monster2poison.gif",
-      "dialogue.png"
+      "dialogue.png",
+      "muted.png",
+      "unmuted.png"
    ];
    
    Constants.preloadAssets = function(game) {
