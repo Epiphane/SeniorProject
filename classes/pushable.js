@@ -1,12 +1,6 @@
 ClassManager.create('Pushable', function(game) {
    return Class.create(Classes.Item, {
-
-		itemName: 'sword',
+		itemName: 'shield_4',
 		className: 'Pushable',
-
-		// initialize: function(x, y) {
-		// 	Classes.Item.call(this, C.TILE_SIZE, C.TILE_SIZE);
-		// },
-
  	});
 });
