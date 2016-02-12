@@ -127,6 +127,9 @@ ClassManager.create('Room', function(game) {
          return x < this.left || x >= this.right || y < this.top || y >= this.bottom;
       },
 
+      /**
+       * General case. Checks if there's a wall or another character before we walk on a tile.
+       */
       isWalkable: function(x, y) {
          // TODO: Change this to !== when tiles is a 2D array for greater accuracy!
          if (this.tiles[y][x] != C.BG_TILES.floor && this.tiles[y][x] != C.BG_TILES.empty) {
@@ -135,6 +138,36 @@ ClassManager.create('Room', function(game) {
 
          if (this.getCharacterAt(x, y) !== null) {
             return false;
+         }
+
+         return true;
+      },
+
+      /**
+       * Monster case. We don't want them pushing around boulders, so we treat them as obstacles.
+       */
+      isMonsterWalkable: function(x, y) {
+         var initialResult = this.isWalkable(x, y);
+         if (!initialResult) return false;
+
+         var itemInSquare = this.getItemAt(x, y);
+         if (itemInSquare !== null && itemInSquare instanceof Classes.Pushable) {
+            return false;
+         }
+
+         return true;
+      },
+
+      /**
+       * Player movement case. If they move into a boulder, check that they can push it
+       */
+      isPlayerWalkable: function(x, y, dx, dy) {
+         var initialResult = this.isWalkable(x, y);
+         if (!initialResult) return false;
+
+         var itemInSquare = this.getItemAt(x, y);
+         if (itemInSquare !== null && itemInSquare instanceof Classes.Pushable) {
+            return itemInSquare
          }
 
          return true;

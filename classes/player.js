@@ -56,33 +56,21 @@ ClassManager.create('Player', function(game) {
             // Pick up items
             var item = room.getItemAt(this.position.x, this.position.y);
             if (item !== null) {
-               // TODO: abstract this out to a "pick-uppable" property rather than hard-codin'
-               if (item instanceof Classes['Pushable']) {
-                  // room.removeItemAt(this.position.x, this.position.y);
-                  // room.addItemAt(item, this.position.x + dx, this.position.y + dy);
-                  item.position.x += dx;
-                  item.position.y += dy;
-                  item.x = Utils.to.screen(item.position.x);
-                  item.y = Utils.to.screen(item.position.y);
-                  // TODO: can push boulders through walls lawl
-               }
-               else {
-                  // Grab item!
-                  room.removeItemAt(this.position.x, this.position.y);
+               // Grab item!
+               room.removeItemAt(this.position.x, this.position.y);
 
-                  if (item instanceof Classes['Weapon']) {
-                     // Swap out my weapon
-                     room.addItemAt(this.weapon, this.position.x, this.position.y);
-                     this.weapon = item;
-                  }
-                  else if (item instanceof Classes['Triggerable']) {
-                     item.act(this);
-                  }
-                  else if (item instanceof Classes['Armor']) {
-                     // Swap out my armor
-                     room.addItemAt(this.armor, this.position.x, this.position.y);
-                     this.armor = item;
-                  }
+               if (item instanceof Classes['Weapon']) {
+                  // Swap out my weapon
+                  room.addItemAt(this.weapon, this.position.x, this.position.y);
+                  this.weapon = item;
+               }
+               else if (item instanceof Classes['Triggerable']) {
+                  item.act(this);
+               }
+               else if (item instanceof Classes['Armor']) {
+                  // Swap out my armor
+                  room.addItemAt(this.armor, this.position.x, this.position.y);
+                  this.armor = item;
                }
             }
          }
