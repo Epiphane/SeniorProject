@@ -57,7 +57,13 @@ ClassManager.create('Player', function(game) {
             var item = room.getItemAt(this.position.x, this.position.y);
             if (item !== null) {
                // Grab item!
-               room.removeItemAt(this.position.x, this.position.y);
+               if (!item.fixedInPlace) {
+                  room.removeItemAt(this.position.x, this.position.y);
+               }
+               else {
+                  // TODO: debug remove
+                  console.log("That's fixed in place");
+               }
 
                if (item instanceof Classes['Weapon']) {
                   // Swap out my weapon

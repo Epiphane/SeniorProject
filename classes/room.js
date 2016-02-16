@@ -167,7 +167,7 @@ ClassManager.create('Room', function(game) {
 
          var itemInSquare = this.getItemAt(x, y);
          if (itemInSquare !== null && itemInSquare instanceof Classes.Pushable) {
-            return itemInSquare
+            return itemInSquare.canPushInDirection(dx, dy, this);
          }
 
          return true;
