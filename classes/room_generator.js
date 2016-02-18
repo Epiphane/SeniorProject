@@ -57,7 +57,7 @@
             }
 
             if (floor[y][x] === C.BG_TILES.floor_blocked) {
-               return C.FG_BLOCKS[chance.integer({ min: 0, max: C.FG_BLOCKS.length })];
+               return C.FG_BLOCKS[chance.integer({ min: 0, max: C.FG_BLOCKS.length - 1 })];
             }
 
             return C.FG_TILES.empty;
