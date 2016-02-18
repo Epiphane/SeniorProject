@@ -62,10 +62,8 @@
       'shield_7'
    ]);
 
-   Constants.GAME_WIDTH = 640;
-   Constants.GAME_HEIGHT = 640;
-   Constants.MAP_WIDTH = C.GAME_WIDTH / C.TILE_SIZE;
-   Constants.MAP_HEIGHT = C.GAME_HEIGHT / C.TILE_SIZE;
+   Constants.GAME_SIZE = 640;
+   Constants.MAP_SIZE = C.GAME_SIZE / C.TILE_SIZE;
 
    /* HUD constants */
    Constants.HEART_PADDING = 35;

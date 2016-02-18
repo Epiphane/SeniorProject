@@ -10,8 +10,8 @@
    var wallTiles = {};
 
    var defaults = {
-      height: C.MAP_HEIGHT - 4,
-      width: C.MAP_WIDTH - 4,
+      height: C.MAP_SIZE - 4,
+      width: C.MAP_SIZE - 4,
    };
    window.RoomGenerator = Class.create(Object, {
       createRoom: function(params) {
@@ -27,8 +27,8 @@
        */
       createWalls: function(floor) {
          var foreground = [];
-         for (var r = 0; r < C.MAP_HEIGHT; r ++)
-            foreground.push(new Array(C.MAP_WIDTH));
+         for (var r = 0; r < C.MAP_SIZE; r ++)
+            foreground.push(new Array(C.MAP_SIZE));
 
          function isWalkable(x, y) {
             return (floor[y] && floor[y][x] !== C.BG_TILES.wall);
@@ -64,8 +64,8 @@
          }
 
          // Compute tile types
-         for (var y = 0; y < C.MAP_HEIGHT; y ++) {
-            for (var x = 0; x < C.MAP_WIDTH; x ++) {
+         for (var y = 0; y < C.MAP_SIZE; y ++) {
+            for (var x = 0; x < C.MAP_SIZE; x ++) {
                foreground[y][x] = tileFor(x, y);
             }
          }
@@ -74,7 +74,7 @@
       },
 
       setTile: function(tiles, x, y, val) {
-         var center = { x: Math.floor(C.MAP_WIDTH / 2), y: Math.floor(C.MAP_HEIGHT / 2) };
+         var center = { x: Math.floor(C.MAP_SIZE / 2), y: Math.floor(C.MAP_SIZE / 2) };
 
          y += center.y;
          x += center.x;
@@ -87,10 +87,10 @@
          var background = [];
 
          // Generate basic room (go from -width/2 to width/2 to center it)
-         for (var r = -C.MAP_HEIGHT / 2; r < C.MAP_HEIGHT / 2; r++) {
+         for (var r = -C.MAP_SIZE / 2; r < C.MAP_SIZE / 2; r++) {
             var bg_row = [];
-            for (var c = -C.MAP_WIDTH / 2; c < C.MAP_WIDTH / 2; c ++) {
-               // Outside the room (only applies if params.width is less than MAP_WIDTH)
+            for (var c = -C.MAP_SIZE / 2; c < C.MAP_SIZE / 2; c ++) {
+               // Outside the room (only applies if params.width is less than MAP_SIZE)
                if (r < -params.height_2 || r >= params.height_2 || c < -params.width_2 || c >= params.width_2) {
                   bg_row.push(C.BG_TILES.empty);
                }
@@ -168,8 +168,8 @@
       },
 
       addCharacter: function(room, character, x, y) {
-         x += Math.floor(C.MAP_WIDTH / 2);
-         y += Math.floor(C.MAP_HEIGHT / 2);
+         // x += Math.floor(C.MAP_SIZE / 2);
+         // y += Math.floor(C.MAP_SIZE / 2);
 
          character.position.x = x;
          character.position.y = y;
@@ -179,8 +179,8 @@
       },
 
       addItem: function(room, item, x, y) {
-         x += Math.floor(C.MAP_WIDTH / 2);
-         y += Math.floor(C.MAP_HEIGHT / 2);
+         // x += Math.floor(C.MAP_SIZE / 2);
+         // y += Math.floor(C.MAP_SIZE / 2);
 
          room.addItemAt(item, x, y);
       },
