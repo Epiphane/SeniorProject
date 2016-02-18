@@ -11,7 +11,7 @@ ClassManager.create('NPC', function(game) {
 
       initialize: function(x, y) {
          Classes['Character'].call(this, x, y);
-         this.image = game.assets["assets/images/player.png"];
+         this.image = game.assets["assets/images/npc1.png"];
 
          this.attackCounter = 0;
          this.cooldown = 0;
