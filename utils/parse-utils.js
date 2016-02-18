@@ -14,8 +14,8 @@
          timesVisited: 0,
          actionsTaken: 0,
          genocide: false,
-         height: C.MAP_HEIGHT - 4,
-         width: C.MAP_WIDTH - 4,
+         height: C.MAP_HEIGHT - 8,
+         width: C.MAP_WIDTH - 6,
       },
       initialize: function(attrs, options) {
          for (var key in this.defaults) {

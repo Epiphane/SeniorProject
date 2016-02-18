@@ -13,7 +13,7 @@
    Constants.TILE_SIZE = 32;
 
    Constants.ROOM_TYPES = Enum([
-      'random', 'store', 'treasure', 'enemy', 'npc', 'boss'
+      'random', 'store', 'treasure', 'combat', 'npc', 'boss'
    ]);
 
    var spriteToTile = function(row, col) {
@@ -23,26 +23,36 @@
    Constants.BG_TILES = Enum({
       empty: -1,
       floor: spriteToTile(12, 18),
-      floor_blocked: spriteToTile(12, 16)
+      floor_blocked: spriteToTile(12, 16),
+      wall: spriteToTile(12, 17)
    });
 
    Constants.FG_TILES = Enum({
       empty: -1,
-      wall_face_left: spriteToTile(4, 8),
-      wall_face: spriteToTile(4, 9),
-      wall_face_right: spriteToTile(4, 10),
-      wall_face_end: spriteToTile(4, 11),
-      wall_top_horiz_left: spriteToTile(0, 9),
-      wall_top_horiz:      spriteToTile(0, 10),
-      wall_top_horiz_right:spriteToTile(0, 11),
-      wall_top_vert_top:   spriteToTile(0, 8),
-      wall_top_vert:       spriteToTile(1, 11),
-      wall_top_vert_bottom:spriteToTile(1, 8),
+      wall_face_left:               spriteToTile(4, 8),
+      wall_face:                    spriteToTile(4, 9),
+      wall_face_right:              spriteToTile(4, 10),
+      wall_face_end:                spriteToTile(4, 11),
+      wall_top_horiz_left:          spriteToTile(0, 9),
+      wall_top_horiz:               spriteToTile(0, 10),
+      wall_top_horiz_right:         spriteToTile(0, 11),
+      wall_top_vert_top:            spriteToTile(0, 8),
+      wall_top_vert:                spriteToTile(1, 11),
+      wall_top_vert_bottom:         spriteToTile(1, 8),
       wall_top_top_left_corner:     spriteToTile(0, 12),
       wall_top_top_right_corner:    spriteToTile(0, 13),
       wall_top_bottom_left_corner:  spriteToTile(1, 12),
       wall_top_bottom_right_corner: spriteToTile(1, 13),
    });
+
+   Constants.FG_BLOCKS = [
+      spriteToTile(5, 5),
+      spriteToTile(5, 6),
+      spriteToTile(5, 7),
+      spriteToTile(6, 5),
+      spriteToTile(6, 6),
+      spriteToTile(6, 7),
+   ];
 
    Constants.Items = Enum([
       'empty', 'potion', 'dagger', 'chest_closed', 'chest_open', 'key_normal',
