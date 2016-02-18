@@ -15,7 +15,7 @@ ClassManager.create('Enemy', function(game) {
          Classes.Character.call(this, x, y);
 
          this.image = game.assets["assets/images/" + this.sprite];
-         this.damagePlayerSound = game.assets['assets/sounds/grunt.wav'].clone();
+         this.sfxDamage = new buzz.sound('assets/sounds/grunt.wav');
       },
 
       doAI: function() {
@@ -26,7 +26,7 @@ ClassManager.create('Enemy', function(game) {
          if (Utils.cellDistance(this.position, game.currentScene.player.position) <= this.attack_range) {
             // Monster is next door, do monster attack
             this.doAttack(game.currentScene.player);
-            this.damagePlayerSound.play();
+            this.sfxDamage.play();
             return;
          }
 

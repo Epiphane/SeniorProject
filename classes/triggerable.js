@@ -19,7 +19,7 @@ ClassManager.create('Triggerable', function(game) {
          itemName: 'potion',
          act: function(player) {
             player.health = Math.min(player.health + 4, player.max_health);
-            game.assets["assets/sounds/powerup.mp3"].clone().play();
+            player.sfxPowerup.play();
          }
       }
    ].forEach(function(item) {
