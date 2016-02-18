@@ -77,6 +77,24 @@ ClassManager.create('Room', function(game) {
          }
       },
 
+      setTile: function(tiles, x, y, val) {
+         // Tileset-ify
+         x += Math.floor(C.MAP_SIZE / 2);
+         y += Math.floor(C.MAP_SIZE / 2);
+
+         tiles[y][x] = val;
+      },
+
+      setBackground: function(x, y, tile) {
+         this.setTile(this.tiles, x, y, tile);
+         this.floor.loadData(this.tiles);
+      },
+
+      setForeground: function(x, y, tile) {
+         this.setTile(this.foreground, x, y, tile);
+         this.map.loadData(this.foreground);
+      },
+
       addToScene: function(node) {
          this.insertBefore(node, this.map);
       },
@@ -143,6 +161,14 @@ ClassManager.create('Room', function(game) {
          return true;
       },
 
+      isStaircase: function(x, y) {
+         // Convert to tilesetness
+         x += Math.floor(C.MAP_SIZE / 2);
+         y += Math.floor(C.MAP_SIZE / 2);
+
+         return this.tiles[y][x] === C.BG_TILES.stairs;
+      },
+
       getCharacterAt: function(x, y) {
          for (var i = this.characters.length - 1; i >= 0; i--) {
             var character = this.characters[i];
@@ -205,6 +231,8 @@ ClassManager.create('Room', function(game) {
                   while (this.characters.length > 0) {
                      this.removeChild(this.characters.shift());
                   }
+
+                  this.setBackground(0, 0, C.BG_TILES.stairs);
                }
                else {
                   this.characters.splice(i, 1);

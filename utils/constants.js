@@ -24,7 +24,8 @@
       empty: -1,
       floor: spriteToTile(12, 18),
       floor_blocked: spriteToTile(12, 16),
-      wall: spriteToTile(12, 17)
+      wall: spriteToTile(12, 17),
+      stairs: spriteToTile(12, 20)
    });
 
    Constants.FG_TILES = Enum({
