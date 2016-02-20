@@ -4,6 +4,8 @@ ClassManager.create('Pushable', function(game) {
 		className: 'Pushable',
 		fixedInPlace: true,
 
+        committingToday: true,
+
 		act: function(something) {
 			// Fun stuff
 			console.log("Act received... " + something);
