@@ -23,10 +23,10 @@ ClassManager.create('Room', function(game) {
          this.width  = parseObj.get('width')  || C.MAP_SIZE;
          this.height = parseObj.get('height') || C.MAP_SIZE;
 
-         this.left = -Math.floor(this.width / 2);//Math.floor((C.MAP_SIZE - this.width) / 2);
-         this.right = Math.floor(this.width / 2);//this.left + this.width;
-         this.top = -Math.floor(this.height / 2);//Math.floor((C.MAP_SIZE - this.height) / 2);
-         this.bottom = Math.floor(this.height / 2);//this.top + this.height;
+         this.right = Math.floor(this.width / 2);
+         this.left = -this.right;
+         this.bottom = Math.floor(this.height / 2);
+         this.top = -this.bottom;
 
          this.addChild(this.floor);
          this.addChild(this.map);
