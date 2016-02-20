@@ -168,9 +168,6 @@
       },
 
       addCharacter: function(room, character, x, y) {
-         // x += Math.floor(C.MAP_SIZE / 2);
-         // y += Math.floor(C.MAP_SIZE / 2);
-
          character.position.x = x;
          character.position.y = y;
          character.snapToPosition();
@@ -179,9 +176,6 @@
       },
 
       addItem: function(room, item, x, y) {
-         // x += Math.floor(C.MAP_SIZE / 2);
-         // y += Math.floor(C.MAP_SIZE / 2);
-
          room.addItemAt(item, x, y);
       },
 

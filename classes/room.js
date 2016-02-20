@@ -116,21 +116,21 @@ ClassManager.create('Room', function(game) {
          switch (direction) {
             case C.P_DIR.UP:
                player.position.y = this.top - 1;
-               player.position.x = 0;//Math.floor(C.MAP_SIZE / 2);
+               player.position.x = 0;
                player.snapToPosition();
                break;
             case C.P_DIR.DOWN:
                player.position.y = this.bottom;
-               player.position.x = 0;//Math.floor(C.MAP_SIZE / 2);
+               player.position.x = 0;
                player.snapToPosition();
                break;
             case C.P_DIR.LEFT:
-               player.position.y = 0;//Math.floor(C.MAP_SIZE / 2);
+               player.position.y = 0;
                player.position.x = this.left - 1;
                player.snapToPosition();
                break;
             case C.P_DIR.RIGHT:
-               player.position.y = 0;//Math.floor(C.MAP_SIZE / 2);
+               player.position.y = 0;
                player.position.x = this.right;
                player.snapToPosition();
                break;
