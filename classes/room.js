@@ -20,13 +20,13 @@ ClassManager.create('Room', function(game) {
          this.floor = new Map(C.TILE_SIZE, C.TILE_SIZE);
          this.floor.image = game.assets["assets/images/map2.png"];
 
-         this.width  = parseObj.get('width')  || C.MAP_WIDTH;
-         this.height = parseObj.get('height') || C.MAP_HEIGHT;
+         this.width  = parseObj.get('width')  || C.MAP_SIZE;
+         this.height = parseObj.get('height') || C.MAP_SIZE;
 
-         this.left = Math.floor((C.MAP_WIDTH - this.width) / 2);
-         this.right = this.left + this.width;
-         this.top = Math.floor((C.MAP_HEIGHT - this.height) / 2);
-         this.bottom = this.top + this.height;
+         this.right = Math.floor(this.width / 2);
+         this.left = -this.right;
+         this.bottom = Math.floor(this.height / 2);
+         this.top = -this.bottom;
 
          this.addChild(this.floor);
          this.addChild(this.map);
@@ -77,6 +77,24 @@ ClassManager.create('Room', function(game) {
          }
       },
 
+      setTile: function(tiles, x, y, val) {
+         // Tileset-ify
+         x += Math.floor(C.MAP_SIZE / 2);
+         y += Math.floor(C.MAP_SIZE / 2);
+
+         tiles[y][x] = val;
+      },
+
+      setBackground: function(x, y, tile) {
+         this.setTile(this.tiles, x, y, tile);
+         this.floor.loadData(this.tiles);
+      },
+
+      setForeground: function(x, y, tile) {
+         this.setTile(this.foreground, x, y, tile);
+         this.map.loadData(this.foreground);
+      },
+
       addToScene: function(node) {
          this.insertBefore(node, this.map);
       },
@@ -98,21 +116,21 @@ ClassManager.create('Room', function(game) {
          switch (direction) {
             case C.P_DIR.UP:
                player.position.y = this.top - 1;
-               player.position.x = Math.floor(C.MAP_WIDTH / 2);
+               player.position.x = 0;
                player.snapToPosition();
                break;
             case C.P_DIR.DOWN:
                player.position.y = this.bottom;
-               player.position.x = Math.floor(C.MAP_WIDTH / 2);
+               player.position.x = 0;
                player.snapToPosition();
                break;
             case C.P_DIR.LEFT:
-               player.position.y = Math.floor(C.MAP_HEIGHT / 2);
+               player.position.y = 0;
                player.position.x = this.left - 1;
                player.snapToPosition();
                break;
             case C.P_DIR.RIGHT:
-               player.position.y = Math.floor(C.MAP_HEIGHT / 2);
+               player.position.y = 0;
                player.position.x = this.right;
                player.snapToPosition();
                break;
@@ -128,16 +146,27 @@ ClassManager.create('Room', function(game) {
       },
 
       isWalkable: function(x, y) {
-         // TODO: Change this to !== when tiles is a 2D array for greater accuracy!
-         if (this.tiles[y][x] != C.BG_TILES.floor && this.tiles[y][x] != C.BG_TILES.empty) {
-            return false;
-         }
-
          if (this.getCharacterAt(x, y) !== null) {
             return false;
          }
 
+         // Convert to tilesetness
+         x += Math.floor(C.MAP_SIZE / 2);
+         y += Math.floor(C.MAP_SIZE / 2);
+
+         if (this.tiles[y][x] !== C.BG_TILES.floor && this.tiles[y][x] !== C.BG_TILES.empty) {
+            return false;
+         }
+
          return true;
+      },
+
+      isStaircase: function(x, y) {
+         // Convert to tilesetness
+         x += Math.floor(C.MAP_SIZE / 2);
+         y += Math.floor(C.MAP_SIZE / 2);
+
+         return this.tiles[y][x] === C.BG_TILES.stairs;
       },
 
       getCharacterAt: function(x, y) {
@@ -197,8 +226,18 @@ ClassManager.create('Room', function(game) {
             var character = this.characters[i];
 
             if (character.isDead()) {
-               this.characters.splice(i, 1);
-               this.removeChild(character);
+               if (character.isBoss()) {
+                  // Kill all characters
+                  while (this.characters.length > 0) {
+                     this.removeChild(this.characters.shift());
+                  }
+
+                  this.setBackground(0, 0, C.BG_TILES.stairs);
+               }
+               else {
+                  this.characters.splice(i, 1);
+                  this.removeChild(character);
+               }
 
                // TODO: We should see if the player has killed all non-violent
                // characters, not just all characters

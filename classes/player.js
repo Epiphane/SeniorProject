@@ -51,6 +51,10 @@ ClassManager.create('Player', function(game) {
             // this.position.y += dy;
          }
 
+         if (room.isStaircase(this.position.x + dx, this.position.y + dy)) {
+            gameScene.descend();
+         }
+
          // Otherwise just move around 'n stuff
          var moved = Classes['Character'].prototype.action.apply(this, arguments);
          if (moved) {

@@ -16,6 +16,14 @@
          Game.currentRoom.movePlayerToDoorway(Game.player, Utils.to.opposite(dir));
       };
 
+      Game.descend = function() {
+         // Create first room
+         Game.player.position.x = Game.player.position.y = 0;
+         Game.player.snapToPosition();
+         Game.dungeonGenerator = new Classes.DungeonGenerator();
+         Game.setRoom(Game.dungeonGenerator.createDungeon());
+      };
+
       Game.setRoom = function(room) {
          // Remove old room
          if (Game.currentRoom) {
@@ -33,13 +41,11 @@
          Game.currentRoom.onEnter();
       };
 
-      Game.player = new Classes.Player(Math.floor(C.MAP_WIDTH / 2), Math.floor(C.MAP_HEIGHT / 2));
+      Game.player = new Classes.Player(0, 0);//Math.floor(C.MAP_SIZE / 2), Math.floor(C.MAP_SIZE / 2));
       Game.HUD = new Classes.HUD(Game.player);
 
-      // Create first room
-      Game.dungeonGenerator = new Classes.DungeonGenerator();
-      Game.setRoom(Game.dungeonGenerator.createDungeon());
       Game.bgm.play();
+      Game.descend();
 
       // Checks if any entity is still moving
       var actionCooldown = 0;

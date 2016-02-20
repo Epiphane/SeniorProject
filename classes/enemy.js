@@ -10,6 +10,7 @@ ClassManager.create('Enemy', function(game) {
       initial_attack: 1,
       initial_health: 10,
       attack_range: 1,
+      boss: false,
 
       initialize: function(x, y) {
          Classes.Character.call(this, x, y);
@@ -21,6 +22,8 @@ ClassManager.create('Enemy', function(game) {
       doAI: function() {
          return this.act();
       },
+
+      isBoss: function() { return this.boss; },
 
       act: function() {
          if (Utils.cellDistance(this.position, game.currentScene.player.position) <= this.attack_range) {
@@ -95,11 +98,50 @@ ClassManager.create('Slime', function(game) {
 });
 
 ClassManager.create('Boss', function(game) {
-   return Class.create(Classes['WaitingEnemy'], {
+   return Class.create(Classes['Enemy'], {
+
+      initialize: function() {
+         // Call super constructor
+         Classes.Enemy.prototype.initialize.apply(this, arguments);
+
+         this.special = 8;
+         this.waiting = 2;
+      },
+
+      doAI: function() {
+         // move every "cooldown" turn
+         if (this.waiting > 0) {
+            this.waiting --;
+            return false;
+         }
+
+         this.waiting = this.cooldown;
+         return this.act.apply(this, arguments);
+      },
+
+      initial_health: 40,
+      boss: true
+   });
+});
+
+ClassManager.create('SimpleBoss', function(game) {
+   return Class.create(Classes['Boss'], {
       sprite: "boss1.png",
       walkStartFrame: 3,
       walkEndFrame:   5,
       initial_health: 40,
-      cooldown: 2
+      cooldown: 2,
+
+      act: function() {
+         Classes['Boss'].prototype.act.apply(this, arguments);
+
+         if (this.special > 0) {
+            this.special --;
+            return;
+         }
+
+         // Spawn an enemy somewhere!
+         var newEnemy = new Classes['Bat']();
+      }
    });
 });
