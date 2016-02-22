@@ -10,8 +10,8 @@
    var wallTiles = {};
 
    var defaults = {
-      height: C.MAP_HEIGHT - 4,
-      width: C.MAP_WIDTH - 4,
+      height: C.MAP_SIZE - 4,
+      width: C.MAP_SIZE - 4,
    };
    window.RoomGenerator = Class.create(Object, {
       createRoom: function(params) {
@@ -27,47 +27,54 @@
        */
       createWalls: function(floor) {
          var foreground = [];
-         for (var r = 0; r < C.MAP_HEIGHT; r ++)
-            foreground.push(new Array(C.MAP_WIDTH));
+         for (var r = 0; r < C.MAP_SIZE; r ++)
+            foreground.push(new Array(C.MAP_SIZE));
 
          function isWalkable(x, y) {
-            return (floor[y] && floor[y][x] !== C.BG_TILES.floor_blocked);
+            return (floor[y] && floor[y][x] !== C.BG_TILES.wall);
          }
 
          function tileFor(x, y) {
             var wallTileScore = 0;
-            if (!isWalkable(x - 1, y + 0)) wallTileScore += 1 << 0;
-            if (!isWalkable(x + 0, y + 0)) wallTileScore += 1 << 1;
-            if (!isWalkable(x + 1, y + 0)) wallTileScore += 1 << 2;
-            if (!isWalkable(x - 1, y + 1)) wallTileScore += 1 << 3;
-            if (!isWalkable(x + 0, y + 1)) wallTileScore += 1 << 4;
-            if (!isWalkable(x + 1, y + 1)) wallTileScore += 1 << 5;
-            if (!isWalkable(x - 1, y + 2)) wallTileScore += 1 << 6;
-            if (!isWalkable(x + 0, y + 2)) wallTileScore += 1 << 7;
-            if (!isWalkable(x + 1, y + 2)) wallTileScore += 1 << 8;
-
-            if (!wallTiles[wallTileScore] && floor[y][x] === C.BG_TILES.floor_blocked) {
-               console.log('Nothing found for this config:');
-               console.log((wallTileScore & 1) ? 1 : 0, (wallTileScore & 2) ? 1 : 0, (wallTileScore & 4) ? 1 : 0)
-               console.log((wallTileScore & 8) ? 1 : 0, (wallTileScore & 16) ? 1 : 0, (wallTileScore & 32) ? 1 : 0)
-               console.log((wallTileScore & 64) ? 1 : 0, (wallTileScore & 128) ? 1 : 0, (wallTileScore & 256) ? 1 : 0)
+            var shift = 0;
+            for (var j = 0; j <= 2; j ++) {
+               for (var i = -1; i <= 1; i ++) {
+                  if (!isWalkable(x + i, y + j)) wallTileScore += 1 << shift;
+                  shift ++;
+               }
             }
 
-            return wallTiles[wallTileScore] || C.FG_TILES.empty;
+            if (!wallTiles[wallTileScore] && floor[y][x] === C.BG_TILES.wall) {
+               shift = 0;
+               console.log('Nothing found for this config:');
+               console.log((wallTileScore & (1 << shift++)) ? 1 : 0, (wallTileScore & (i << shift++)) ? 1 : 0, (wallTileScore & (1 << shift++)) ? 1 : 0)
+               console.log((wallTileScore & (1 << shift++)) ? 1 : 0, (wallTileScore & (i << shift++)) ? 1 : 0, (wallTileScore & (1 << shift++)) ? 1 : 0)
+               console.log((wallTileScore & (1 << shift++)) ? 1 : 0, (wallTileScore & (i << shift++)) ? 1 : 0, (wallTileScore & (1 << shift++)) ? 1 : 0)
+            }
+
+            if (wallTiles[wallTileScore]) {
+               return wallTiles[wallTileScore];
+            }
+
+            if (floor[y][x] === C.BG_TILES.floor_blocked) {
+               return C.FG_BLOCKS[chance.integer({ min: 0, max: C.FG_BLOCKS.length - 1 })];
+            }
+
+            return C.FG_TILES.empty;
          }
 
          // Compute tile types
-         for (var y = 0; y < C.MAP_HEIGHT; y ++) {
-            for (var x = 0; x < C.MAP_WIDTH; x ++) {
+         for (var y = 0; y < C.MAP_SIZE; y ++) {
+            for (var x = 0; x < C.MAP_SIZE; x ++) {
                foreground[y][x] = tileFor(x, y);
             }
-         }      
+         }
 
          return foreground;
       },
 
       setTile: function(tiles, x, y, val) {
-         var center = { x: Math.floor(C.MAP_WIDTH / 2), y: Math.floor(C.MAP_HEIGHT / 2) };
+         var center = { x: Math.floor(C.MAP_SIZE / 2), y: Math.floor(C.MAP_SIZE / 2) };
 
          y += center.y;
          x += center.x;
@@ -80,16 +87,16 @@
          var background = [];
 
          // Generate basic room (go from -width/2 to width/2 to center it)
-         for (var r = -C.MAP_HEIGHT / 2; r < C.MAP_HEIGHT / 2; r++) {
+         for (var r = -C.MAP_SIZE / 2; r < C.MAP_SIZE / 2; r++) {
             var bg_row = [];
-            for (var c = -C.MAP_WIDTH / 2; c < C.MAP_WIDTH / 2; c ++) {
-               // Outside the room (only applies if params.width is less than MAP_WIDTH)
+            for (var c = -C.MAP_SIZE / 2; c < C.MAP_SIZE / 2; c ++) {
+               // Outside the room (only applies if params.width is less than MAP_SIZE)
                if (r < -params.height_2 || r >= params.height_2 || c < -params.width_2 || c >= params.width_2) {
                   bg_row.push(C.BG_TILES.empty);
                }
                // Doorways
                else if (r <= 0 - params.height_2 || r === params.height_2 - 1 || c === -params.width_2 || c === params.width_2 - 1) {
-                  bg_row.push(C.BG_TILES.floor_blocked);
+                  bg_row.push(C.BG_TILES.wall);
                }
                else {
                   bg_row.push(C.BG_TILES.floor);
@@ -123,28 +130,28 @@
          // Add exits
          if (room.neighbors[C.P_DIR.LEFT] !== false) {
             this.setTile(background, params.LEFT    , 0, C.BG_TILES.floor);
-            this.setTile(background, params.LEFT - 1,-1, C.BG_TILES.floor_blocked);
+            this.setTile(background, params.LEFT - 1,-1, C.BG_TILES.wall);
             this.setTile(background, params.LEFT - 1, 0, C.BG_TILES.floor);
-            this.setTile(background, params.LEFT - 1, 1, C.BG_TILES.floor_blocked);
+            this.setTile(background, params.LEFT - 1, 1, C.BG_TILES.wall);
          }
          if (room.neighbors[C.P_DIR.RIGHT] !== false) {
             this.setTile(background, params.RGHT    , 0, C.BG_TILES.floor);
-            this.setTile(background, params.RGHT + 1,-1, C.BG_TILES.floor_blocked);
+            this.setTile(background, params.RGHT + 1,-1, C.BG_TILES.wall);
             this.setTile(background, params.RGHT + 1, 0, C.BG_TILES.floor);
-            this.setTile(background, params.RGHT + 1, 1, C.BG_TILES.floor_blocked);
+            this.setTile(background, params.RGHT + 1, 1, C.BG_TILES.wall);
          }
          if (room.neighbors[C.P_DIR.UP] !== false) {
             this.setTile(background,  0, params.TOP,     C.BG_TILES.floor);
             this.setTile(background,  0, params.TOP + 1, C.BG_TILES.floor);
-            this.setTile(background, -1, params.TOP - 1, C.BG_TILES.floor_blocked);
+            this.setTile(background, -1, params.TOP - 1, C.BG_TILES.wall);
             this.setTile(background,  0, params.TOP - 1, C.BG_TILES.floor);
-            this.setTile(background,  1, params.TOP - 1, C.BG_TILES.floor_blocked);
+            this.setTile(background,  1, params.TOP - 1, C.BG_TILES.wall);
          }
          if (room.neighbors[C.P_DIR.DOWN] !== false) {
             this.setTile(background,  0, params.BOT,     C.BG_TILES.floor);
-            this.setTile(background, -1, params.BOT + 1, C.BG_TILES.floor_blocked);
+            this.setTile(background, -1, params.BOT + 1, C.BG_TILES.wall);
             this.setTile(background,  0, params.BOT + 1, C.BG_TILES.floor);
-            this.setTile(background,  1, params.BOT + 1, C.BG_TILES.floor_blocked);
+            this.setTile(background,  1, params.BOT + 1, C.BG_TILES.wall);
          }
 
          // Add in the walls
@@ -161,9 +168,6 @@
       },
 
       addCharacter: function(room, character, x, y) {
-         x += Math.floor(C.MAP_WIDTH / 2);
-         y += Math.floor(C.MAP_HEIGHT / 2);
-
          character.position.x = x;
          character.position.y = y;
          character.snapToPosition();
@@ -172,19 +176,11 @@
       },
 
       addItem: function(room, item, x, y) {
-         x += Math.floor(C.MAP_WIDTH / 2);
-         y += Math.floor(C.MAP_HEIGHT / 2);
-
          room.addItemAt(item, x, y);
       },
 
       populateRoom: function(room) {
          // Add enemies and items to room
-         this.addCharacter(room, new Classes.Slime(), 2, 3);
-         this.addCharacter(room, new Classes.Bat(), 1, 2);
-
-         this.addItem(room, new Classes.Sword(), -2, -3);
-         this.addItem(room, new Classes.Potion(), -2, 2);
       }
    });
 
@@ -199,7 +195,7 @@
    function registerWallTile(tile, config) {
       var wallTileScore = 0;
       var variants = [];
-      for (var i = 0; i < 9; i ++) {
+      for (var i = 0; i < config.length; i ++) {
          if (config[i] === 2) {
             wallTileScore += 1 << i;
          }

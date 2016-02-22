@@ -34,8 +34,8 @@ window.astar = "";
    /** Returns an array of the 4 cells around this cell. */
    getNeighborCells = function(cell) {
       var ret = [];
-      var x = cell.pos.x;
-      var y = cell.pos.y;
+      var x = cell.pos.x + Math.floor(C.MAP_SIZE / 2);
+      var y = cell.pos.y + Math.floor(C.MAP_SIZE / 2);
 
       // West
       if(astarGrid[x-1] && astarGrid[x-1][y]) {
@@ -87,13 +87,13 @@ window.astar = "";
                cost: 1,
                visited: false,
                parent: null,
-               pos: {x: x, y: y},
+               pos: { x: x - Math.floor(C.MAP_SIZE / 2), y: y - Math.floor(C.MAP_SIZE / 2) },
                closed: false,
             };
          }
       }
 
-      validCells.push(astarGrid[currPos.x][currPos.y]);
+      validCells.push(astarGrid[currPos.x + Math.floor(C.MAP_SIZE / 2)][currPos.y + Math.floor(C.MAP_SIZE / 2)]);
 
       while (validCells.content.length > 0) {
          // Grab the lowest f(x) to process next.  Heap keeps this sorted for us.

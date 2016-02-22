@@ -6,14 +6,22 @@
    Scenes.Game = function(game) {
       var Game = new Scene();
       Game.backgroundColor = "black";
-      // Really don't know why clone is needed
-      // but the game flips out without it
-      Game.bgm = game.assets["assets/sounds/dungeon.mp3"].clone();
+      Game.bgm = new buzz.sound("assets/sounds/dungeon.mp3", {loop:true});
+      var muteTimer = 20;
 
+      // Not sure where else to put this
       Game.moveRooms = function(dir) {
          Game.setRoom(Game.currentRoom.getNeighbor(dir));
 
          Game.currentRoom.movePlayerToDoorway(Game.player, Utils.to.opposite(dir));
+      };
+
+      Game.descend = function() {
+         // Create first room
+         Game.player.position.x = Game.player.position.y = 0;
+         Game.player.snapToPosition();
+         Game.dungeonGenerator = new Classes.DungeonGenerator();
+         Game.setRoom(Game.dungeonGenerator.createDungeon());
       };
 
       Game.setRoom = function(room) {
@@ -33,13 +41,11 @@
          Game.currentRoom.onEnter();
       };
 
-      Game.player = new Classes.Player(Math.floor(C.MAP_WIDTH / 2), Math.floor(C.MAP_HEIGHT / 2));
+      Game.player = new Classes.Player(0, 0);//Math.floor(C.MAP_SIZE / 2), Math.floor(C.MAP_SIZE / 2));
       Game.HUD = new Classes.HUD(Game.player);
 
-      // Create first room
-      Game.dungeonGenerator = new Classes.DungeonGenerator();
-      Game.setRoom(Game.dungeonGenerator.createDungeon());
       Game.bgm.play();
+      Game.descend();
 
       // Checks if any entity is still moving
       var actionCooldown = 0;
@@ -53,12 +59,6 @@
       }
 
       Game.onenterframe = function() {
-         // Enchant doesn't support looping... what garbage
-         // Have to loop bgm manually
-         if (Game.bgm.currentTime >= Game.bgm.duration ) {
-            Game.bgm.play();
-         }
-
          if (actionCooldown > 0) actionCooldown -= 1 / 60;
 
          if (!Game.waitingOnMovement()) {
@@ -75,13 +75,19 @@
                Game.action(0, 1);
             }
          }
+         if (game.input.mute && muteTimer<=0) {
+            buzz.all().toggleMute();
+            muteTimer = 20;
+         }
+         muteTimer = Math.max(muteTimer-1, 0);
+
       }
 
       Game.action = function(dir_x, dir_y) {
          Game.player.action(dir_x, dir_y, Game, Game.currentRoom);
          Game.currentRoom.action();
 
-         actionCooldown = 0.3;
+         actionCooldown = 0.1;
 
          if (Game.player.isDead()) {
             game.popScene();

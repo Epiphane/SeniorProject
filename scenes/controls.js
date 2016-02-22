@@ -15,7 +15,7 @@ Scenes.Controls = Singletonify(function(game) {
                         'N - Use health potion<br> <br>' +
                         'M - Swap item, drop or pick up pearl<br> <br>' +
                         'Space - Unlock chest', 50, 110, { font: '14px sans-serif' }),
-      Utils.createLabel('Press space to return to menu', 50, C.GAME_HEIGHT - 50, { font: '14px sans-serif' }),
+      Utils.createLabel('Press space to return to menu', 50, C.GAME_SIZE - 50, { font: '14px sans-serif' }),
    ];
 
    labels.forEach(function(label) {
@@ -24,7 +24,7 @@ Scenes.Controls = Singletonify(function(game) {
    
    Controls.addEventListener(Event.INPUT_START, function() {
       if (game.input.select) {
-         var newSound = game.assets['assets/sounds/select2.wav'].clone();
+         var newSound = new buzz.sound('assets/sounds/select2.wav');
          newSound.play();
 
          // Return to title screen

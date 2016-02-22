@@ -31,8 +31,12 @@ ClassManager.create('DungeonGenerator', function(game) {
             }
          }
 
-         if (chance.bool({ likelihood: 50 })) {
+         if (chance.bool({ likelihood: 33 })) {
             return C.ROOM_TYPES.combat;
+         }
+
+         if (chance.bool({ likelihood: 50 })) {
+            return C.ROOM_TYPES.treasure;
          }
 
          return C.ROOM_TYPES.random;
@@ -53,7 +57,7 @@ ClassManager.create('DungeonGenerator', function(game) {
                type: C.ROOM_TYPES.random
             });
          }
-         var roomType = parseObj.type;
+         var roomType = parseObj.get('type');
 
          var numExitBounds = { min: 1, max: 4 };
          // Make sure we don't add too many rooms!
@@ -77,8 +81,9 @@ ClassManager.create('DungeonGenerator', function(game) {
             case C.ROOM_TYPES.store:
                break;
             case C.ROOM_TYPES.treasure:
+               generator = new ItemRoomGenerator();
                break;
-            case C.ROOM_TYPES.enemy:
+            case C.ROOM_TYPES.combat:
                generator = new CombatRoomGenerator();
                break;
             case C.ROOM_TYPES.npc:
