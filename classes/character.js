@@ -83,6 +83,7 @@ ClassManager.create('Character', function(game) {
        * return: whether or not move is successful
        */
       tryMove: function(dx, dy) {
+         
          if (game.currentScene.currentRoom.isWalkable(this.position.x + dx, this.position.y + dy)) {
             this.position.x += dx;
             this.position.y += dy;
