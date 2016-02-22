@@ -25,6 +25,13 @@ ClassManager.create('Enemy', function(game) {
 
       isBoss: function() { return this.boss; },
 
+      // Returns the 'walkable' function that MONSTERS use
+      //
+      // See character.js -> tryMove()
+      walkableFunction: function() {
+         return game.currentScene.currentRoom.isMonsterWalkable;
+      },
+
       act: function() {
          if (Utils.cellDistance(this.position, game.currentScene.player.position) <= this.attack_range) {
             // Monster is next door, do monster attack

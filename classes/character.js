@@ -78,13 +78,24 @@ ClassManager.create('Character', function(game) {
       },
 
       /*
+       * Returns the FUNCTION which we use to decide if we can
+       *  walk on a tile or not.
+       */
+      walkableFunction: function() {
+         console.warn("Override me!");
+      },
+
+      /*
        * Attempt to move in a direction
        *
        * return: whether or not move is successful
        */
       tryMove: function(dx, dy) {
-         
-         if (game.currentScene.currentRoom.isWalkable(this.position.x + dx, this.position.y + dy)) {
+         // obstacleFunction contains a FUNCTION that will return FALSE if this entity
+         //  can NOT move there, and TRUE if this entity CAN move there.
+         var obstacleFunction = this.walkableFunction();
+         var room = game.currentScene.currentRoom;
+         if (obstacleFunction.call(room, this.position.x + dx, this.position.y + dy, dx, dy)) {
             this.position.x += dx;
             this.position.y += dy;
 

@@ -120,7 +120,7 @@ window.astar = "";
             var neighbor = neighbors[i];
 
             if (!(neighbor.pos.x == target.x && neighbor.pos.y == target.y)) { // Neighbor == player!
-               if (neighbor.closed || !game.currentScene.currentRoom.isWalkable(neighbor.pos.x, neighbor.pos.y)) {
+               if (neighbor.closed || !game.currentScene.currentRoom.isMonsterWalkable(neighbor.pos.x, neighbor.pos.y)) {
                   // Not a valid node to process, skip to next neighbor.
                   continue;
                }

@@ -169,7 +169,9 @@ ClassManager.create('Room', function(game) {
        */
       isMonsterWalkable: function(x, y) {
          var initialResult = this.isWalkable(x, y);
-         if (!initialResult) return false;
+         if (!initialResult) {
+            return false;
+         }
 
          var itemInSquare = this.getItemAt(x, y);
          if (itemInSquare !== null && itemInSquare instanceof Classes.Pushable) {
@@ -184,11 +186,13 @@ ClassManager.create('Room', function(game) {
        */
       isPlayerWalkable: function(x, y, dx, dy) {
          var initialResult = this.isWalkable(x, y);
-         if (!initialResult) return false;
+         if (!initialResult) {
+            return false;
+         }
 
          var itemInSquare = this.getItemAt(x, y);
          if (itemInSquare !== null && itemInSquare instanceof Classes.Pushable) {
-            return itemInSquare.canPushInDirection(dx, dy, this);
+            return itemInSquare.tryPushInDirection(dx, dy, this);
          }
 
          return true;
