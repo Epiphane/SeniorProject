@@ -1,4 +1,4 @@
-ClassManager.create('Pushable', function(game) {
+ClassManager.create('Character', function(game) {
    return Class.create(Classes.Triggerable, {
 		itemName: 'shield_4',
 		className: 'Pushable',
