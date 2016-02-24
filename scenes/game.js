@@ -30,6 +30,7 @@
          Game.addChild(Game.currentRoom);
          Game.currentRoom.addToScene(Game.player);
          Game.currentRoom.addChild(Game.HUD);
+         Game.currentRoom.addChild(new Classes.Dialogue());
          Game.currentRoom.onEnter();
       };
 

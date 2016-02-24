@@ -78,11 +78,12 @@
       68: 'right',
       87: 'up',
       83: 'down',
+      69: 'interact',
       // 74: 'attackLeft',
       // 76: 'attackRight',
       // 73: 'attackUp',
       // 75: 'attackDown',
-       77: 'mute',
+      77: 'mute',
       // 78: 'usePotion',
       32: 'select'
    };
@@ -109,7 +110,8 @@
       "monster2poison.gif",
       "dialogue.png",
       "muted.png",
-      "unmuted.png"
+      "unmuted.png",
+      "textbox.png"
    ];
    
    Constants.preloadAssets = function(game) {
