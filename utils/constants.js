@@ -59,7 +59,7 @@
       'key_special', 'orb', 'sword', 'sword_ice', 'sword_earth',
       'sword_light', 'sword_fire', 'sword_dark', 'sword_what',
       'shield_1', 'shielf_2', 'shield_3', 'shield_4', 'shield_5', 'shield_6',
-      'shield_7'
+      'shield_7','sign'
    ]);
 
    Constants.GAME_WIDTH = 640;
