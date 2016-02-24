@@ -1,8 +1,13 @@
-ClassManager.create('Character', function(game) {
-   return Class.create(Classes.Triggerable, {
+ClassManager.create('Pushable', function(game) {
+   return Class.create(Classes.Character, {
 		itemName: 'shield_4',
 		className: 'Pushable',
-		fixedInPlace: true,
+
+
+      initialize: function(x, y) {
+         Classes.Character.call(this, x, y);
+         this.image = game.assets["assets/images/monster1slow.gif"];
+      },
 
 		act: function(something) {
 			// Fun stuff
@@ -16,15 +21,15 @@ ClassManager.create('Character', function(game) {
 			var canPush = room.isPlayerWalkable(this.position.x + dx, this.position.y + dy, dx, dy);
 
    		if (canPush) {
-				room.removeItemAt(this.position.x, this.position.y);
-
 				this.position.x += dx;
 				this.position.y += dy;
-
-				room.addItemAt(this, this.position.x, this.position.y);
    		}
 			
 			return canPush;
+		},
+
+		doAI: function() {
+			// Boulders don't have much in the way of intelligence
 		}
  	});
 });

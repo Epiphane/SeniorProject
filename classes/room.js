@@ -165,7 +165,7 @@ ClassManager.create('Room', function(game) {
       },
 
       /**
-       * Monster case. We don't want them pushing around boulders, so we treat them as obstacles.
+       * Monster case. We don't want them standing on items, so we treat them as obstacles.
        */
       isMonsterWalkable: function(x, y) {
          var initialResult = this.isWalkable(x, y);
@@ -174,7 +174,7 @@ ClassManager.create('Room', function(game) {
          }
 
          var itemInSquare = this.getItemAt(x, y);
-         if (itemInSquare !== null && itemInSquare instanceof Classes.Pushable) {
+         if (itemInSquare !== null) {
             return false;
          }
 
@@ -187,12 +187,14 @@ ClassManager.create('Room', function(game) {
       isPlayerWalkable: function(x, y, dx, dy) {
          var initialResult = this.isWalkable(x, y);
          if (!initialResult) {
-            return false;
-         }
-
-         var itemInSquare = this.getItemAt(x, y);
-         if (itemInSquare !== null && itemInSquare instanceof Classes.Pushable) {
-            return itemInSquare.tryPushInDirection(dx, dy, this);
+            // Check if we actually just tried walking into a boulder
+            var inMyWay = this.getCharacterAt(x, y);
+            if (inMyWay instanceof Classes.Pushable) {
+               return inMyWay.tryPushInDirection(dx, dy, this);
+            }
+            else {
+               return false;
+            }
          }
 
          return true;
