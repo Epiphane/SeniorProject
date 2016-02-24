@@ -46,13 +46,14 @@ ClassManager.create('DungeonGenerator', function(game) {
        * Decide what type of room the next one should be
        */
       nextRoomType: function(direction, deadEnd) {
-         // var ndxToPick = 0;
-         // while (this.unexploredRooms === 1 && this.isDeadEndRoom)         
+         var ndxToPick = 0;
+         if (this.numRooms - this.roomsCreated > 1) {
+            while (this.unexploredRooms === 1 && this.roomTypes[ndxToPick] === C.ROOM_TYPES.boss) {
+               ndxToPick ++;
+            }
+         }
 
-         // var nextRoom = this.roomTypes[0];
-
-
-         return this.roomTypes.shift();
+         return this.roomTypes.splice(ndxToPick, 1)[0];
          var roomsRemaining = this.numRooms - this.roomsCreated;
 
          if (!this.hasCreatedBossRoom) {
@@ -104,8 +105,6 @@ ClassManager.create('DungeonGenerator', function(game) {
 
          // Random number of exits
          var numExits = chance.integer(numExitBounds);
-         console.log(numExits);
-         console.log(numExitBounds);
 
          // First define the room type
          switch (roomType) {
@@ -123,7 +122,7 @@ ClassManager.create('DungeonGenerator', function(game) {
                break;
             case C.ROOM_TYPES.boss:
                generator = new BossRoomGenerator();
-               // numExits  = 1;
+               numExits  = 1;
                break;
          }
 
