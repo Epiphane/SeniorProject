@@ -3,14 +3,34 @@
  */
 ClassManager.create('DungeonGenerator', function(game) {
    return Class.create(Object, {
-      initialize: function() {
+      initialize: function(numRooms) {
          this.linearity = 1;
-         this.numRooms = 10;
+         this.numRooms = numRooms || 10;
          this.roomsCreated = 0;
          this.unexploredRooms = 0;
          this.hasCreatedBossRoom = false;
          this.difficulty = 1;
+
+         this.roomTypes = this.generateRoomTypes();
       },
+
+      generateRoomTypes: function() {
+         var roomTypes = [];
+
+         // 1 boss room
+         roomTypes.push(C.ROOM_TYPES.boss);
+         roomTypes.push(C.ROOM_TYPES.store);
+
+         // 3 treasure rooms
+         for (var i = 0; i < 3; i ++)
+            roomTypes.push(C.ROOM_TYPES.treasure);
+
+         while (roomTypes.length < this.numRooms)
+            roomTypes.push(C.ROOM_TYPES.combat);
+
+         return chance.shuffle(roomTypes);
+      },
+
       /*
        * Generate a new dungeon, that will contain room connections and information
        */
@@ -18,10 +38,21 @@ ClassManager.create('DungeonGenerator', function(game) {
          return this.nextRoom(null);
       },
 
+      isDeadEndRoom: function(roomType) {
+         return (roomType === C.ROOM_TYPES.boss) || (roomType === C.ROOM_TYPES.store);
+      },
+
       /**
        * Decide what type of room the next one should be
        */
-      nextRoomType: function(direction) {
+      nextRoomType: function(direction, deadEnd) {
+         // var ndxToPick = 0;
+         // while (this.unexploredRooms === 1 && this.isDeadEndRoom)         
+
+         // var nextRoom = this.roomTypes[0];
+
+
+         return this.roomTypes.shift();
          var roomsRemaining = this.numRooms - this.roomsCreated;
 
          if (!this.hasCreatedBossRoom) {
@@ -73,6 +104,8 @@ ClassManager.create('DungeonGenerator', function(game) {
 
          // Random number of exits
          var numExits = chance.integer(numExitBounds);
+         console.log(numExits);
+         console.log(numExitBounds);
 
          // First define the room type
          switch (roomType) {
@@ -90,7 +123,7 @@ ClassManager.create('DungeonGenerator', function(game) {
                break;
             case C.ROOM_TYPES.boss:
                generator = new BossRoomGenerator();
-               numExits  = 1;
+               // numExits  = 1;
                break;
          }
 
