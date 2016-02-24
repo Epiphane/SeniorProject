@@ -22,7 +22,7 @@
           label.color = opts.color || 'white';          // And color too!
       label.textAlign = opts.align || 'left';
 
-      label.width = opts.width || C.GAME_WIDTH; // No wrapping
+      label.width = C.GAME_SIZE; // No wrapping
 
       return label;
    };
@@ -86,13 +86,13 @@
     * Convert a value from screen to world coordinates
     */
    Utils.to.world = function(screen) {
-      return screen / C.TILE_SIZE;
+      return screen / C.TILE_SIZE - Math.floor(C.MAP_SIZE / 2);
    };
 
    /**
     * Convert a value from world to screen coordinates
     */
    Utils.to.screen = function(world) {
-      return world * C.TILE_SIZE;
+      return (world + Math.floor(C.MAP_SIZE / 2)) * C.TILE_SIZE;
    };
 })(window);

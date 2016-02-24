@@ -42,7 +42,7 @@ ClassManager.create('HUD', function(game) {
          this.hearts.push(heart);
          this.addChild(heart);
 
-         heart.x = C.GAME_WIDTH - C.HEART_PADDING - this.hearts.length * heart.width;
+         heart.x = C.GAME_SIZE - C.HEART_PADDING - this.hearts.length * heart.width;
          heart.y = C.HEART_PADDING;
       },
 

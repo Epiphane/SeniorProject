@@ -4,7 +4,7 @@ var WINDOW = 600;
 
 /* Set up the core game */
 window.onload = function() {
-   game = new Game(C.GAME_WIDTH, C.GAME_HEIGHT);
+   game = new Game(C.GAME_SIZE, C.GAME_SIZE);
    game.fps = 60;
    game.rootScene.backgroundColor = "black";
 

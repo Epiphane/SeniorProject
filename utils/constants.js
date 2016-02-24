@@ -24,7 +24,8 @@
       empty: -1,
       floor: spriteToTile(12, 18),
       floor_blocked: spriteToTile(12, 16),
-      wall: spriteToTile(12, 17)
+      wall: spriteToTile(12, 17),
+      stairs: spriteToTile(12, 20)
    });
 
    Constants.FG_TILES = Enum({
@@ -62,10 +63,8 @@
       'shield_7','sign'
    ]);
 
-   Constants.GAME_WIDTH = 640;
-   Constants.GAME_HEIGHT = 640;
-   Constants.MAP_WIDTH = C.GAME_WIDTH / C.TILE_SIZE;
-   Constants.MAP_HEIGHT = C.GAME_HEIGHT / C.TILE_SIZE;
+   Constants.GAME_SIZE = 640;
+   Constants.MAP_SIZE = C.GAME_SIZE / C.TILE_SIZE;
 
    /* HUD constants */
    Constants.HEART_PADDING = 35;

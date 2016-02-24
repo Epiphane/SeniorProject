@@ -114,7 +114,7 @@ ClassManager.create('Character', function(game) {
             this.moveBy(dir[0], dir[1]);
          }
          else if (this.isMoving()) {
-            var walkSpeed = Utils.to.screen(this.walkSpeed);
+            var walkSpeed = this.walkSpeed * C.TILE_SIZE;
 
             var dx = Utils.to.screen(this.position.x) - this.x;
             var dy = Utils.to.screen(this.position.y) - this.y;

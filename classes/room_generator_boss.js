@@ -13,7 +13,7 @@
 
       populateRoom: function(room) {
          // Add enemies and items to room
-         this.addCharacter(room, new Classes.Boss(), 2, 3);
+         this.addCharacter(room, new Classes.SimpleBoss(), 2, 3);
       }
    });
 })(window);
