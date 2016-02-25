@@ -7,6 +7,7 @@
       var Game = new Scene();
       Game.backgroundColor = "black";
       Game.bgm = new buzz.sound("assets/sounds/dungeon.mp3", {loop:true});
+      Game.currentDialogue = null;
       var muteTimer = 20;
 
       // Not sure where else to put this
@@ -38,7 +39,6 @@
          Game.addChild(Game.currentRoom);
          Game.currentRoom.addToScene(Game.player);
          Game.currentRoom.addChild(Game.HUD);
-         Game.currentRoom.addChild(new Classes.Dialogue());
          Game.currentRoom.onEnter();
       };
 
@@ -62,7 +62,7 @@
       Game.onenterframe = function() {
          if (actionCooldown > 0) actionCooldown -= 1 / 60;
 
-         if (!Game.waitingOnMovement()) {
+         if (!Game.waitingOnMovement() && this.currentDialogue == null) {
             if (game.input.left) {
                Game.action(-1, 0);
             }
@@ -75,10 +75,26 @@
             else if (game.input.down) {
                Game.action(0, 1);
             }
+            else if (game.input.interact) {
+
+            }
          }
          if (game.input.mute && muteTimer<=0) {
             buzz.all().toggleMute();
             muteTimer = 20;
+         }
+         if (game.input.interact && muteTimer<=0) {
+            muteTimer = 20;
+            if (this.currentDialogue == null) {
+               console.log("INTERACT-NEW DIALOG");
+               this.currentDialogue = new Classes.Dialogue();
+               this.addChild(this.currentDialogue);
+            }
+            else {
+               console.log("INTERACT-REMOVE DIALOG");
+               this.removeChild(this.currentDialogue);
+               this.currentDialogue = null;
+            }
          }
          muteTimer = Math.max(muteTimer-1, 0);
 

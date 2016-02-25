@@ -86,6 +86,9 @@ ClassManager.create('Player', function(game) {
                this.sfxAttack.play();
                this.doAttack(enemy, dx, dy);
             }
+            else if(enemy instanceof Classes['NPC']) {
+               enemy.showDialogue();
+            }
          }
       },
 
