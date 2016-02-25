@@ -33,7 +33,7 @@ ClassManager.create('Triggerable', function(game) {
 
          act: function(character) {
             attachedDoor.switchChanged(this, true);
-            character.
+            // character.
          }
       },
 
