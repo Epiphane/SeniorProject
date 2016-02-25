@@ -3,6 +3,6 @@ ClassManager.create('Slime', function(game) {
       sprite: "monster1.gif",
       walkStartFrame: 3,
       walkEndFrame:   5,
-      initial_health: 15,
+      initial_health: 3,
    });
 });

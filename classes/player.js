@@ -32,7 +32,7 @@ ClassManager.create('Player', function(game) {
       attackStartFrame: 6,
       attackEndFrame: 9,
 
-      initial_attack: 5,
+      initial_attack: 1,
 
       getDirectionFrame: function() {
          return 9 * this.direction;
@@ -40,6 +40,18 @@ ClassManager.create('Player', function(game) {
 
       getAttack: function() {
          return this.attack + (this.weapon ? this.weapon.attack : 0);
+      },
+
+      getDefense: function() {
+         return this.defense + (this.armor ? this.armor.defense : 0);
+      },
+
+      doAttack: function(victim, dx, dy) {
+         Classes['Character'].prototype.doAttack.apply(this, arguments);
+
+         if (this.weapon) {
+            this.weapon.onHit(victim);
+         }
       },
 
       action: function(dx, dy, gameScene, room) {

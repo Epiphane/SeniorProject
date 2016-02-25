@@ -32,6 +32,7 @@ ClassManager.create('Character', function(game) {
          this.max_health = this.initial_health;
 
          this.attack = this.initial_attack;
+         this.defense = this.initial_defense;
       },
 
       snapToPosition: function() {
@@ -41,6 +42,7 @@ ClassManager.create('Character', function(game) {
 
       initial_health: 10,
       initial_attack: 0,
+      initial_defense: 0,
 
       isDead: function() {
          return this.health <= 0;
@@ -97,13 +99,17 @@ ClassManager.create('Character', function(game) {
          return this.attack;
       },
 
+      getDefense: function() {
+         return this.defense;
+      },
+
       /**
        * Do an attack in a certain direction
        */
       doAttack: function(victim, dx, dy) {
          this.attackOffset = 1;
 
-         victim.health -= this.getAttack(victim);
+         victim.health -= Math.max(this.getAttack() - victim.getDefense(), 1);
       },
       
       // Run the walking animation if you need to move

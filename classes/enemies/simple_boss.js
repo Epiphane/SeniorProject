@@ -3,7 +3,8 @@ ClassManager.create('SimpleBoss', function(game) {
       sprite: "boss1.png",
       walkStartFrame: 3,
       walkEndFrame:   5,
-      initial_health: 80,
+      initial_health: 15,
+      initial_attack: 2,
       cooldown: 2,
 
       act: function() {

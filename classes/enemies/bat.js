@@ -5,6 +5,6 @@ ClassManager.create('Bat', function(game) {
       walkStartFrame: 3,
       walkEndFrame:   5,
       initial_attack: 1,
-      initial_health: 5,
+      initial_health: 1,
    });
 });

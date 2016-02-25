@@ -4,7 +4,10 @@
 ClassManager.create('Weapon', function(game) {
    // Create the base class
    return Class.create(Classes.Item, {
-      attack: 0
+      attack: 0,
+      onHit: function(enemy) {
+         /* ... */
+      }
    });
 });
 
@@ -12,8 +15,8 @@ ClassManager.create('Weapon', function(game) {
  * The item implementations themselves
  */
 (function() {
-   var LVL_1 = 2;
-   var LVL_2 = 2;
+   var LVL_1 = 1;
+   var LVL_2 = 1;
    [
       {
          className: 'Sword',

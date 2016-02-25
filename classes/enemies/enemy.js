@@ -8,7 +8,7 @@ ClassManager.create('Enemy', function(game) {
    return Class.create(Classes['Character'], {
       sprite: '',
       initial_attack: 1,
-      initial_health: 10,
+      initial_health: 2,
       attack_range: 1,
       boss: false,
 
