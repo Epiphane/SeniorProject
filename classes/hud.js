@@ -19,12 +19,12 @@ ClassManager.create('HUD', function(game) {
          }
 
          var weaponFrame = new Classes.HUD_Frame();
-         weaponFrame.x = weaponFrame.y = C.HUD_FRAME;
+         weaponFrame.x = weaponFrame.y = C.HUD_PADDING;
          this.addChild(weaponFrame);
 
          var armorFrame = new Classes.HUD_Frame();
-         armorFrame.x = C.HUD_FRAME;
-         armorFrame.y = C.HUD_FRAME + C.TILE_SIZE * 2;
+         armorFrame.x = C.HUD_PADDING;
+         armorFrame.y = C.HUD_PADDING + C.TILE_SIZE * 2;
          this.addChild(armorFrame);
 
          this.weapon = new Classes.Item();

@@ -22,7 +22,7 @@
           label.color = opts.color || 'white';          // And color too!
       label.textAlign = opts.align || 'left';
 
-      label.width = C.GAME_SIZE; // No wrapping
+      label.width = opts.width || C.GAME_SIZE; // No wrapping
 
       return label;
    };

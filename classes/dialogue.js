@@ -14,7 +14,7 @@ ClassManager.create('Dialogue', function(game) {
          this.active = false;
          this.timer = 100;
 
-         this.label = Utils.createLabel("", C.HUD_FRAME+100+15, C.GAME_SIZE-C.HUD_FRAME-145, {font: '12px Pokemon GB'});
+         this.label = Utils.createLabel("", C.HUD_PADDING+100+15, C.GAME_SIZE-C.HUD_PADDING-145, {font: '12px Pokemon GB'});
          this.label.width = 430;
          this.addChild(this.label);
       },
@@ -70,8 +70,8 @@ ClassManager.create('Portrait', function(game) {
          Sprite.call(this, 100,100);
          this.sprite = sprite || "portrait.png";
          this.image = game.assets["assets/images/"+this.sprite];
-         this.x = C.HUD_FRAME;
-         this.y = C.GAME_SIZE-C.HUD_FRAME*2-this.height;
+         this.x = C.HUD_PADDING;
+         this.y = C.GAME_SIZE-C.HUD_PADDING*2-this.height;
          // TODO add animation support
       }
    });
@@ -83,8 +83,8 @@ ClassManager.create('Textbox', function(game) {
       initialize: function() {
          Sprite.call(this, 600, 200);
          this.image = game.assets["assets/images/textbox.png"];
-         this.x = C.HUD_FRAME/2;
-         this.y = C.GAME_SIZE-C.HUD_FRAME/2-this.height;
+         this.x = C.HUD_PADDING/2;
+         this.y = C.GAME_SIZE-C.HUD_PADDING/2-this.height;
       }
    });
 });
