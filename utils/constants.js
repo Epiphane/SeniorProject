@@ -109,7 +109,8 @@
       "dialogue.png",
       "muted.png",
       "unmuted.png",
-      "boulder.png"
+      "boulder.png",
+      "door.png"
    ];
    
    Constants.preloadAssets = function(game) {

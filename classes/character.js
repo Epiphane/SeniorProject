@@ -10,6 +10,9 @@ ClassManager.create('Character', function(game) {
    return Class.create(Sprite, {
       walkSpeed: 1 / 12,
 
+      // Contains a switch (if any) that the player is currently standing on.
+      currentSwitch: null,
+
       initialize: function(x, y) {
          Sprite.call(this, C.TILE_SIZE, C.TILE_SIZE);
 

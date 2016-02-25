@@ -7,6 +7,9 @@
    window.PuzzleRoomGenerator = Class.create(RoomGenerator, {
       populateRoom: function(room) {
          // Add boulders and switches to the room
+         this.addCharacter(room, new Classes.Pushable(), 2, 4);
+         this.addCharacter(room, new Classes.Pushable(), 2, 2);
+         this.addCharacter(room, new Classes.Pushable(), 1, 3);
          this.addCharacter(room, new Classes.Slime(), 2, 3);
 
          this.addCharacter(room, new Classes.Pushable(), -3, -3);

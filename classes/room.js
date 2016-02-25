@@ -161,6 +161,11 @@ ClassManager.create('Room', function(game) {
             return false;
          }
 
+         var itemInSquare = this.getItemAt(x, y);
+         if (itemInSquare && itemInSquare.impassible) {
+            return false;
+         }
+
          return true;
       },
 
