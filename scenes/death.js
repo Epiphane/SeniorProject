@@ -22,7 +22,7 @@ Scenes.Death = Singletonify(function(game) {
    
    Death.addEventListener(Event.INPUT_START, function() {
       if (game.input.select) {
-         var newSound = game.assets['assets/sounds/select2.wav'].clone();
+         var newSound = new buzz.sound('assets/sounds/select2.wav');
          newSound.play();
 
          // Return to title screen
