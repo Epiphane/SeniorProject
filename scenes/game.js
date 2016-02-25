@@ -10,6 +10,10 @@
       Game.bgm = new buzz.sound("assets/sounds/dungeon.mp3", {loop:true});
       var muteTimer = 20;
 
+      // Create a new game object
+      window.currentGame = new ParseGame();
+      window.currentGame.save();
+
       // Not sure where else to put this
       Game.moveRooms = function(dir) {
          Game.setRoom(Game.currentRoom.getNeighbor(dir));
@@ -18,6 +22,11 @@
       };
 
       Game.descend = function() {
+         if (game.currentRoom) {
+            window.currentGame.set('dungeons_completed', window.currentGame.get('dungeons_completed') + 1);
+            window.currentGame.save();
+         }
+
          // Create first room
          Game.player.position.x = Game.player.position.y = 0;
          Game.player.snapToPosition();
