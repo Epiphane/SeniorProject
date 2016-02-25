@@ -60,7 +60,7 @@
       'key_special', 'orb', 'sword', 'sword_ice', 'sword_earth',
       'sword_light', 'sword_fire', 'sword_dark', 'sword_what',
       'shield_1', 'shield_2', 'shield_3', 'shield_4', 'shield_5', 'shield_6',
-      'shield_7'
+      'shield_7','sign'
    ]);
 
    Constants.Weapons = Object.freeze(['Sword', 'IceSword', 'EarthSword', 'LightSword', 'FireSword', 'DarkSword']);
@@ -72,6 +72,7 @@
    /* HUD constants */
    Constants.HEART_PADDING = 35;
    Constants.HUD_TILESIZE = 50;
+   Constants.HUD_PADDING = 38;
    Constants.HUD = Enum(['heart_full', 'heart_half', 'heart_empty', 'frame']);
 
    /* Set up key bindings for the game */
@@ -80,11 +81,12 @@
       68: 'right',
       87: 'up',
       83: 'down',
+      69: 'interact',
       // 74: 'attackLeft',
       // 76: 'attackRight',
       // 73: 'attackUp',
       // 75: 'attackDown',
-       77: 'mute',
+      77: 'mute',
       // 78: 'usePotion',
       32: 'select'
    };
@@ -111,7 +113,9 @@
       "monster2poison.gif",
       "dialogue.png",
       "muted.png",
-      "unmuted.png"
+      "unmuted.png",
+      "textbox.png",
+      "portrait.png"
    ];
    
    Constants.preloadAssets = function(game) {

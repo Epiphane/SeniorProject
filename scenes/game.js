@@ -5,6 +5,7 @@
 (function(Scenes, Classes) {
    Scenes.Game = function(game) {
       var Game = new Scene();
+      Game.dialogueManager = new Classes.Dialogue();
       Game.backgroundColor = "black";
       Game.bgm = new buzz.sound("assets/sounds/dungeon.mp3", {loop:true});
       var muteTimer = 20;
@@ -61,6 +62,7 @@
       Game.waitingOnMovement = function() {
          if (Game.player.isAnimating()) return true;
          if (Game.currentRoom.isAnimating()) return true;
+         if (Game.dialogueManager.isActive()) return true;
 
          if (actionCooldown > 0) return true;
 
@@ -87,6 +89,15 @@
          if (game.input.mute && muteTimer<=0) {
             buzz.all().toggleMute();
             muteTimer = 20;
+         }
+         if (game.input.interact && muteTimer<=0) {
+            if (Game.dialogueManager.isActive()) {
+               Game.dialogueManager.advance();
+               muteTimer = 10;
+            }
+            else {
+               Game.dialogueManager.say(["Howdy!", "It's me, your best friend."]);
+            }
          }
          muteTimer = Math.max(muteTimer-1, 0);
 
