@@ -41,7 +41,7 @@
          Game.currentRoom.onEnter();
       };
 
-      Game.player = new Classes.Player(0, 0);//Math.floor(C.MAP_SIZE / 2), Math.floor(C.MAP_SIZE / 2));
+      Game.player = new Classes.Player(0, 0);
       Game.HUD = new Classes.HUD(Game.player);
 
       Game.bgm.play();
