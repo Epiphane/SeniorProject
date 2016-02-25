@@ -5,9 +5,9 @@
 (function(Scenes, Classes) {
    Scenes.Game = function(game) {
       var Game = new Scene();
+      Game.dialogueManager = new Classes.Dialogue();
       Game.backgroundColor = "black";
       Game.bgm = new buzz.sound("assets/sounds/dungeon.mp3", {loop:true});
-      Game.currentDialogue = null;
       var muteTimer = 20;
 
       // Not sure where else to put this
@@ -53,6 +53,7 @@
       Game.waitingOnMovement = function() {
          if (Game.player.isAnimating()) return true;
          if (Game.currentRoom.isAnimating()) return true;
+         if (Game.dialogueManager.isActive()) return true;
 
          if (actionCooldown > 0) return true;
 
@@ -62,7 +63,7 @@
       Game.onenterframe = function() {
          if (actionCooldown > 0) actionCooldown -= 1 / 60;
 
-         if (!Game.waitingOnMovement() && this.currentDialogue == null) {
+         if (!Game.waitingOnMovement()) {
             if (game.input.left) {
                Game.action(-1, 0);
             }
@@ -75,25 +76,18 @@
             else if (game.input.down) {
                Game.action(0, 1);
             }
-            else if (game.input.interact) {
-
-            }
          }
          if (game.input.mute && muteTimer<=0) {
             buzz.all().toggleMute();
             muteTimer = 20;
          }
          if (game.input.interact && muteTimer<=0) {
-            muteTimer = 20;
-            if (this.currentDialogue == null) {
-               console.log("INTERACT-NEW DIALOG");
-               this.currentDialogue = new Classes.Dialogue();
-               this.addChild(this.currentDialogue);
+            if (Game.dialogueManager.isActive()) {
+               Game.dialogueManager.advance();
+               muteTimer = 10;
             }
             else {
-               console.log("INTERACT-REMOVE DIALOG");
-               this.removeChild(this.currentDialogue);
-               this.currentDialogue = null;
+               Game.dialogueManager.say(["Howdy!", "It's me, your best friend."]);
             }
          }
          muteTimer = Math.max(muteTimer-1, 0);

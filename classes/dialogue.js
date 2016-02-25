@@ -3,20 +3,63 @@
  */
 ClassManager.create('Dialogue', function(game) {
    return Class.create(Group, {
-      initialize: function(textDictionary) {
+      initialize: function(speaker) {
          Group.call(this);
-
-         this.text = textDictionary || {};
-         this.labels = [];
-         this.portrait = new Classes.Portrait();
+         // for changing dialogue on multiple interactions
+         this.instance = 0;
+         this.portrait = new Classes.Portrait(speaker);
          this.textbox = new Classes.Textbox();
          this.addChild(this.textbox);
          this.addChild(this.portrait);
+         this.active = false;
+         this.timer = 100;
 
-         // TODO: add actual text display
-         // For label adding, they need to be offset by C.HUD_FRAME+100 in X
-         // Y offset tbd
+         this.label = Utils.createLabel("", C.HUD_FRAME+100+15, C.GAME_SIZE-C.HUD_FRAME-145, {font: '12px Pokemon GB'});
+         this.label.width = 430;
+         this.addChild(this.label);
       },
+      say: function(words) {
+         this.words = words;
+         this.label.text = words[this.instance];
+         this.advanceTextLabel = Utils.createLabel("Press E", 530,587, {font: '10px Pokemon GB'});
+         this.addChild(this.advanceTextLabel);
+         this.show();
+      },
+      setExpression: function(sprite) {
+         this.portrait.image = game.assets["assets/images/"+sprite];
+      },
+      advance: function() {
+         if (this.instance >= this.words.length) {
+            this.hide();
+            this.instance = 0;
+         }
+         else {
+            this.label.text = this.words[this.instance];
+            this.instance = this.instance + 1;
+         }
+      },
+      hide: function() {
+         this.active = false;
+         game.currentScene.removeChild(this);
+         this.removeChild(this.advanceTextLabel);
+      },
+      show: function() {
+         this.active = true;
+         game.currentScene.addChild(this);
+      },
+      isActive: function() {
+         return this.active;
+      },
+      onenterframe: function() {
+         this.timer = this.timer - 1;
+         if (this.timer <= 0) {
+            this.timer = 100;
+            this.addChild(this.advanceTextLabel);
+         }
+         else if (this.timer < 50) {
+            this.removeChild(this.advanceTextLabel);
+         }
+      }
    });
 });
 
