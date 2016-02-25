@@ -8,7 +8,16 @@
       Parse.initialize("Z2FidZhAynqODZbhl3ldlBIAPqJv8dr4IHXKrjXE", "nagyQeZe8nZ0nundayOg57KUzomLIiUtl1LO33BE");
    }
 
+   window.currentGame = null;
+
    window.ParseEvent = Parse.Object.extend("Event");
+   window.ParseGame = Parse.Object.extend("Game", {
+      initialize: function(attrs, options) {
+         attrs = attrs || {};
+         attrs.user_placeholder = user_obj;
+         attrs.dungeons_completed = 0;
+      }
+   });
    window.ParseRoom = Parse.Object.extend("Room", {
       defaults: {
          timesVisited: 0,
@@ -21,6 +30,7 @@
          for (var key in this.defaults) {
             attrs[key] = attrs[key] || this.defaults[key];
          }
+         attrs.game = window.currentGame;
       }
    });
 

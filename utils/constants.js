@@ -13,7 +13,7 @@
    Constants.TILE_SIZE = 32;
 
    Constants.ROOM_TYPES = Enum([
-      'random', 'store', 'treasure', 'combat', 'npc', 'boss', 'puzzle'
+      'random', 'store', 'treasure', 'weapon', 'armor', 'combat', 'npc', 'boss', 'puzzle'
    ]);
 
    var spriteToTile = function(row, col) {
@@ -59,9 +59,12 @@
       'empty', 'potion', 'dagger', 'chest_closed', 'chest_open', 'key_normal',
       'key_special', 'orb', 'sword', 'sword_ice', 'sword_earth',
       'sword_light', 'sword_fire', 'sword_dark', 'sword_what',
-      'shield_1', 'shielf_2', 'shield_3', 'shield_4', 'shield_5', 'shield_6',
-      'shield_7'
+      'shield_1', 'shield_2', 'shield_3', 'shield_4', 'shield_5', 'shield_6',
+      'shield_7','sign'
    ]);
+
+   Constants.Weapons = Object.freeze(['Sword', 'IceSword', 'EarthSword', 'LightSword', 'FireSword', 'DarkSword']);
+   Constants.Armors = Object.freeze(['Shield', 'Buckler', 'Wooden War Door', 'Iron Buckler', 'Steel War Door', 'Knights Shield', 'Legendary Shield']);
 
    Constants.GAME_SIZE = 640;
    Constants.MAP_SIZE = C.GAME_SIZE / C.TILE_SIZE;
@@ -69,6 +72,7 @@
    /* HUD constants */
    Constants.HEART_PADDING = 35;
    Constants.HUD_TILESIZE = 50;
+   Constants.HUD_PADDING = 38;
    Constants.HUD = Enum(['heart_full', 'heart_half', 'heart_empty', 'frame']);
 
    /* Set up key bindings for the game */
@@ -77,11 +81,12 @@
       68: 'right',
       87: 'up',
       83: 'down',
+      69: 'interact',
       // 74: 'attackLeft',
       // 76: 'attackRight',
       // 73: 'attackUp',
       // 75: 'attackDown',
-       77: 'mute',
+      77: 'mute',
       // 78: 'usePotion',
       32: 'select'
    };
@@ -111,6 +116,8 @@
       "unmuted.png",
       "boulder.png",
       "door.png"
+      "textbox.png",
+      "portrait.png"
    ];
    
    Constants.preloadAssets = function(game) {

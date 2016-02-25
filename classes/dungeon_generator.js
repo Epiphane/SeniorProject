@@ -20,9 +20,11 @@ ClassManager.create('DungeonGenerator', function(game) {
          // 1 boss room
          roomTypes.push(C.ROOM_TYPES.boss);
          roomTypes.push(C.ROOM_TYPES.store);
+         roomTypes.push(C.ROOM_TYPES.weapon);
+         roomTypes.push(C.ROOM_TYPES.armor);
 
          // 3 treasure rooms
-         for (var i = 0; i < 3; i ++)
+         for (var i = 0; i < 2; i ++)
             roomTypes.push(C.ROOM_TYPES.treasure);
 
          while (roomTypes.length < this.numRooms)
@@ -48,30 +50,14 @@ ClassManager.create('DungeonGenerator', function(game) {
       nextRoomType: function(direction, deadEnd) {
          var ndxToPick = 0;
          if (this.numRooms - this.roomsCreated > 1) {
-            while (this.unexploredRooms === 1 && this.roomTypes[ndxToPick] === C.ROOM_TYPES.boss) {
+            while (this.unexploredRooms === 1 && this.isDeadEndRoom(this.roomTypes[ndxToPick])) {
                ndxToPick ++;
             }
          }
 
-         return this.roomTypes.splice(ndxToPick, 1)[0];
-         var roomsRemaining = this.numRooms - this.roomsCreated;
-
-         if (!this.hasCreatedBossRoom) {
-            if (roomsRemaining === 1 || (this.unexploredRooms > 1 && chance.bool({ likelihood: 20 }))) {
-               this.hasCreatedBossRoom = true;
-               return C.ROOM_TYPES.boss;
-            }
-         }
-
-         if (chance.bool({ likelihood: 33 })) {
-            return C.ROOM_TYPES.combat;
-         }
-
-         if (chance.bool({ likelihood: 50 })) {
-            return C.ROOM_TYPES.treasure;
-         }
-
-         return C.ROOM_TYPES.random;
+         var ret = this.roomTypes[ndxToPick];
+         this.roomTypes.splice(ndxToPick, 1);
+         return ret;
       },
 
       /**
@@ -99,12 +85,17 @@ ClassManager.create('DungeonGenerator', function(game) {
 
          // If this new room is the only one you haven't explored,
          // then we don't want to make a dead end.
-         if (this.unexploredRooms === 1) {
+         if (this.unexploredRooms === 1 && this.numRooms - this.roomsCreated > 1) {
             numExitBounds.min = 2;
          }
 
          // Random number of exits
-         var numExits = chance.integer(numExitBounds);
+         try {
+            var numExits = chance.integer(numExitBounds);
+         }
+         catch(e) {
+            console.error('Error bounds:', numExitBounds);
+         }
 
          // First define the room type
          switch (roomType) {
@@ -114,6 +105,12 @@ ClassManager.create('DungeonGenerator', function(game) {
                break;
             case C.ROOM_TYPES.treasure:
                generator = new ItemRoomGenerator();
+               break;
+            case C.ROOM_TYPES.weapon:
+               generator = new WeaponRoomGenerator();
+               break;
+            case C.ROOM_TYPES.armor:
+               generator = new ArmorRoomGenerator();
                break;
             case C.ROOM_TYPES.combat:
                generator = new CombatRoomGenerator();
@@ -144,7 +141,14 @@ ClassManager.create('DungeonGenerator', function(game) {
          for (var dir = 0; dir < 4; dir ++) {
             // There is a numExits / (dir + 1) chance we add a new exit here
             // This makes it equal e.g. 1/4, 1/3, 1/2, 1/1 chances stack up
-            if (chance.bool({ likelihood: Math.min(100 * numExits / (4 - dir), 100) }) && direction !== dir) {
+            var makeExit = false;
+            try {
+               makeExit = chance.bool({ likelihood: Math.min(100 * numExits / (4 - dir), 100) });
+            }
+            catch (e) {
+               console.error('Error bounds:', { likelihood: Math.min(100 * numExits / (4 - dir), 100) });
+            }
+            if (makeExit && direction !== dir) {
                numExits --;
 
                // Decide what type of room our neighbor is
@@ -152,6 +156,12 @@ ClassManager.create('DungeonGenerator', function(game) {
                   type: this.nextRoomType(dir)
                });
                nextRoom.neighbors[dir].save();
+               
+               // If a room is a dead end (like a boss room), consider it "explored"
+               // That way the dungeon will not try to path through it.
+               if (this.isDeadEndRoom(nextRoom.neighbors[dir].get('type'))) {
+                  this.unexploredRooms --;
+               }
             }
          }
 

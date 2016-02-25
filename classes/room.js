@@ -99,7 +99,13 @@ ClassManager.create('Room', function(game) {
          this.insertBefore(node, this.map);
       },
 
-      addCharacter: function(character) {
+      addCharacter: function(character, x, y) {
+         if (x && y) {
+            character.position.x = x;
+            character.position.y = y;
+            character.snapToPosition();
+         }
+
          this.characters.push(character);
          this.addToScene(character);
 

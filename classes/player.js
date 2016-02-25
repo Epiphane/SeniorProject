@@ -32,7 +32,7 @@ ClassManager.create('Player', function(game) {
       attackStartFrame: 6,
       attackEndFrame: 9,
 
-      initial_attack: 5,
+      initial_attack: 1,
 
       getDirectionFrame: function() {
          return 9 * this.direction;
@@ -42,11 +42,24 @@ ClassManager.create('Player', function(game) {
          return this.attack + (this.weapon ? this.weapon.attack : 0);
       },
 
+
       // Returns the 'walkable' function that PLAYERS use. 
       //
       // See character.js -> tryMove()
       walkableFunction: function() {
          return game.currentScene.currentRoom.isPlayerWalkable;
+      },
+
+      getDefense: function() {
+         return this.defense + (this.armor ? this.armor.defense : 0);
+      },
+
+      doAttack: function(victim, dx, dy) {
+         Classes['Character'].prototype.doAttack.apply(this, arguments);
+
+         if (this.weapon) {
+            this.weapon.onHit(victim);
+         }
       },
 
       action: function(dx, dy, gameScene, room) {
@@ -99,6 +112,9 @@ ClassManager.create('Player', function(game) {
             if (enemy instanceof Classes['Enemy']) {
                this.sfxAttack.play();
                this.doAttack(enemy, dx, dy);
+            }
+            else if(enemy instanceof Classes['NPC']) {
+               enemy.showDialogue();
             }
          }
       },
