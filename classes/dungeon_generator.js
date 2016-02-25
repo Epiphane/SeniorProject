@@ -55,26 +55,7 @@ ClassManager.create('DungeonGenerator', function(game) {
 
          var ret = this.roomTypes[ndxToPick];
          this.roomTypes.splice(ndxToPick, 1);
-         console.log('Bag', this.roomTypes)
          return ret;
-         var roomsRemaining = this.numRooms - this.roomsCreated;
-
-         if (!this.hasCreatedBossRoom) {
-            if (roomsRemaining === 1 || (this.unexploredRooms > 1 && chance.bool({ likelihood: 20 }))) {
-               this.hasCreatedBossRoom = true;
-               return C.ROOM_TYPES.boss;
-            }
-         }
-
-         if (chance.bool({ likelihood: 33 })) {
-            return C.ROOM_TYPES.combat;
-         }
-
-         if (chance.bool({ likelihood: 50 })) {
-            return C.ROOM_TYPES.treasure;
-         }
-
-         return C.ROOM_TYPES.random;
       },
 
       /**
@@ -102,7 +83,7 @@ ClassManager.create('DungeonGenerator', function(game) {
 
          // If this new room is the only one you haven't explored,
          // then we don't want to make a dead end.
-         if (this.unexploredRooms === 1) {
+         if (this.unexploredRooms === 1 && this.numRooms - this.roomsCreated > 1) {
             numExitBounds.min = 2;
          }
 
