@@ -20,9 +20,11 @@ ClassManager.create('DungeonGenerator', function(game) {
          // 1 boss room
          roomTypes.push(C.ROOM_TYPES.boss);
          roomTypes.push(C.ROOM_TYPES.store);
+         roomTypes.push(C.ROOM_TYPES.weapon);
+         roomTypes.push(C.ROOM_TYPES.armor);
 
          // 3 treasure rooms
-         for (var i = 0; i < 3; i ++)
+         for (var i = 0; i < 2; i ++)
             roomTypes.push(C.ROOM_TYPES.treasure);
 
          while (roomTypes.length < this.numRooms)
@@ -103,6 +105,12 @@ ClassManager.create('DungeonGenerator', function(game) {
                break;
             case C.ROOM_TYPES.treasure:
                generator = new ItemRoomGenerator();
+               break;
+            case C.ROOM_TYPES.weapon:
+               generator = new WeaponRoomGenerator();
+               break;
+            case C.ROOM_TYPES.armor:
+               generator = new ArmorRoomGenerator();
                break;
             case C.ROOM_TYPES.combat:
                generator = new CombatRoomGenerator();
