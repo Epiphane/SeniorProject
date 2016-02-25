@@ -15,7 +15,7 @@ ClassManager.create('NPC', function(game) {
 
          this.attackCounter = 0;
          this.cooldown = 0;
-         this.direction = 0;
+         this.direction = C.P_DIR.DOWN;
 
          this.health = this.max_health = 2;
       
