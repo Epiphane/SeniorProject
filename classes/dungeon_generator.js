@@ -151,6 +151,7 @@ ClassManager.create('DungeonGenerator', function(game) {
                nextRoom.neighbors[dir] = new ParseRoom({
                   type: this.nextRoomType(dir)
                });
+               console.log('neighbor:', nextRoom.neighbors[dir].get('type'));
                nextRoom.neighbors[dir].save();
             }
          }

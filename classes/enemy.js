@@ -104,7 +104,7 @@ ClassManager.create('Boss', function(game) {
          // Call super constructor
          Classes.Enemy.prototype.initialize.apply(this, arguments);
 
-         this.special = 8;
+         this.special = 4;
          this.waiting = 2;
       },
 
@@ -140,8 +140,14 @@ ClassManager.create('SimpleBoss', function(game) {
             return;
          }
 
+         this.special = 8;
+
          // Spawn an enemy somewhere!
-         var newEnemy = new Classes['Bat']();
+         var currentRoom = game.currentScene.currentRoom;
+         currentRoom.addCharacter(new Classes['Bat'](),  Math.floor(currentRoom.width / 2) - 2,  Math.floor(currentRoom.height / 2) - 2);
+         currentRoom.addCharacter(new Classes['Bat'](), -Math.floor(currentRoom.width / 2) + 2,  Math.floor(currentRoom.height / 2) - 2);
+         currentRoom.addCharacter(new Classes['Bat'](),  Math.floor(currentRoom.width / 2) - 2, -Math.floor(currentRoom.height / 2) + 2);
+         currentRoom.addCharacter(new Classes['Bat'](), -Math.floor(currentRoom.width / 2) + 2, -Math.floor(currentRoom.height / 2) + 2);
       }
    });
 });

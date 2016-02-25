@@ -168,11 +168,7 @@
       },
 
       addCharacter: function(room, character, x, y) {
-         character.position.x = x;
-         character.position.y = y;
-         character.snapToPosition();
-
-         room.addCharacter(character);
+         room.addCharacter(character, x, y);
       },
 
       addItem: function(room, item, x, y) {
