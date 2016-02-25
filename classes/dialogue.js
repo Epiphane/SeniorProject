@@ -2,6 +2,11 @@
  * The Dialogue class controls the displaying and dismissal of dialogue boxes
  */
 ClassManager.create('Dialogue', function(game) {
+   var dialoguePadding = 15;
+   var textWidth = 430;
+   var bottomPadding = 130;
+   var pressEx = 530;
+   var pressEy = 588
    return Class.create(Group, {
       initialize: function(speaker) {
          Group.call(this);
@@ -14,14 +19,14 @@ ClassManager.create('Dialogue', function(game) {
          this.active = false;
          this.timer = 100;
 
-         this.label = Utils.createLabel("", C.HUD_PADDING+100+15, C.GAME_SIZE-C.HUD_PADDING-145, {font: '12px Pokemon GB'});
-         this.label.width = 430;
+         this.label = Utils.createLabel("", C.HUD_PADDING+this.portrait.width+dialoguePadding, C.GAME_SIZE-C.HUD_PADDING-bottomPadding-dialoguePadding, {font: '12px Pokemon GB'});
+         this.label.width = textWidth;
          this.addChild(this.label);
       },
       say: function(words) {
          this.words = words;
          this.label.text = words[this.instance];
-         this.advanceTextLabel = Utils.createLabel("Press E", 530,587, {font: '10px Pokemon GB'});
+         this.advanceTextLabel = Utils.createLabel("Press E", pressEx,pressEy, {font: '10px Pokemon GB'});
          this.addChild(this.advanceTextLabel);
          this.show();
       },
