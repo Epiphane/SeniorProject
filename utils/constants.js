@@ -108,7 +108,8 @@
       "monster2poison.gif",
       "dialogue.png",
       "muted.png",
-      "unmuted.png"
+      "unmuted.png",
+      "boulder.png"
    ];
    
    Constants.preloadAssets = function(game) {

@@ -6,7 +6,7 @@ ClassManager.create('Pushable', function(game) {
 
       initialize: function(x, y) {
          Classes.Character.call(this, x, y);
-         this.image = game.assets["assets/images/monster1slow.gif"];
+         this.image = game.assets["assets/images/boulder.png"];
       },
 
 		act: function(something) {
