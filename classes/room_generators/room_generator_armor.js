@@ -18,8 +18,8 @@
 
       populateRoom: function(room) {
          // Add enemies and items to room
-         var weapon = chance.pick(C.Armors);
-         this.addItem(room, new Classes[weapon](), 0, 0);
+         var armor = chance.pick(C.Armors);
+         this.addItem(room, new Classes[armor](), 0, 0);
       }
    });
 })(window);
