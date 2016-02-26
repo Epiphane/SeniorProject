@@ -22,6 +22,7 @@ ClassManager.create('DungeonGenerator', function(game) {
          roomTypes.push(C.ROOM_TYPES.store);
          roomTypes.push(C.ROOM_TYPES.weapon);
          roomTypes.push(C.ROOM_TYPES.armor);
+         roomTypes.push(C.ROOM_TYPES.puzzle);
 
          // 3 treasure rooms
          for (var i = 0; i < 2; i ++)
@@ -101,6 +102,9 @@ ClassManager.create('DungeonGenerator', function(game) {
          switch (roomType) {
             case C.ROOM_TYPES.random:
                break;
+            case C.ROOM_TYPES.puzzle:
+               generator = new PuzzleRoomGenerator();
+               break;
             case C.ROOM_TYPES.store:
                break;
             case C.ROOM_TYPES.treasure:
@@ -164,8 +168,6 @@ ClassManager.create('DungeonGenerator', function(game) {
                }
             }
          }
-
-         generator = new PuzzleRoomGenerator();
          
          return generator.fillRoom(nextRoom, { /* params */ });
       }
