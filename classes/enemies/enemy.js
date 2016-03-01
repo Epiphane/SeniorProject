@@ -23,6 +23,13 @@ ClassManager.create('Enemy', function(game) {
          return this.act();
       },
 
+      // Returns the 'walkable' function that MONSTERS use
+      //
+      // See character.js -> tryMove()
+      walkableFunction: function() {
+         return game.currentScene.currentRoom.isMonsterWalkable;
+      },
+
       isBoss: function() { return this.boss; },
 
       act: function() {

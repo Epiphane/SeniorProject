@@ -13,7 +13,7 @@
    Constants.TILE_SIZE = 32;
 
    Constants.ROOM_TYPES = Enum([
-      'random', 'store', 'treasure', 'weapon', 'armor', 'combat', 'npc', 'boss'
+      'random', 'store', 'treasure', 'weapon', 'armor', 'combat', 'npc', 'boss', 'puzzle'
    ]);
 
    var spriteToTile = function(row, col) {
@@ -114,8 +114,10 @@
       "dialogue.png",
       "muted.png",
       "unmuted.png",
+      "boulder.png",
+      "door.png",
       "textbox.png",
-      "portrait.png"
+      "portrait.png",
    ];
    
    Constants.preloadAssets = function(game) {
