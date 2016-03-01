@@ -21,10 +21,27 @@ ClassManager.create('Triggerable', function(game) {
             player.health = Math.min(player.health + 4, player.max_health);
             player.sfxPowerup.play();
          }
-      }
+      },
+
+      {
+         className: 'DoorSwitch',
+         itemName: 'org',
+         fixedInPlace: true,
+
+         // What door will this switch open when pressed?
+         attachedDoor: null,
+
+         act: function(character) {
+            attachedDoor.switchChanged(this, true);
+            // character.
+         }
+      },
+
    ].forEach(function(item) {
       ClassManager.create(item.className, function(game) {
          return Class.create(Classes.Triggerable, item);
       });
    });
 })();
+
+

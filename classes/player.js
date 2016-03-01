@@ -42,6 +42,14 @@ ClassManager.create('Player', function(game) {
          return this.attack + (this.weapon ? this.weapon.attack : 0);
       },
 
+
+      // Returns the 'walkable' function that PLAYERS use. 
+      //
+      // See character.js -> tryMove()
+      walkableFunction: function() {
+         return game.currentScene.currentRoom.isPlayerWalkable;
+      },
+
       getDefense: function() {
          return this.defense + (this.armor ? this.armor.defense : 0);
       },
@@ -74,7 +82,14 @@ ClassManager.create('Player', function(game) {
             var item = room.getItemAt(this.position.x, this.position.y);
             if (item !== null) {
                // Grab item!
-               room.removeItemAt(this.position.x, this.position.y);
+               if (!item.fixedInPlace) {
+                  // Don't pick up stuff like switches or boulders.
+                  room.removeItemAt(this.position.x, this.position.y);
+               }
+               // TODO: debug remove
+               else {
+                  console.log("That's fixed in place");
+               }
 
                if (item instanceof Classes['Weapon']) {
                   // Swap out my weapon
