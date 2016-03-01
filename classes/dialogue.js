@@ -11,14 +11,13 @@ ClassManager.create('Dialogue', function(game) {
       initialize: function(speaker) {
          Group.call(this);
          // for changing dialogue on multiple interactions
-         this.instance = 0;
          this.portrait = new Classes.Portrait(speaker);
          this.textbox = new Classes.Textbox();
          this.addChild(this.textbox);
          this.addChild(this.portrait);
          this.active = false;
          this.timer = 100;
-
+         this.instance = 0;
          this.label = Utils.createLabel("", C.HUD_PADDING+this.portrait.width+dialoguePadding, C.GAME_SIZE-C.HUD_PADDING-bottomPadding-dialoguePadding, {font: '12px Pokemon GB'});
          this.label.width = textWidth;
          this.addChild(this.label);
@@ -26,6 +25,7 @@ ClassManager.create('Dialogue', function(game) {
       say: function(words) {
          this.words = words;
          this.label.text = words[this.instance];
+
          this.advanceTextLabel = Utils.createLabel("Press E", pressEx,pressEy, {font: '10px Pokemon GB'});
          this.addChild(this.advanceTextLabel);
          this.show();

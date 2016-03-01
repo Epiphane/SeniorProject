@@ -114,7 +114,7 @@ ClassManager.create('Player', function(game) {
                this.doAttack(enemy, dx, dy);
             }
             else if(enemy instanceof Classes['NPC']) {
-               enemy.showDialogue();
+               enemy.say();
             }
          }
       },

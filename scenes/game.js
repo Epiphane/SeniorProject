@@ -93,10 +93,7 @@
          if (game.input.interact && muteTimer<=0) {
             if (Game.dialogueManager.isActive()) {
                Game.dialogueManager.advance();
-               muteTimer = 10;
-            }
-            else {
-               Game.dialogueManager.say(["Howdy!", "It's me, your best friend."]);
+               muteTimer = 5;
             }
          }
          muteTimer = Math.max(muteTimer-1, 0);
