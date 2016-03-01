@@ -115,7 +115,9 @@
       "muted.png",
       "unmuted.png",
       "textbox.png",
-      "portrait.png"
+      "portrait.png",
+      "sign_portrait.png",
+      "sign.png"
    ];
    
    Constants.preloadAssets = function(game) {

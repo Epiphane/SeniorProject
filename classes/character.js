@@ -154,6 +154,10 @@ ClassManager.create('Character', function(game) {
          return 0;
       },
 
+      doAI: function() {
+        // for when you need AI
+      },
+
       updateSpriteFrame: function() {
          if (this.isMoving()) {
             // Animate through the enemy's walk cycle every three frames            
