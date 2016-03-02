@@ -7,7 +7,7 @@
  *    y = y coordinate of the sprite
  */
 ClassManager.create('Character', function(game) {
-   return Class.create(Sprite, {
+   return Class.create(Classes.Entity, {
       walkSpeed: 1 / 12,
 
       // Contains a switch (if any) that the player is currently standing on.
@@ -38,6 +38,10 @@ ClassManager.create('Character', function(game) {
          this.defense = this.initial_defense;
       },
 
+      /**
+       * Immediately move this character to their target position,
+       *  bypassing the walk animation.
+       */
       snapToPosition: function() {
          this.x = Utils.to.screen(this.position.x);
          this.y = Utils.to.screen(this.position.y);

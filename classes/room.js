@@ -34,8 +34,7 @@ ClassManager.create('Room', function(game) {
          this.tiles = [];
          this.foreground = [];
 
-         this.items = [];
-         this.characters = [];
+         this.entities = [];
 
          this.neighbors = [false, false, false, false];
       },
@@ -233,6 +232,10 @@ ClassManager.create('Room', function(game) {
          }
 
          return null;
+      },
+
+      addEntityAt: function(newEntity, x, y) {
+         newEntity.position = { x: x, y: y };
       },
 
       addItemAt: function(item, x, y) {
