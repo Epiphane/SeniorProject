@@ -1,5 +1,5 @@
-/* 
- * The Room class creates the layout of each dungeon room 
+/*
+ * The Room class creates the layout of each dungeon room
  * Parameters:
  *    dir = The direction that the player went to get to this room
  *    scene = The scene of the room that should be stored as the previous room
@@ -34,7 +34,8 @@ ClassManager.create('Room', function(game) {
          this.tiles = [];
          this.foreground = [];
 
-         this.entities = [];
+         this.items = [];
+         this.characters = [];
 
          this.neighbors = [false, false, false, false];
       },
@@ -112,7 +113,7 @@ ClassManager.create('Room', function(game) {
       },
 
       /**
-       * Put the player in a specific doorway, 
+       * Put the player in a specific doorway,
        * as if they had just come from that direction.
        *
        * @param {P_DIR}
@@ -175,6 +176,58 @@ ClassManager.create('Room', function(game) {
       },
 
       /**
+       * Returns FALSE if there's terrain blocking the spot at (x, y)
+       * Returns TRUE otherwise.
+       */
+      checkTerrain: function(x, y) {
+         x += Math.floor(C.MAP_SIZE / 2);
+         y += Math.floor(C.MAP_SIZE / 2);
+
+         if (this.tiles[y][x] !== C.BG_TILES.floor && this.tiles[y][x] !== C.BG_TILES.empty) {
+            return false;
+         }
+
+         return true;
+      },
+
+      /**
+       * Attempts to move the entity "mover" to the specified
+       *  x and y. Runs the "canMoveOntoMe" function for
+       *  everybody in that square to determine what to do.
+       *
+       * Returns TRUE if "mover" can move there.
+       * Returns FALSE otherwise.
+       */
+      tryMovingToTile: function(x, y, mover) {
+         if (!this.checkTerrain(x, y)) {
+            return false;
+         }
+
+         var canMove = true;
+
+         // Check items in tile
+         this.getItemAt(x, y).forEach(function(item) {
+            canMove &= item.canMoveOntoMe(mover);
+         });
+
+         // Check characters in tile
+         var characterInSquare = this.getCharacterAt(x, y);
+         if (characterInSquare) {
+            canMove &= character.canMoveOntoMe(mover);
+         }
+
+         return canMove;
+      },
+
+      /*
+       * Somebody moved somewhere. Let the current occupants of the cell know
+       *  about this.
+       */
+      didMoveToTile: function(x, y, mover) {
+
+      },
+
+      /**
        * Monster case. We don't want them standing on items, so we treat them as obstacles.
        */
       isMonsterWalkable: function(x, y) {
@@ -234,17 +287,13 @@ ClassManager.create('Room', function(game) {
          return null;
       },
 
-      addEntityAt: function(newEntity, x, y) {
-         newEntity.position = { x: x, y: y };
-      },
-
       addItemAt: function(item, x, y) {
          if (!item) return;
 
          item.position = { x: x, y: y };
          item.x = Utils.to.screen(x);
          item.y = Utils.to.screen(y);
-         
+
          this.items.push(item);
          this.addChild(item);
       },
@@ -262,14 +311,16 @@ ClassManager.create('Room', function(game) {
       },
 
       getItemAt: function(x, y) {
+         var result = [];
+
          for (var i = this.items.length - 1; i >= 0; i--) {
             var item = this.items[i];
             if (item.position.x === x && item.position.y === y) {
-               return item;
+               result.push(item);
             }
          }
 
-         return null;
+         return result;
       },
 
       action: function() {
@@ -302,9 +353,15 @@ ClassManager.create('Room', function(game) {
                EM.log("combat", "murder", character.sprite);
             }
             else {
-               character.doAI();
+               character.everyTurn();
             }
          };
+
+         for (var i = this.items.length - 1; i >= 0; i--) {
+            var item = this.items[i];
+
+            item.everyTurn();
+         }
       },
 
       isAnimating: function() {

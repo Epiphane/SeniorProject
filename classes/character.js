@@ -22,7 +22,7 @@ ClassManager.create('Character', function(game) {
 
          /* The REAL 'frame' property, actually used by the Sprite class to set the sprite's frame. */
          this.frame = 0;
-         
+
          this.direction = C.P_DIR.DOWN;
 
          /* How far is this sprite into its walk/attack cycle? (in terms of frames) */
@@ -60,8 +60,6 @@ ClassManager.create('Character', function(game) {
        */
       action: function(dir_x, dir_y, gameScene, room) {
          this.direction = Utils.to.P_DIR(dir_x, dir_y);
-
-         return this.tryMove(dir_x, dir_y);
       },
 
       isAnimating: function() {
@@ -70,7 +68,7 @@ ClassManager.create('Character', function(game) {
 
       /*
        * Is this sprite moving?
-       * 
+       *
        * Returns true if the player's screen position matches that of the game position (scaled)
        */
       isMoving: function() {
@@ -79,39 +77,11 @@ ClassManager.create('Character', function(game) {
 
       /*
        * Is this sprite attacking?
-       * 
+       *
        * Returns true if the player is in the middle of an attack animation
        */
       isAttacking: function() {
          return this.attackOffset !== 0;
-      },
-
-      /*
-       * Returns the FUNCTION which we use to decide if we can
-       *  walk on a tile or not.
-       */
-      walkableFunction: function() {
-         console.warn("Override me!");
-      },
-
-      /*
-       * Attempt to move in a direction
-       *
-       * return: whether or not move is successful
-       */
-      tryMove: function(dx, dy) {
-         // obstacleFunction contains a FUNCTION that will return FALSE if this entity
-         //  can NOT move there, and TRUE if this entity CAN move there.
-         var obstacleFunction = this.walkableFunction();
-         var room = game.currentScene.currentRoom;
-         if (obstacleFunction.call(room, this.position.x + dx, this.position.y + dy, dx, dy)) {
-            this.position.x += dx;
-            this.position.y += dy;
-
-            return true;
-         }
-        
-         return false;
       },
 
       getAttack: function() {
@@ -130,7 +100,7 @@ ClassManager.create('Character', function(game) {
 
          victim.health -= Math.max(this.getAttack() - victim.getDefense(), 1);
       },
-      
+
       // Run the walking animation if you need to move
       onenterframe: function() {
          if (this.isAttacking()) {
@@ -175,7 +145,7 @@ ClassManager.create('Character', function(game) {
 
       updateSpriteFrame: function() {
          if (this.isMoving()) {
-            // Animate through the enemy's walk cycle every three frames            
+            // Animate through the enemy's walk cycle every three frames
             if (game.frame % this.walkAnimSpeed === 0) {
                var walkCycleLength = this.walkEndFrame - this.walkStartFrame;
                this.walkOffset = ++this.walkOffset % walkCycleLength;

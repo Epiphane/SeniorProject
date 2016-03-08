@@ -19,7 +19,7 @@ ClassManager.create('Player', function(game) {
          this.cooldown = 0;
 
          this.health = this.max_health = 8;
-      
+
          this.weapon = null;
          this.armor = null;
       },
@@ -43,7 +43,7 @@ ClassManager.create('Player', function(game) {
       },
 
 
-      // Returns the 'walkable' function that PLAYERS use. 
+      // Returns the 'walkable' function that PLAYERS use.
       //
       // See character.js -> tryMove()
       walkableFunction: function() {
@@ -62,21 +62,32 @@ ClassManager.create('Player', function(game) {
          }
       },
 
+      // Try to move the character by the specified dx and dy.
       action: function(dx, dy, gameScene, room) {
+         // Set character rotation
+         Classes['Character'].prototype.action.apply(this, arguments);
+
+         var destinationX = this.position.x + dx;
+         var destinationY = this.position.y + dy;
+
          // Try to move between rooms first
-         if (room.isExit(this.position.x + dx, this.position.y + dy)) {
+         if (room.isExit(destinationX, destinationY)) {
             this.direction = Utils.to.P_DIR(dx, dy);
             gameScene.moveRooms(this.direction);
-            // this.position.x += dx;
-            // this.position.y += dy;
          }
 
-         if (room.isStaircase(this.position.x + dx, this.position.y + dy)) {
+         if (room.isStaircase(destinationX, destinationY)) {
             gameScene.descend();
          }
 
-         // Otherwise just move around 'n stuff
-         var moved = Classes['Character'].prototype.action.apply(this, arguments);
+         if (room.tryMovingToTile(destinationX, destinationY, this)) {
+            this.position.x = destinationX;
+            this.position.y = destinationY;
+            room.didMoveToTile(destinationX, destinationY, this);
+         }
+
+
+         /*
          if (moved) {
             // Pick up items
             var item = room.getItemAt(this.position.x, this.position.y);
@@ -117,6 +128,7 @@ ClassManager.create('Player', function(game) {
                enemy.showDialogue();
             }
          }
+         */
       },
 
    });

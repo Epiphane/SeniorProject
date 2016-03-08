@@ -28,7 +28,7 @@ ClassManager.create('Pushable', function(game) {
          return canPush;
       },
 
-      doAI: function() {
+      everyTurn: function() {
          // Boulders don't have much in the way of intelligence
       }
     });

@@ -19,7 +19,7 @@ ClassManager.create('Enemy', function(game) {
          this.sfxDamage = new buzz.sound('assets/sounds/grunt.wav');
       },
 
-      doAI: function() {
+      everyTurn: function() {
          return this.act();
       },
 
