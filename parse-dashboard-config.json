@@ -1,0 +1,10 @@
+{
+  "apps": [
+    {
+      "serverURL": "https://adaptive-database.herokuapp.com/parse",
+      "appId": "adaptive-database",
+      "masterKey": "adaptive-database-master",
+      "appName": "Adaptive Database"
+    }
+  ]
+}
