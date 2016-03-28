@@ -71,10 +71,13 @@ EM.init = function(game) {
          details: details
       };
 
+      // Emulate the "saving" of the room object
+      var saving = {then:function(cb) { return cb; }};
+
       if (game.currentScene.currentRoom) {
          params.room = game.currentScene.currentRoom.parseObj;
 
-         params.room.save(null);
+         saving = params.room.save(null);
       }
 
       if (EM.events[eventType] !== undefined) {
@@ -89,8 +92,10 @@ EM.init = function(game) {
          }
 
          var newEvent = new ParseEvent();
-         newEvent.save(params).fail(function(error) {
-            console.warn("PROBLEM! Parse failed to save event: " + error)
+         saving.then(function() {
+            newEvent.save(params).fail(function(error) {
+               console.warn("PROBLEM! Parse failed to save event: " + error)
+            });
          });
       }
       else {
