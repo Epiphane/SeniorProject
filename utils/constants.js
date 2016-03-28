@@ -119,7 +119,8 @@
       "textbox.png",
       "portrait.png",
       "sign_portrait.png",
-      "sign.png"
+      "sign.png",
+      "npc1.png",
    ];
    
    Constants.preloadAssets = function(game) {

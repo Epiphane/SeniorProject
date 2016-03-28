@@ -9,8 +9,9 @@ ClassManager.create('NPC', function(game) {
    return Class.create(Classes['Character'], {
       initialize: function(x, y) {
          Classes.Character.call(this, x, y);
+         this.isKillable = false;
       },
-      getDialogue: function() {
+      getDialog: function() {
       },
       say: function() {
       },
