@@ -5,7 +5,8 @@
 
    /* Get Parse up and running */
    ParseUtils.setup = function() {
-      Parse.initialize("Z2FidZhAynqODZbhl3ldlBIAPqJv8dr4IHXKrjXE", "nagyQeZe8nZ0nundayOg57KUzomLIiUtl1LO33BE");
+      Parse.initialize("adaptive-database");
+      Parse.serverURL = 'https://adaptive-database.herokuapp.com/parse'
    }
 
    window.currentGame = null;
