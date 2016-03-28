@@ -5,7 +5,7 @@
 (function(Scenes, Classes) {
    Scenes.Game = function(game) {
       var Game = new Scene();
-      Game.dialogueManager = new Classes.Dialogue();
+      Game.dialogManager = new Classes.Dialog();
       Game.backgroundColor = "black";
       Game.bgm = new buzz.sound("assets/sounds/dungeon.mp3", {loop:true});
       var muteTimer = 20;
@@ -94,14 +94,16 @@
                buzz.all().toggleMute();
                muteTimer = 20;
             }
-            if (game.input.interact && muteTimer<=0) {
-               if (Game.dialogueManager.isActive()) {
-                  Game.dialogueManager.advance();
-                  muteTimer = 5;
+            if (game.input.interact) {
+               if (!Game.dialogManager.advanceButton && Game.dialogManager.isActive()) {
+                  Game.dialogManager.advanceButton = true;
+                  Game.dialogManager.advance();
                }
             }
+            else {
+               Game.dialogManager.advanceButton = false;
+            }
             muteTimer = Math.max(muteTimer-1, 0);
-
          }
 
          Game.action = function(dir_x, dir_y) {
