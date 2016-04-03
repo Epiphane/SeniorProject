@@ -61,7 +61,7 @@ window.astar = "";
    };
 
    /* Return the cell that'll get us to our destination, A-star style. */
-   window.astar = function(game, grid, currPos, target) {
+   window.astar = function(game, grid, monster, target) {
       var validCells =  new BinaryHeap(function(node) {
          return node.f;
       });
@@ -93,7 +93,7 @@ window.astar = "";
          }
       }
 
-      validCells.push(astarGrid[currPos.x + Math.floor(C.MAP_SIZE / 2)][currPos.y + Math.floor(C.MAP_SIZE / 2)]);
+      validCells.push(astarGrid[monster.position.x + Math.floor(C.MAP_SIZE / 2)][monster.position.y + Math.floor(C.MAP_SIZE / 2)]);
 
       while (validCells.content.length > 0) {
          // Grab the lowest f(x) to process next.  Heap keeps this sorted for us.
@@ -120,7 +120,7 @@ window.astar = "";
             var neighbor = neighbors[i];
 
             if (!(neighbor.pos.x == target.x && neighbor.pos.y == target.y)) { // Neighbor == player!
-               if (neighbor.closed || !game.currentScene.currentRoom.isMonsterWalkable(neighbor.pos.x, neighbor.pos.y)) {
+               if (neighbor.closed || !game.currentScene.currentRoom.tryMovingToTile(neighbor.pos.x, neighbor.pos.y, monster)) {
                   // Not a valid node to process, skip to next neighbor.
                   continue;
                }

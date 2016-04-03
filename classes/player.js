@@ -74,6 +74,7 @@ ClassManager.create('Player', function(game) {
          if (room.isExit(destinationX, destinationY)) {
             this.direction = Utils.to.P_DIR(dx, dy);
             gameScene.moveRooms(this.direction);
+            return;
          }
 
          if (room.isStaircase(destinationX, destinationY)) {

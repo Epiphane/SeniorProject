@@ -147,6 +147,11 @@ ClassManager.create('Character', function(game) {
         // for when you need AI
       },
 
+      // DON'T TREAD ON ME
+      canMoveOntoMe: function(collider) {
+         return false;
+      },
+
       updateSpriteFrame: function() {
          if (this.isMoving()) {
             // Animate through the enemy's walk cycle every three frames

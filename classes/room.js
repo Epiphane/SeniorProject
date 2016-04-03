@@ -213,7 +213,7 @@ ClassManager.create('Room', function(game) {
          // Check characters in tile
          var characterInSquare = this.getCharacterAt(x, y);
          if (characterInSquare) {
-            canMove &= character.canMoveOntoMe(mover);
+            canMove &= characterInSquare.canMoveOntoMe(mover);
          }
 
          return canMove;
@@ -225,23 +225,6 @@ ClassManager.create('Room', function(game) {
        */
       didMoveToTile: function(x, y, mover) {
 
-      },
-
-      /**
-       * Monster case. We don't want them standing on items, so we treat them as obstacles.
-       */
-      isMonsterWalkable: function(x, y) {
-         var initialResult = this.isWalkable(x, y);
-         if (!initialResult) {
-            return false;
-         }
-
-         var itemInSquare = this.getItemAt(x, y);
-         if (itemInSquare !== null) {
-            return false;
-         }
-
-         return true;
       },
 
       /**
