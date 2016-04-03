@@ -125,7 +125,13 @@ ClassManager.create('Player', function(game) {
                this.doAttack(enemy, dx, dy);
             }
             else if(enemy instanceof Classes['NPC']) {
-               enemy.showDialogue();
+               if (enemy.isKillable) {
+                  // TODO: add logic to do something when an NPC is attacked.
+               }
+               else {
+                  // Maybe note that the player tried to kill them?
+                  enemy.say();
+               }
             }
          }
          */

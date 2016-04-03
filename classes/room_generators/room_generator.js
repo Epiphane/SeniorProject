@@ -177,6 +177,14 @@
 
       populateRoom: function(room) {
          // Add enemies and items to room
+         //TESTING dialog
+         var dialog = [];
+         dialog.push(["Hi! Welcome to the dungeon. Make yourself at home!"]);
+         dialog.push(["What? You didn't know I can say something different?", "Well, now you know!"]);
+         var sign = new Classes.Sign(dialog);
+         this.addCharacter(room, sign, 1, 2);
+         var dweller = new Classes.Urchin([["Go away."]]);
+         this.addCharacter(room, dweller, 2,1);
       }
    });
 

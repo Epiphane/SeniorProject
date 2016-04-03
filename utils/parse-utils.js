@@ -5,7 +5,8 @@
 
    /* Get Parse up and running */
    ParseUtils.setup = function() {
-      Parse.initialize("Z2FidZhAynqODZbhl3ldlBIAPqJv8dr4IHXKrjXE", "nagyQeZe8nZ0nundayOg57KUzomLIiUtl1LO33BE");
+      Parse.initialize("adaptive-database");
+      Parse.serverURL = 'https://adaptive-database.herokuapp.com/parse'
    }
 
    window.currentGame = null;
@@ -18,6 +19,14 @@
          attrs.dungeons_completed = 0;
       }
    });
+   window.ParseDungeon = Parse.Object.extend("Dungeon", {
+      initialize: function(attrs, options) {
+         attrs = attrs || {};
+         attrs.game = window.currentGame;
+         attrs.level = window.currentGame.get('dungeons_completed');
+         attrs.roomsExplored = 0;
+      }
+   });
    window.ParseRoom = Parse.Object.extend("Room", {
       defaults: {
          timesVisited: 0,
@@ -25,6 +34,9 @@
          genocide: false,
          height: C.MAP_SIZE - 8,
          width: C.MAP_SIZE - 6,
+         depth: 0,
+         orderVisited: -1,
+         dungeon: null
       },
       initialize: function(attrs, options) {
          for (var key in this.defaults) {

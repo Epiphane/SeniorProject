@@ -1,8 +1,8 @@
 /*
- * The Dialogue class controls the displaying and dismissal of dialogue boxes
+ * The dialog class controls the displaying and dismissal of dialog boxes
  */
-ClassManager.create('Dialogue', function(game) {
-   var dialoguePadding = 15;
+ClassManager.create('Dialog', function(game) {
+   var dialogPadding = 15;
    var textWidth = 430;
    var bottomPadding = 130;
    var pressEx = 530;
@@ -10,23 +10,23 @@ ClassManager.create('Dialogue', function(game) {
    return Class.create(Group, {
       initialize: function(speaker) {
          Group.call(this);
-         // for changing dialogue on multiple interactions
-         this.instance = 0;
          this.portrait = new Classes.Portrait(speaker);
          this.textbox = new Classes.Textbox();
          this.addChild(this.textbox);
          this.addChild(this.portrait);
          this.active = false;
          this.timer = 100;
-
-         this.label = Utils.createLabel("", C.HUD_PADDING+this.portrait.width+dialoguePadding, C.GAME_SIZE-C.HUD_PADDING-bottomPadding-dialoguePadding, {font: '12px Pokemon GB'});
+         this.instance = 0;
+         this.label = Utils.createLabel("", C.HUD_PADDING+this.portrait.width+dialogPadding, C.GAME_SIZE-C.HUD_PADDING-bottomPadding-dialogPadding, {font: '12px Pokemon GB'});
          this.label.width = textWidth;
          this.addChild(this.label);
       },
       say: function(words) {
          this.words = words;
          this.label.text = words[this.instance];
+
          this.advanceTextLabel = Utils.createLabel("Press E", pressEx,pressEy, {font: '10px Pokemon GB'});
+         this.advanceButton = false;
          this.addChild(this.advanceTextLabel);
          this.show();
       },
@@ -34,13 +34,13 @@ ClassManager.create('Dialogue', function(game) {
          this.portrait.image = game.assets["assets/images/"+sprite];
       },
       advance: function() {
-         if (this.instance >= this.words.length) {
+         this.instance = Math.min(this.instance+1, this.words.length);
+         if (this.instance == this.words.length) {
             this.hide();
             this.instance = 0;
          }
          else {
             this.label.text = this.words[this.instance];
-            this.instance = this.instance + 1;
          }
       },
       hide: function() {

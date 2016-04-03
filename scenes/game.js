@@ -5,14 +5,16 @@
 (function(Scenes, Classes) {
    Scenes.Game = function(game) {
       var Game = new Scene();
-      Game.dialogueManager = new Classes.Dialogue();
+      Game.dialogManager = new Classes.Dialog();
       Game.backgroundColor = "black";
       Game.bgm = new buzz.sound("assets/sounds/dungeon.mp3", {loop:true});
       var muteTimer = 20;
 
       // Create a new game object
-      window.currentGame = new ParseGame();
-      window.currentGame.save();
+      window.currentGame = new ParseGame({
+         dungeons_completed: 0
+      });
+      var createParseObj = window.currentGame.save();
 
       // Not sure where else to put this
       Game.moveRooms = function(dir) {
@@ -54,67 +56,69 @@
       Game.player = new Classes.Player(0, 0);
       Game.HUD = new Classes.HUD(Game.player);
 
-      Game.bgm.play();
-      Game.descend();
+      createParseObj.then(function() {
+         // Make sure nothing happens until the Parse Game is ready
+         Game.descend();
+         Game.bgm.play();
 
-      // Checks if any entity is still moving
-      var actionCooldown = 0;
-      Game.waitingOnMovement = function() {
-         if (Game.player.isAnimating()) return true;
-         if (Game.currentRoom.isAnimating()) return true;
-         if (Game.dialogueManager.isActive()) return true;
+         // Checks if any entity is still moving
+         var actionCooldown = 0;
+         Game.waitingOnMovement = function() {
+            if (Game.player.isAnimating()) return true;
+            if (Game.currentRoom.isAnimating()) return true;
+            if (Game.dialogueManager.isActive()) return true;
 
-         if (actionCooldown > 0) return true;
+            if (actionCooldown > 0) return true;
 
-         return false;
-      }
-
-      Game.onenterframe = function() {
-         if (actionCooldown > 0) actionCooldown -= 1 / 60;
-
-         if (!Game.waitingOnMovement()) {
-            if (game.input.left) {
-               Game.action(-1, 0);
-            }
-            else if (game.input.right) {
-               Game.action(1, 0);
-            }
-            else if (game.input.up) {
-               Game.action(0, -1);
-            }
-            else if (game.input.down) {
-               Game.action(0, 1);
-            }
+            return false;
          }
-         if (game.input.mute && muteTimer<=0) {
-            buzz.all().toggleMute();
-            muteTimer = 20;
-         }
-         if (game.input.interact && muteTimer<=0) {
-            if (Game.dialogueManager.isActive()) {
-               Game.dialogueManager.advance();
-               muteTimer = 10;
+
+         Game.onenterframe = function() {
+            if (actionCooldown > 0) actionCooldown -= 1 / 60;
+
+            if (!Game.waitingOnMovement()) {
+               if (game.input.left) {
+                  Game.action(-1, 0);
+               }
+               else if (game.input.right) {
+                  Game.action(1, 0);
+               }
+               else if (game.input.up) {
+                  Game.action(0, -1);
+               }
+               else if (game.input.down) {
+                  Game.action(0, 1);
+               }
+            }
+            if (game.input.mute && muteTimer<=0) {
+               buzz.all().toggleMute();
+               muteTimer = 20;
+            }
+            if (game.input.interact) {
+               if (!Game.dialogManager.advanceButton && Game.dialogManager.isActive()) {
+                  Game.dialogManager.advanceButton = true;
+                  Game.dialogManager.advance();
+               }
             }
             else {
-               Game.dialogueManager.say(["Howdy!", "It's me, your best friend."]);
+               Game.dialogManager.advanceButton = false;
+            }
+            muteTimer = Math.max(muteTimer-1, 0);
+         }
+
+         Game.action = function(dir_x, dir_y) {
+            Game.player.action(dir_x, dir_y, Game, Game.currentRoom);
+            Game.currentRoom.action();
+
+            actionCooldown = 0.1;
+
+            if (Game.player.isDead()) {
+               game.popScene();
+               game.pushScene(Scenes.Death(game));
+               Game.bgm.stop();
             }
          }
-         muteTimer = Math.max(muteTimer-1, 0);
-
-      }
-
-      Game.action = function(dir_x, dir_y) {
-         Game.player.action(dir_x, dir_y, Game, Game.currentRoom);
-         Game.currentRoom.action();
-
-         actionCooldown = 0.1;
-
-         if (Game.player.isDead()) {
-            game.popScene();
-            game.pushScene(Scenes.Death(game));
-            Game.bgm.stop();
-         }
-      }
+      });
       
       return Game;
    };
