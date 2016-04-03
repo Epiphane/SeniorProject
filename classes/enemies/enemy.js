@@ -25,6 +25,15 @@ ClassManager.create('Enemy', function(game) {
 
       isBoss: function() { return this.boss; },
 
+      canMoveOntoMe: function(collider) {
+         if (collider instanceof Classes['Player']) {
+            collider.sfxAttack.play(); // If you're the player...
+            collider.doAttack(this);   //  ATTACK ME
+         }
+
+         return false;
+      },
+
       act: function() {
          if (Utils.cellDistance(this.position, game.currentScene.player.position) <= this.attack_range) {
             // Monster is next door, do monster attack
@@ -37,7 +46,8 @@ ClassManager.create('Enemy', function(game) {
          var pathingTarget = astar(game, game.currentScene.currentRoom.tiles, this, targetPosition);
 
          if (pathingTarget) { 
-            this.action(pathingTarget.pos.x - this.position.x, pathingTarget.pos.y - this.position.y);
+            this.action(pathingTarget.pos.x - this.position.x, pathingTarget.pos.y - this.position.y, 
+                        game.currentScene, game.currentScene.currentRoom);
          }
          else {
             console.warn("WEIRD: A* returned, null, is the player unreachable from the enemy? OH NO!");

@@ -54,7 +54,7 @@ ClassManager.create('Player', function(game) {
          return this.defense + (this.armor ? this.armor.defense : 0);
       },
 
-      doAttack: function(victim, dx, dy) {
+      doAttack: function(victim) {
          Classes['Character'].prototype.doAttack.apply(this, arguments);
 
          if (this.weapon) {
@@ -64,9 +64,6 @@ ClassManager.create('Player', function(game) {
 
       // Try to move the character by the specified dx and dy.
       action: function(dx, dy, gameScene, room) {
-         // Set character rotation
-         Classes['Character'].prototype.action.apply(this, arguments);
-
          var destinationX = this.position.x + dx;
          var destinationY = this.position.y + dy;
 
@@ -79,14 +76,11 @@ ClassManager.create('Player', function(game) {
 
          if (room.isStaircase(destinationX, destinationY)) {
             gameScene.descend();
+            return;
          }
 
-         if (room.tryMovingToTile(destinationX, destinationY, this)) {
-            this.position.x = destinationX;
-            this.position.y = destinationY;
-            room.didMoveToTile(destinationX, destinationY, this);
-         }
-
+         // Set character rotation and tell the room we're moving
+         Classes['Character'].prototype.action.apply(this, arguments);
 
          /*
          if (moved) {
@@ -118,23 +112,7 @@ ClassManager.create('Player', function(game) {
                }
             }
          }
-         else {
-            var enemy = room.getCharacterAt(this.position.x + dx, this.position.y + dy);
-
-            if (enemy instanceof Classes['Enemy']) {
-               this.sfxAttack.play();
-               this.doAttack(enemy, dx, dy);
-            }
-            else if(enemy instanceof Classes['NPC']) {
-               if (enemy.isKillable) {
-                  // TODO: add logic to do something when an NPC is attacked.
-               }
-               else {
-                  // Maybe note that the player tried to kill them?
-                  enemy.say();
-               }
-            }
-         }
+         
          */
       },
 

@@ -7,7 +7,13 @@ ClassManager.create('Weapon', function(game) {
       attack: 0,
       onHit: function(enemy) {
          /* ... */
-      }
+      },
+
+      didMoveOntoMe: function(collider) {
+         if (collider instanceof Classes['Player']) {
+            console.log("hi u");
+         }
+      },
    });
 });
 

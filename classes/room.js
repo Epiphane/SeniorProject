@@ -227,25 +227,6 @@ ClassManager.create('Room', function(game) {
 
       },
 
-      /**
-       * Player movement case. If they move into a boulder, check that they can push it
-       */
-      isPlayerWalkable: function(x, y, dx, dy) {
-         var initialResult = this.isWalkable(x, y);
-         if (!initialResult) {
-            // Check if we actually just tried walking into a boulder
-            var inMyWay = this.getCharacterAt(x, y);
-            if (inMyWay instanceof Classes.Pushable) {
-               return inMyWay.tryPushInDirection(dx, dy, this);
-            }
-            else {
-               return false;
-            }
-         }
-
-         return true;
-      },
-
       isStaircase: function(x, y) {
          // Convert to tilesetness
          x += Math.floor(C.MAP_SIZE / 2);
@@ -358,3 +339,11 @@ ClassManager.create('Room', function(game) {
       }
    });
 });
+
+// WHERE WERE YOU>?????S?D?FSD
+
+
+
+// Implemenet didMoveOntoMe in room.js
+// Consider adding room to the argument list of the entity functions
+// Finish implementing move onto me logic for boulders, potions, weapons, armor.

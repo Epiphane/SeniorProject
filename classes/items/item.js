@@ -30,17 +30,17 @@ ClassManager.create('Pickups', function(game) {
    return Class.create(Classes.Item, {
 
       canMoveOntoMe: function(collider) {
-         if (collider instanceof Classes.Player) {
-            return true;
+         // Enemies can't walk over pickups
+         if (collider instanceof Classes['Enemy']) {
+            return false;
          }
 
-         // Enemies can't walk over pickups
-         return false;
+         return true;
       },
 
       didMoveOntoMe: function(collider) {
-         if (collider instanceof Classes.Player) {
-            // Do pickup stuff
+         if (collider instanceof Classes['Player']) {
+            
          }
       }
    });

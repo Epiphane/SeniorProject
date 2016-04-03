@@ -58,8 +58,17 @@ ClassManager.create('Character', function(game) {
       /*
        * Attempt to make a move (or attack) in the specified direction
        */
-      action: function(dir_x, dir_y, gameScene, room) {
-         this.direction = Utils.to.P_DIR(dir_x, dir_y);
+      action: function(dx, dy, gameScene, room) {
+         var destinationX = this.position.x + dx;
+         var destinationY = this.position.y + dy;
+
+         this.direction = Utils.to.P_DIR(dx, dy);
+
+         if (room.tryMovingToTile(destinationX, destinationY, this)) {
+            this.position.x = destinationX;
+            this.position.y = destinationY;
+            room.didMoveToTile(destinationX, destinationY, this);
+         }
       },
 
       isAnimating: function() {
@@ -95,7 +104,7 @@ ClassManager.create('Character', function(game) {
       /**
        * Do an attack in a certain direction
        */
-      doAttack: function(victim, dx, dy) {
+      doAttack: function(victim) {
          this.attackOffset = 1;
 
          victim.health -= Math.max(this.getAttack() - victim.getDefense(), 1);
