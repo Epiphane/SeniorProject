@@ -33,6 +33,7 @@ ClassManager.create('Player', function(game) {
       attackEndFrame: 9,
 
       initial_attack: 1,
+      initial_defense: 1,
 
       getDirectionFrame: function() {
          return 9 * this.direction;

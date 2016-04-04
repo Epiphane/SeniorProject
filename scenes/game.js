@@ -66,7 +66,7 @@
          Game.waitingOnMovement = function() {
             if (Game.player.isAnimating()) return true;
             if (Game.currentRoom.isAnimating()) return true;
-            if (Game.dialogueManager.isActive()) return true;
+            if (Game.dialogManager.isActive()) return true;
 
             if (actionCooldown > 0) return true;
 

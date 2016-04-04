@@ -111,7 +111,7 @@
       "monster2slow.gif",
       "monster1poison.gif",
       "monster2poison.gif",
-      "dialogue.png",
+      "dialog.png",
       "muted.png",
       "unmuted.png",
       "boulder.png",
