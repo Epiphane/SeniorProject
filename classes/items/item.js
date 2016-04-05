@@ -22,26 +22,3 @@ ClassManager.create('Item', function(game) {
       },
    });
 });
-
-/*
- * Defines something you can pick up
- */
-ClassManager.create('Pickups', function(game) {
-   return Class.create(Classes.Item, {
-
-      canMoveOntoMe: function(collider) {
-         // Enemies can't walk over pickups
-         if (collider instanceof Classes['Enemy']) {
-            return false;
-         }
-
-         return true;
-      },
-
-      didMoveOntoMe: function(collider) {
-         if (collider instanceof Classes['Player']) {
-            
-         }
-      }
-   });
-});

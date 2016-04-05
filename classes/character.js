@@ -157,7 +157,7 @@ ClassManager.create('Character', function(game) {
       },
 
       // DON'T TREAD ON ME
-      canMoveOntoMe: function(collider) {
+      canMoveOntoMe: function(collider, room) {
          return false;
       },
 

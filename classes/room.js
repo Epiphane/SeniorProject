@@ -206,14 +206,15 @@ ClassManager.create('Room', function(game) {
          var canMove = true;
 
          // Check items in tile
+         var that = this;
          this.getItemAt(x, y).forEach(function(item) {
-            canMove &= item.canMoveOntoMe(mover);
+            canMove &= item.canMoveOntoMe(mover, that);
          });
 
          // Check characters in tile
          var characterInSquare = this.getCharacterAt(x, y);
          if (characterInSquare) {
-            canMove &= characterInSquare.canMoveOntoMe(mover);
+            canMove &= characterInSquare.canMoveOntoMe(mover, that);
          }
 
          return canMove;
@@ -224,7 +225,17 @@ ClassManager.create('Room', function(game) {
        *  about this.
        */
       didMoveToTile: function(x, y, mover) {
+         // Alert items in tile
+         var that = this;
+         this.getItemAt(x, y).forEach(function(item) {
+            item.didMoveOntoMe(mover, that);
+         });
 
+         // Alert characters in tile
+         var characterInSquare = this.getCharacterAt(x, y);
+         if (characterInSquare) {
+            characterInSquare.didMoveOntoMe(mover, that);
+         }
       },
 
       isStaircase: function(x, y) {

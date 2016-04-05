@@ -25,7 +25,7 @@ ClassManager.create('Enemy', function(game) {
 
       isBoss: function() { return this.boss; },
 
-      canMoveOntoMe: function(collider) {
+      canMoveOntoMe: function(collider, room) {
          if (collider instanceof Classes['Player']) {
             collider.sfxAttack.play(); // If you're the player...
             collider.doAttack(this);   //  ATTACK ME

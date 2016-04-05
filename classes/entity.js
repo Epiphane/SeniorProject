@@ -9,12 +9,12 @@ ClassManager.create('Entity', function(game) {
       //
       // Returns FALSE if 'collider' should NOT move into my square
       // Returns TRUE  if 'collider' SHOULD move into my square.
-      canMoveOntoMe: function(collider) {
+      canMoveOntoMe: function(collider, room) {
          return true;
       },
 
       // Called when the 'collider' entity moved onto my tile.
-      didMoveOntoMe: function(collider) {
+      didMoveOntoMe: function(collider, room) {
 
       },
 
