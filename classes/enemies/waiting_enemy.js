@@ -14,7 +14,7 @@ ClassManager.create('WaitingEnemy', function(game) {
          this.waiting = chance.integer({ min: 0, max: this.cooldown });
       },
 
-      doAI: function() {
+      everyTurn: function() {
          // move every "cooldown" turn
          if (this.waiting > 0) {
             this.waiting --;

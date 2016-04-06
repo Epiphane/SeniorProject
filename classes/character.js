@@ -7,7 +7,7 @@
  *    y = y coordinate of the sprite
  */
 ClassManager.create('Character', function(game) {
-   return Class.create(Sprite, {
+   return Class.create(Classes.Entity, {
       walkSpeed: 1 / 12,
 
       // Contains a switch (if any) that the player is currently standing on.
@@ -22,7 +22,7 @@ ClassManager.create('Character', function(game) {
 
          /* The REAL 'frame' property, actually used by the Sprite class to set the sprite's frame. */
          this.frame = 0;
-         
+
          this.direction = C.P_DIR.DOWN;
 
          /* How far is this sprite into its walk/attack cycle? (in terms of frames) */
@@ -38,6 +38,10 @@ ClassManager.create('Character', function(game) {
          this.defense = this.initial_defense;
       },
 
+      /**
+       * Immediately move this character to their target position,
+       *  bypassing the walk animation.
+       */
       snapToPosition: function() {
          this.x = Utils.to.screen(this.position.x);
          this.y = Utils.to.screen(this.position.y);
@@ -54,10 +58,17 @@ ClassManager.create('Character', function(game) {
       /*
        * Attempt to make a move (or attack) in the specified direction
        */
-      action: function(dir_x, dir_y, gameScene, room) {
-         this.direction = Utils.to.P_DIR(dir_x, dir_y);
+      action: function(dx, dy, gameScene, room) {
+         var destinationX = this.position.x + dx;
+         var destinationY = this.position.y + dy;
 
-         return this.tryMove(dir_x, dir_y);
+         this.direction = Utils.to.P_DIR(dx, dy);
+
+         if (room.tryMovingToTile(destinationX, destinationY, this)) {
+            this.position.x = destinationX;
+            this.position.y = destinationY;
+            room.didMoveToTile(destinationX, destinationY, this);
+         }
       },
 
       isAnimating: function() {
@@ -66,7 +77,7 @@ ClassManager.create('Character', function(game) {
 
       /*
        * Is this sprite moving?
-       * 
+       *
        * Returns true if the player's screen position matches that of the game position (scaled)
        */
       isMoving: function() {
@@ -75,39 +86,11 @@ ClassManager.create('Character', function(game) {
 
       /*
        * Is this sprite attacking?
-       * 
+       *
        * Returns true if the player is in the middle of an attack animation
        */
       isAttacking: function() {
          return this.attackOffset !== 0;
-      },
-
-      /*
-       * Returns the FUNCTION which we use to decide if we can
-       *  walk on a tile or not.
-       */
-      walkableFunction: function() {
-         console.warn("Override me!");
-      },
-
-      /*
-       * Attempt to move in a direction
-       *
-       * return: whether or not move is successful
-       */
-      tryMove: function(dx, dy) {
-         // obstacleFunction contains a FUNCTION that will return FALSE if this entity
-         //  can NOT move there, and TRUE if this entity CAN move there.
-         var obstacleFunction = this.walkableFunction();
-         var room = game.currentScene.currentRoom;
-         if (obstacleFunction.call(room, this.position.x + dx, this.position.y + dy, dx, dy)) {
-            this.position.x += dx;
-            this.position.y += dy;
-
-            return true;
-         }
-        
-         return false;
       },
 
       getAttack: function() {
@@ -121,12 +104,12 @@ ClassManager.create('Character', function(game) {
       /**
        * Do an attack in a certain direction
        */
-      doAttack: function(victim, dx, dy) {
+      doAttack: function(victim) {
          this.attackOffset = 1;
 
          victim.health -= Math.max(this.getAttack() - victim.getDefense(), 1);
       },
-      
+
       // Run the walking animation if you need to move
       onenterframe: function() {
          if (this.isAttacking()) {
@@ -173,9 +156,14 @@ ClassManager.create('Character', function(game) {
         // for when you need AI
       },
 
+      // DON'T TREAD ON ME
+      canMoveOntoMe: function(collider, room) {
+         return false;
+      },
+
       updateSpriteFrame: function() {
          if (this.isMoving()) {
-            // Animate through the enemy's walk cycle every three frames            
+            // Animate through the enemy's walk cycle every three frames
             if (game.frame % this.walkAnimSpeed === 0) {
                var walkCycleLength = this.walkEndFrame - this.walkStartFrame;
                this.walkOffset = ++this.walkOffset % walkCycleLength;

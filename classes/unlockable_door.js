@@ -38,8 +38,9 @@ ClassManager.create('UnlockableDoor', function(game) {
          }
       },
       
-      doAI: function() {
+      everyTurn: function() {
          // Doors don't have much in the way of intelligence
+         this
       }
     });
 });

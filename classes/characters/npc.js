@@ -15,5 +15,14 @@ ClassManager.create('NPC', function(game) {
       },
       say: function() {
       },
+
+      // Check if the player just tried to move onto me
+      canMoveOntoMe: function(collider, room) {
+         if (collider instanceof Classes['Player']) {
+            this.say();
+         }
+
+         return false;
+      },
    });
 });

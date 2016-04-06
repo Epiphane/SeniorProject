@@ -19,7 +19,7 @@ ClassManager.create('Player', function(game) {
          this.cooldown = 0;
 
          this.health = this.max_health = 8;
-      
+
          this.weapon = null;
          this.armor = null;
       },
@@ -43,19 +43,11 @@ ClassManager.create('Player', function(game) {
          return this.attack + (this.weapon ? this.weapon.attack : 0);
       },
 
-
-      // Returns the 'walkable' function that PLAYERS use. 
-      //
-      // See character.js -> tryMove()
-      walkableFunction: function() {
-         return game.currentScene.currentRoom.isPlayerWalkable;
-      },
-
       getDefense: function() {
          return this.defense + (this.armor ? this.armor.defense : 0);
       },
 
-      doAttack: function(victim, dx, dy) {
+      doAttack: function(victim) {
          Classes['Character'].prototype.doAttack.apply(this, arguments);
 
          if (this.weapon) {
@@ -63,67 +55,25 @@ ClassManager.create('Player', function(game) {
          }
       },
 
+      // Try to move the character by the specified dx and dy.
       action: function(dx, dy, gameScene, room) {
+         var destinationX = this.position.x + dx;
+         var destinationY = this.position.y + dy;
+
          // Try to move between rooms first
-         if (room.isExit(this.position.x + dx, this.position.y + dy)) {
+         if (room.isExit(destinationX, destinationY)) {
             this.direction = Utils.to.P_DIR(dx, dy);
             gameScene.moveRooms(this.direction);
-            // this.position.x += dx;
-            // this.position.y += dy;
+            return;
          }
 
-         if (room.isStaircase(this.position.x + dx, this.position.y + dy)) {
+         if (room.isStaircase(destinationX, destinationY)) {
             gameScene.descend();
+            return;
          }
 
-         // Otherwise just move around 'n stuff
-         var moved = Classes['Character'].prototype.action.apply(this, arguments);
-         if (moved) {
-            // Pick up items
-            var item = room.getItemAt(this.position.x, this.position.y);
-            if (item !== null) {
-               // Grab item!
-               if (!item.fixedInPlace) {
-                  // Don't pick up stuff like switches or boulders.
-                  room.removeItemAt(this.position.x, this.position.y);
-               }
-               // TODO: debug remove
-               else {
-                  console.log("That's fixed in place");
-               }
-
-               if (item instanceof Classes['Weapon']) {
-                  // Swap out my weapon
-                  room.addItemAt(this.weapon, this.position.x, this.position.y);
-                  this.weapon = item;
-               }
-               else if (item instanceof Classes['Triggerable']) {
-                  item.act(this);
-               }
-               else if (item instanceof Classes['Armor']) {
-                  // Swap out my armor
-                  room.addItemAt(this.armor, this.position.x, this.position.y);
-                  this.armor = item;
-               }
-            }
-         }
-         else {
-            var enemy = room.getCharacterAt(this.position.x + dx, this.position.y + dy);
-
-            if (enemy instanceof Classes['Enemy']) {
-               this.sfxAttack.play();
-               this.doAttack(enemy, dx, dy);
-            }
-            else if(enemy instanceof Classes['NPC']) {
-               if (enemy.isKillable) {
-                  // TODO: add logic to do something when an NPC is attacked.
-               }
-               else {
-                  // Maybe note that the player tried to kill them?
-                  enemy.say();
-               }
-            }
-         }
+         // Set character rotation and tell the room we're moving
+         Classes['Character'].prototype.action.apply(this, arguments);
       },
 
    });

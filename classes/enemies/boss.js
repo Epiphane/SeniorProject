@@ -17,7 +17,7 @@ ClassManager.create('Boss', function(game) {
          this.waiting = 2;
       },
 
-      doAI: function() {
+      everyTurn: function() {
          // move every "cooldown" turn
          if (this.waiting > 0) {
             this.waiting --;

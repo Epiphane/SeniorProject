@@ -1,5 +1,5 @@
-/* 
- * The Room class creates the layout of each dungeon room 
+/*
+ * The Room class creates the layout of each dungeon room
  * Parameters:
  *    dir = The direction that the player went to get to this room
  *    scene = The scene of the room that should be stored as the previous room
@@ -113,7 +113,7 @@ ClassManager.create('Room', function(game) {
       },
 
       /**
-       * Put the player in a specific doorway, 
+       * Put the player in a specific doorway,
        * as if they had just come from that direction.
        *
        * @param {P_DIR}
@@ -176,16 +176,14 @@ ClassManager.create('Room', function(game) {
       },
 
       /**
-       * Monster case. We don't want them standing on items, so we treat them as obstacles.
+       * Returns FALSE if there's terrain blocking the spot at (x, y)
+       * Returns TRUE otherwise.
        */
-      isMonsterWalkable: function(x, y) {
-         var initialResult = this.isWalkable(x, y);
-         if (!initialResult) {
-            return false;
-         }
+      checkTerrain: function(x, y) {
+         x += Math.floor(C.MAP_SIZE / 2);
+         y += Math.floor(C.MAP_SIZE / 2);
 
-         var itemInSquare = this.getItemAt(x, y);
-         if (itemInSquare !== null) {
+         if (this.tiles[y][x] !== C.BG_TILES.floor && this.tiles[y][x] !== C.BG_TILES.empty) {
             return false;
          }
 
@@ -193,22 +191,51 @@ ClassManager.create('Room', function(game) {
       },
 
       /**
-       * Player movement case. If they move into a boulder, check that they can push it
+       * Attempts to move the entity "mover" to the specified
+       *  x and y. Runs the "canMoveOntoMe" function for
+       *  everybody in that square to determine what to do.
+       *
+       * Returns TRUE if "mover" can move there.
+       * Returns FALSE otherwise.
        */
-      isPlayerWalkable: function(x, y, dx, dy) {
-         var initialResult = this.isWalkable(x, y);
-         if (!initialResult) {
-            // Check if we actually just tried walking into a boulder
-            var inMyWay = this.getCharacterAt(x, y);
-            if (inMyWay instanceof Classes.Pushable) {
-               return inMyWay.tryPushInDirection(dx, dy, this);
-            }
-            else {
-               return false;
-            }
+      tryMovingToTile: function(x, y, mover) {
+         if (!this.checkTerrain(x, y)) {
+            return false;
          }
 
-         return true;
+         var canMove = true;
+
+         // Check items in tile
+         var that = this;
+         this.getItemAt(x, y).forEach(function(item) {
+            canMove &= item.canMoveOntoMe(mover, that);
+         });
+
+         // Check characters in tile
+         var characterInSquare = this.getCharacterAt(x, y);
+         if (characterInSquare) {
+            canMove &= characterInSquare.canMoveOntoMe(mover, that);
+         }
+
+         return canMove;
+      },
+
+      /*
+       * Somebody moved somewhere. Let the current occupants of the cell know
+       *  about this.
+       */
+      didMoveToTile: function(x, y, mover) {
+         // Alert items in tile
+         var that = this;
+         this.getItemAt(x, y).forEach(function(item) {
+            item.didMoveOntoMe(mover, that);
+         });
+
+         // Alert characters in tile
+         var characterInSquare = this.getCharacterAt(x, y);
+         if (characterInSquare) {
+            characterInSquare.didMoveOntoMe(mover, that);
+         }
       },
 
       isStaircase: function(x, y) {
@@ -241,7 +268,7 @@ ClassManager.create('Room', function(game) {
          item.position = { x: x, y: y };
          item.x = Utils.to.screen(x);
          item.y = Utils.to.screen(y);
-         
+
          this.items.push(item);
          this.addChild(item);
       },
@@ -259,14 +286,16 @@ ClassManager.create('Room', function(game) {
       },
 
       getItemAt: function(x, y) {
+         var result = [];
+
          for (var i = this.items.length - 1; i >= 0; i--) {
             var item = this.items[i];
             if (item.position.x === x && item.position.y === y) {
-               return item;
+               result.push(item);
             }
          }
 
-         return null;
+         return result;
       },
 
       action: function() {
@@ -299,9 +328,15 @@ ClassManager.create('Room', function(game) {
                EM.log("combat", "murder", character.sprite);
             }
             else {
-               character.doAI();
+               character.everyTurn();
             }
          };
+
+         for (var i = this.items.length - 1; i >= 0; i--) {
+            var item = this.items[i];
+
+            item.everyTurn();
+         }
       },
 
       isAnimating: function() {

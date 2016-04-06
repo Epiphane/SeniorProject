@@ -1,9 +1,9 @@
-/* 
+/*
  * A sprite representing an item
  */
 ClassManager.create('Item', function(game) {
    // Create the base class
-   return Class.create(Sprite, {
+   return Class.create(Classes.Entity, {
       itemName: 'empty',
       initialize: function() {
          Sprite.call(this, 32, 32);

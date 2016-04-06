@@ -4,8 +4,15 @@
 ClassManager.create('Triggerable', function(game) {
    // Create the base class
    return Class.create(Classes.Item, {
-      act: function() {}
-      
+      didMoveOntoMe: function(collider) {},
+
+      // Don't let the dirty enemies step on my precious items
+      canMoveOntoMe: function(collider) {
+         if (collider instanceof Classes['Enemy']) {
+            return false;
+         }
+         return true;
+      }
    });
 });
 
@@ -17,12 +24,16 @@ ClassManager.create('Triggerable', function(game) {
       {
          className: 'Potion',
          itemName: 'potion',
-         act: function(player) {
-            player.health = Math.min(player.health + 4, player.max_health);
-            player.sfxPowerup.play();
+         didMoveOntoMe: function(collider, room) {
+            if (collider instanceof Classes['Player']) {
+               collider.health = Math.min(collider.health + 4, collider.max_health);
+               collider.sfxPowerup.play();
+               room.removeItemAt(this.position.x, this.position.y);
+            }
          }
       },
 
+      // TODO: THIS, OR WHATEVER
       {
          className: 'DoorSwitch',
          itemName: 'org',
@@ -31,9 +42,8 @@ ClassManager.create('Triggerable', function(game) {
          // What door will this switch open when pressed?
          attachedDoor: null,
 
-         act: function(character) {
+         didMoveOntoMe: function(collider) {
             attachedDoor.switchChanged(this, true);
-            // character.
          }
       },
 
