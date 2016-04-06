@@ -350,11 +350,3 @@ ClassManager.create('Room', function(game) {
       }
    });
 });
-
-// WHERE WERE YOU>?????S?D?FSD
-
-
-
-// Implemenet didMoveOntoMe in room.js
-// Consider adding room to the argument list of the entity functions
-// Finish implementing move onto me logic for boulders, potions, weapons, armor.

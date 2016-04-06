@@ -42,14 +42,6 @@ ClassManager.create('Player', function(game) {
          return this.attack + (this.weapon ? this.weapon.attack : 0);
       },
 
-
-      // Returns the 'walkable' function that PLAYERS use.
-      //
-      // See character.js -> tryMove()
-      walkableFunction: function() {
-         return game.currentScene.currentRoom.isPlayerWalkable;
-      },
-
       getDefense: function() {
          return this.defense + (this.armor ? this.armor.defense : 0);
       },
@@ -81,39 +73,6 @@ ClassManager.create('Player', function(game) {
 
          // Set character rotation and tell the room we're moving
          Classes['Character'].prototype.action.apply(this, arguments);
-
-         /*
-         if (moved) {
-            // Pick up items
-            var item = room.getItemAt(this.position.x, this.position.y);
-            if (item !== null) {
-               // Grab item!
-               if (!item.fixedInPlace) {
-                  // Don't pick up stuff like switches or boulders.
-                  room.removeItemAt(this.position.x, this.position.y);
-               }
-               // TODO: debug remove
-               else {
-                  console.log("That's fixed in place");
-               }
-
-               if (item instanceof Classes['Weapon']) {
-                  // Swap out my weapon
-                  room.addItemAt(this.weapon, this.position.x, this.position.y);
-                  this.weapon = item;
-               }
-               else if (item instanceof Classes['Triggerable']) {
-                  item.act(this);
-               }
-               else if (item instanceof Classes['Armor']) {
-                  // Swap out my armor
-                  room.addItemAt(this.armor, this.position.x, this.position.y);
-                  this.armor = item;
-               }
-            }
-         }
-         
-         */
       },
 
    });
