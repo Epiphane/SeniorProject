@@ -61,7 +61,8 @@ ClassManager.create('Player', function(game) {
          var destinationY = this.position.y + dy;
 
          // Try to move between rooms first
-         if (room.isExit(destinationX, destinationY)) {
+         if (room.isExit(destinationX, destinationY) &&
+             room.tryMovingToTile(destinationX, destinationY, this)) {
             this.direction = Utils.to.P_DIR(dx, dy);
             gameScene.moveRooms(this.direction);
             return;
