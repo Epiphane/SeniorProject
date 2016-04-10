@@ -22,6 +22,8 @@ ClassManager.create('Player', function(game) {
 
          this.weapon = null;
          this.armor = null;
+
+         this.potions = 0;
       },
 
       walkAnimSpeed: 4,
