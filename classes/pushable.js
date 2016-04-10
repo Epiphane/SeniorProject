@@ -9,23 +9,41 @@ ClassManager.create('Pushable', function(game) {
          this.image = game.assets["assets/images/boulder.png"];
       },
 
-      act: function(something) {
-         // Fun stuff
-         console.log("Act received... " + something);
+      // Check if it's valid to push a boulder in a direction
+      canMoveOntoMe: function(collider, room) {
+         if (collider instanceof Classes['Player'] ||
+             collider instanceof Classes['Pushable']  ) {
 
-         
+            // Get character direction, also steal their direction
+            this.direction = collider.direction;
+            var dir = Utils.to.direction(collider.direction);
+            var dx = dir[0];
+            var dy = dir[1];
+
+            var canPush = room.tryMovingToTile(this.position.x + dx, this.position.y + dy, this);
+            return canPush;
+         }
+
+         return false;
       },
 
-      // Check if it's valid to push a boulder in a direction
-      tryPushInDirection: function(dx, dy, room) {
-         var canPush = room.isPlayerWalkable(this.position.x + dx, this.position.y + dy, dx, dy);
+      // I just got pushed!
+      didMoveOntoMe: function(collider, room) {
+         if (collider == this) return;
 
-         if (canPush) {
+         if (collider instanceof Classes['Player'] ||
+             collider instanceof Classes['Pushable']  ) {
+
+            // Get pusher direction
+            this.direction = collider.direction;
+            var dir = Utils.to.direction(collider.direction);
+            var dx = dir[0];
+            var dy = dir[1];
+
             this.position.x += dx;
             this.position.y += dy;
+            room.didMoveToTile(this.position.x, this.position.y, this);
          }
-         
-         return canPush;
       },
 
       everyTurn: function() {

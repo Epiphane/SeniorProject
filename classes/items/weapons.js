@@ -22,7 +22,7 @@ ClassManager.create('Weapon', function(game) {
 });
 
 /*
- * The item implementations themselves
+ * The item implementations themselves!
  */
 (function() {
    var LVL_1 = 1;
