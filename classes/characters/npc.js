@@ -7,9 +7,15 @@
  */
 ClassManager.create('NPC', function(game) {
    return Class.create(Classes['Character'], {
+      sprite: '',
+
       initialize: function(x, y) {
          Classes.Character.call(this, x, y);
          this.isKillable = false;
+
+         if (this.sprite) {
+            this.image = game.assets["assets/images/" + this.sprite];
+         }
       },
       getDialog: function() {
       },
