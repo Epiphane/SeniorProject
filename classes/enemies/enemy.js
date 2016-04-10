@@ -37,6 +37,10 @@ ClassManager.create('Enemy', function(game) {
       act: function() {
          if (Utils.cellDistance(this.position, game.currentScene.player.position) <= this.attack_range) {
             // Monster is next door, do monster attack
+            var damage = this.damage(game.currentScene.player);
+            this.parseObj.set('damageDealtToPlayer', this.parseObj.get('damageDealtToPlayer') + damage);
+
+            this.parseObj.save();
             this.doAttack(game.currentScene.player);
             this.sfxDamage.play();
             return;

@@ -101,13 +101,17 @@ ClassManager.create('Character', function(game) {
          return this.defense;
       },
 
+      damage: function(victim) {
+         return Math.max(this.getAttack() - victim.getDefense(), 1);
+      },
+
       /**
        * Do an attack in a certain direction
        */
       doAttack: function(victim) {
          this.attackOffset = 1;
 
-         victim.health -= Math.max(this.getAttack() - victim.getDefense(), 1);
+         victim.health -= this.damage(victim);
       },
 
       // Run the walking animation if you need to move

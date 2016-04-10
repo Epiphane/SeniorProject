@@ -116,11 +116,14 @@ ClassManager.create('Room', function(game) {
             character.parseObj.set('room', this.parseObj);
          }
          else {
-            character.parseObj = new ParseNPC({ room: this.parseObj });
+            character.parseObj = new ParseNPC({ 
+               room: this.parseObj,
+               sprite: character.sprite
+            });
          }
          this.parseObj.save().then(function() {
             character.parseObj.save();
-         })
+         });
       },
 
       /**
