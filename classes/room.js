@@ -52,6 +52,7 @@ ClassManager.create('Room', function(game) {
       onExit: function() {
          EM.log('duration', 'actionsTakenInRoom', this.parseObj.actionsTaken, {
             roomType: this.type,
+            playerHealth: game.currentScene.player,
             genocide: this.parseObj.get('genocide')
          });
       },
