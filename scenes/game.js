@@ -90,6 +90,11 @@
                   Game.action(0, 1);
                }
                else if (game.input.usePotion && Game.player.potions > 0) {
+                  EM.log('combat', 'usePotion', Game.player.health, {
+                     roomType: this.type,
+                     characters: Game.currentRoom.characters.length
+                  });
+
                   Game.player.health = Math.min(Game.player.health + 4, Game.player.max_health);
                   Game.player.potions --;
                   Game.action(0, 0);
