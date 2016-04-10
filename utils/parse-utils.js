@@ -45,6 +45,11 @@
          attrs.game = window.currentGame;
       }
    });
+   window.ParseNPC = Parse.Object.extend("NPC", {
+      initialize: function(attrs, options) {
+         attrs.numInteractions = 0;
+      }
+   })
 
 })(window);
 
