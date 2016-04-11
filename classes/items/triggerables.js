@@ -26,8 +26,7 @@ ClassManager.create('Triggerable', function(game) {
          itemName: 'potion',
          didMoveOntoMe: function(collider, room) {
             if (collider instanceof Classes['Player']) {
-               collider.health = Math.min(collider.health + 4, collider.max_health);
-               collider.sfxPowerup.play();
+               collider.potions ++;
                room.removeItemAt(this.position.x, this.position.y);
             }
          }

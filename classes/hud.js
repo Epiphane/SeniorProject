@@ -27,6 +27,11 @@ ClassManager.create('HUD', function(game) {
          armorFrame.y = C.HUD_PADDING + C.TILE_SIZE * 2;
          this.addChild(armorFrame);
 
+         var potionsFrame = new Classes.HUD_Frame();
+         potionsFrame.x = C.HUD_PADDING;
+         potionsFrame.y = C.HUD_PADDING + C.TILE_SIZE * 4;
+         this.addChild(potionsFrame);
+
          this.weapon = new Classes.Item();
          this.weapon.x = this.weapon.y = 47;
          this.addChild(this.weapon);
@@ -35,6 +40,16 @@ ClassManager.create('HUD', function(game) {
          this.armor.x = 47;
          this.armor.y = 47 + C.TILE_SIZE * 2;
          this.addChild(this.armor);
+      
+         var potions = new Classes.Potion();
+         potions.x = 47;
+         potions.y = 47 + C.TILE_SIZE * 4;
+         this.addChild(potions);
+
+         this.potions = Utils.createLabel('0', 75, 41 + C.TILE_SIZE * 4, { font: '14px serif' });
+         this.potionHelp = Utils.createLabel('F', 75, 69 + C.TILE_SIZE*4, { font:'14px serif'});
+         this.addChild(this.potions);
+         this.addChild(this.potionHelp);
       },
 
       addHeart: function() {
@@ -67,6 +82,8 @@ ClassManager.create('HUD', function(game) {
             var heart = this.hearts[this.hearts.length - i];
             heart.frame = Math.max(Math.min(2 * i - this.player.health, 2), 0);
          }
+
+         this.potions.text = '' + this.player.potions;
       }
    });
 });

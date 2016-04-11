@@ -7,9 +7,15 @@
  */
 ClassManager.create('NPC', function(game) {
    return Class.create(Classes['Character'], {
+      sprite: '',
+
       initialize: function(x, y) {
          Classes.Character.call(this, x, y);
          this.isKillable = false;
+
+         if (this.sprite) {
+            this.image = game.assets["assets/images/" + this.sprite];
+         }
       },
       getDialog: function() {
       },
@@ -19,6 +25,8 @@ ClassManager.create('NPC', function(game) {
       // Check if the player just tried to move onto me
       canMoveOntoMe: function(collider, room) {
          if (collider instanceof Classes['Player']) {
+            this.parseObj.increment('numInteractions');
+            this.parseObj.save();
             this.say();
          }
 

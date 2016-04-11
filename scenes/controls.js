@@ -14,6 +14,7 @@ Scenes.Controls = Singletonify(function(game) {
       Utils.createLabel('W,A,S,D - Move/Attack<br> <br>' +
                         'E - Interact<br> <br>' +
                         'M - Mute<br> <br>' +
+                        'Shift - Use potion<br>' + 
                         'Space - Unlock chest', 50, 110, { font: '14px sans-serif' }),
       Utils.createLabel('Press space to return to menu', 50, C.GAME_SIZE - 50, { font: '14px sans-serif' }),
    ];
