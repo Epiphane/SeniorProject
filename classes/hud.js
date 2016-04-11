@@ -46,8 +46,10 @@ ClassManager.create('HUD', function(game) {
          potions.y = 47 + C.TILE_SIZE * 4;
          this.addChild(potions);
 
-         this.potions = Utils.createLabel('0', 72, 44 + C.TILE_SIZE * 4, { font: '14px serif' });
+         this.potions = Utils.createLabel('0', 75, 41 + C.TILE_SIZE * 4, { font: '14px serif' });
+         this.potionHelp = Utils.createLabel('F', 75, 69 + C.TILE_SIZE*4, { font:'14px serif'});
          this.addChild(this.potions);
+         this.addChild(this.potionHelp);
       },
 
       addHeart: function() {

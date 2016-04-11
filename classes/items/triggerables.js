@@ -27,7 +27,6 @@ ClassManager.create('Triggerable', function(game) {
          didMoveOntoMe: function(collider, room) {
             if (collider instanceof Classes['Player']) {
                collider.potions ++;
-               collider.sfxPowerup.play();
                room.removeItemAt(this.position.x, this.position.y);
             }
          }

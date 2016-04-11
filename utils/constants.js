@@ -87,7 +87,7 @@
       // 73: 'attackUp',
       // 75: 'attackDown',
       77: 'mute',
-      16: 'usePotion',
+      70: 'usePotion',
       32: 'select'
    };
    Constants.bindKeys = function(game) {
