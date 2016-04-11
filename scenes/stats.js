@@ -10,10 +10,8 @@ Scenes.Stats = Singletonify(function(game) {
    Stats.backgroundColor = "black";
    
    var labels = [
-      Utils.createLabel('CREDITS', 50, 50, { font: '16px Pokemon GB', width:100 }),
-      Utils.createLabel('Inital Code, sprites, and sfx by Cameron Thibodeaux, 2014<br> <br>' +
-                        'Senior Project by Max Linsenbard, Thomas Steinke, and Elliot Fiske.', 50, 300, { font: '10px Pokemon GB', width:600}),
-      Utils.createLabel('Press space to return to menu', 50, C.GAME_SIZE-50, { font: '12px Pokemon GB', width:600 }),
+      Utils.createLabel('Statistics', 50, 50, { font: '16px Pokemon GB', width:400 }),
+      Utils.createLabel('Press space to go back', 50, C.GAME_SIZE-50, { font: '12px Pokemon GB', width:600 }),
    ];
 
    labels.forEach(function(label) {
@@ -25,7 +23,7 @@ Scenes.Stats = Singletonify(function(game) {
          var newSound = new buzz.sound('assets/sounds/select2.wav');
          newSound.play();
 
-         // Return to title screen
+         // Return to previous screen
          game.popScene();
       }
    });

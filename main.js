@@ -18,7 +18,7 @@ window.onload = function() {
       if (e.keyCode === 27 && !(game.currentScene instanceof Scenes.Stats)) { // Space
          game.pushScene(new Scenes.Stats(game));
       }
-   })
+   });
    
    game.onload = function() {
       game.pushScene(Scenes.Title(game));
