@@ -6,9 +6,10 @@
   */
 ClassManager.create('Urchin', function(game) {
 	return Class.create(Classes['NPC'], {
+    sprite: 'npc1.png',
+
 		initialize: function(dialog) {
          Classes['NPC'].call(this,0,0);
-         this.image = game.assets["assets/images/npc1.png"];
          this.dialog = dialog;
          this.portrait = "portrait.png";
          this.dialogInstance = 0;

@@ -52,6 +52,7 @@ ClassManager.create('Room', function(game) {
       onExit: function() {
          EM.log('duration', 'actionsTakenInRoom', this.parseObj.actionsTaken, {
             roomType: this.type,
+            playerHealth: game.currentScene.player,
             genocide: this.parseObj.get('genocide')
          });
       },
@@ -110,6 +111,20 @@ ClassManager.create('Room', function(game) {
          this.addToScene(character);
 
          this.parseObj.set('genocide', false);
+
+         if (character.parseObj) {
+            console.warn('We should never need this line so the code is untested YOLO');
+            character.parseObj.set('room', this.parseObj);
+         }
+         else {
+            character.parseObj = new ParseNPC({ 
+               room: this.parseObj,
+               sprite: character.sprite
+            });
+         }
+         this.parseObj.save().then(function() {
+            character.parseObj.save();
+         });
       },
 
       /**

@@ -89,6 +89,17 @@
                else if (game.input.down) {
                   Game.action(0, 1);
                }
+               else if (game.input.usePotion && Game.player.potions > 0) {
+                  EM.log('combat', 'usePotion', Game.player.health, {
+                     roomType: this.type,
+                     characters: Game.currentRoom.characters.length
+                  });
+
+                  Game.player.health = Math.min(Game.player.health + 4, Game.player.max_health);
+                  Game.player.potions --;
+                  Game.player.sfxPowerup.play();
+                  Game.action(0, 0);
+               }
             }
             if (game.input.mute && muteTimer<=0) {
                buzz.all().toggleMute();
@@ -107,7 +118,10 @@
          }
 
          Game.action = function(dir_x, dir_y) {
-            Game.player.action(dir_x, dir_y, Game, Game.currentRoom);
+            if (dir_y != 0 || dir_x != 0) {
+               Game.player.action(dir_x, dir_y, Game, Game.currentRoom);
+            }
+
             Game.currentRoom.action();
 
             actionCooldown = 0.1;

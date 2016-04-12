@@ -6,9 +6,10 @@
   */
 ClassManager.create('Sign', function(game) {
 	return Class.create(Classes['NPC'], {
+    sprite: 'sign.png',
+
 		initialize: function(dialog) {
          Classes['NPC'].call(this,0,0);
-         this.image = game.assets["assets/images/sign.png"];
          this.dialog = dialog;
          this.portrait = "sign_portrait.png";
          this.dialogInstance = 0;
