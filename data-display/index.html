@@ -1,0 +1,45 @@
+<html>
+<head>
+   <title>SEEN WHATCHA DONE!</title>
+
+   <!-- jQuery, jQuery.ui -->
+   <link href="https://code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.min.css" rel="stylesheet" type="text/css" />
+   <script src="https://code.jquery.com/jquery.min.js"></script>
+   <script src="https://code.jquery.com/ui/1.11.4/jquery-ui.min.js"></script>
+
+   <!-- Bootstrap -->
+   <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
+   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+
+   <!-- React -->
+   <script src="https://fb.me/JSXTransformer-0.13.3.js"></script>
+   
+   <script src="http://fb.me/react-0.13.3.js"></script>
+    <script src="https://www.parsecdn.com/js/parse-latest.js"></script>
+    <!-- Now include parse-react.js -->
+    <script src="https://www.parsecdn.com/js/parse-react.js"></script>
+
+    <script type="text/javascript">
+      Parse.initialize("adaptive-database");
+      Parse.serverURL = 'https://adaptive-database.herokuapp.com/parse'
+    </script>
+
+    <!-- "Temporary" workaround lol -->
+    <style>
+   .crop {
+     width: 200px;
+     height: 150px;
+     overflow: hidden;
+   }
+   .crop img {
+     width: 100%;
+     /*Here you can use margins for accurate positioning of cropped image*/
+   }
+    </style>
+</head>
+
+<body>
+    <div id="react-container"></div>
+    <script src="main.js" type="text/jsx" ></script>
+</body>
+</html>
