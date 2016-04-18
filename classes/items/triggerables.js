@@ -21,17 +21,6 @@ ClassManager.create('Triggerable', function(game) {
  */
 (function() {
    [
-      {
-         className: 'Potion',
-         itemName: 'potion',
-         didMoveOntoMe: function(collider, room) {
-            if (collider instanceof Classes['Player']) {
-               collider.potions ++;
-               room.removeItemAt(this.position.x, this.position.y);
-            }
-         }
-      },
-
       // TODO: THIS, OR WHATEVER
       {
          className: 'DoorSwitch',

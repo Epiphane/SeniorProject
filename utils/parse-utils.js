@@ -22,8 +22,8 @@
    window.ParseDungeon = Parse.Object.extend("Dungeon", {
       initialize: function(attrs, options) {
          attrs = attrs || {};
-         attrs.game = window.currentGame;
-         attrs.level = window.currentGame.get('dungeons_completed');
+         attrs.game = attrs.game || window.currentGame;
+         attrs.level = attrs.level || window.currentGame ? window.currentGame.get('dungeons_completed') : 0;
          attrs.roomsExplored = 0;
       }
    });
@@ -39,6 +39,7 @@
          dungeon: null
       },
       initialize: function(attrs, options) {
+         attrs = attrs || {};
          for (var key in this.defaults) {
             attrs[key] = attrs[key] || this.defaults[key];
          }
@@ -47,8 +48,9 @@
    });
    window.ParseNPC = Parse.Object.extend("NPC", {
       initialize: function(attrs, options) {
-         attrs.numInteractions = 0;
-         attrs.damageDealtToPlayer = 0;
+         attrs = attrs || {};
+         attrs.numInteractions = attrs.numInteractions || 0;
+         attrs.damageDealtToPlayer = attrs.damageDealtToPlayer || 0;
       }
    })
 
