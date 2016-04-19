@@ -95,6 +95,7 @@
                      characters: Game.currentRoom.characters.length
                   });
 
+                  // Log the action
                   PotionUse.next(Game.player);
 
                   Game.player.health = Math.min(Game.player.health + 4, Game.player.max_health);
