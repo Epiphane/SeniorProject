@@ -89,22 +89,31 @@ var Choice = (function() {
     * that cannot be averaged like Quantitative measurements
     */
    var Qualitative = Choice.Qualitative = ChoiceClass.extend({
-      initialize: function(value) {
-         if (typeof(value) === 'string') {
-            value = this.constructor.options.indexOf(value);
-         }
+      // An array of Strings for each option
+      options: [],
+
+      initialize: function(value, opts) {
+         var self = this;
+         value = this.options.indexOf(value);
 
          ChoiceClass.prototype.initialize.call(this, value);
+
+         this.indexes = [];
+         this.options.forEach(function(name, index) {
+            if (!opts || opts.indexOf(name) >= 0) {
+               self.indexes.push(index);
+            }
+         });
+
+         // Reassign the options
+         this.options = opts || this.options;
       },
       index: function() {
          return this.value;
       },
       val: function() {
-         return this.constructor.options[this.value];
+         return this.options[this.value];
       }
-   }, {
-      // An array of Strings for each option
-      options: []
    });
 
    /**
@@ -231,9 +240,12 @@ var Choice = (function() {
 
          this.preferences = [];
 
-         var initialPreference = 1 / this.Choice.options.length;
-         for (var i = 0; i < this.Choice.options.length; i ++) {
-            this.preferences.push(initialPreference);
+         var initialPreference = 1 / this.Choice.prototype.options.length;
+         for (var i = 0; i < this.Choice.prototype.options.length; i ++) {
+            this.preferences.push({
+               value: initialPreference,
+               offerings: 0
+            });
          }
 
          this.alpha = options.alpha;
@@ -243,29 +255,37 @@ var Choice = (function() {
             throw 'Alpha may not be greater than 1';
       },
 
-      log: function(value) {
+      log: function(value, options) {
+         var self = this;
+         if (!(value instanceof ChoiceClass)) {
+            value = new this.Choice(value, options);
+         }
+
          // log returns the value to make sure it's a Choice subclass
-         value = Decisions.prototype.log.apply(this, arguments);
+         Decisions.prototype.log.apply(this, arguments);
 
-         var delta = this.alpha;
-         var dilution = 1 - delta;
-         this.preferences.forEach(function(pref, index, array) {
-            array[index] = pref * dilution;
+         var dilution = 1 - this.alpha;
+         var subtotal = 0;
+         value.indexes.forEach(function(ndx) {
+            subtotal += self.preferences[ndx].value;
 
-            if (value.index() === index) {
-               array[index] += delta;
-            }
+            self.preferences[ndx].offerings ++;
+            self.preferences[ndx].value *= dilution;
          });
+
+         console.log(value.index());
+         self.preferences[value.index()].value += this.alpha * subtotal;
       },
 
       value: function() {
          var self = this;
-         var max = { value: null, preference: 0 };
+         var max = { value: null, preference: 0, offerings: 0 };
 
-         this.preferences.forEach(function(value, index) {
-            if (value > max.preference) {
-               max.value = self.Choice.options[index];
-               max.preference = value;
+         this.preferences.forEach(function(pref, index) {
+            if (pref.value > max.preference) {
+               max.value = self.Choice.prototype.options[index];
+               max.preference = pref.value;
+               max.offerings = pref.offerings;
             }
          });
 
