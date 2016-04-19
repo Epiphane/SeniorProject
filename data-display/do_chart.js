@@ -29,7 +29,7 @@ var config = {
                 display: true,
                 text: 'Player Profile'
             },
-            animation: true,
+            // animation: true,
             showScale: false,
             scaleOverride: true,
             scaleFontSize: 200,
