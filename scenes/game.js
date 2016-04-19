@@ -95,6 +95,8 @@
                      characters: Game.currentRoom.characters.length
                   });
 
+                  PotionUse.next(Game.player);
+
                   Game.player.health = Math.min(Game.player.health + 4, Game.player.max_health);
                   Game.player.potions --;
                   Game.player.sfxPowerup.play();
