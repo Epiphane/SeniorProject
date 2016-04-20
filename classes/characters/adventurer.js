@@ -4,7 +4,7 @@
   *      x: x-location to be spawned at
   *      y: y-location to be spawned at
   */
-ClassManager.create('Urchin', function(game) {
+ClassManager.create('Adventurer', function(game) {
 	return Class.create(Classes['NPC'], {
     sprite: 'npc1.png',
 

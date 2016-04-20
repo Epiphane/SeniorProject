@@ -18,10 +18,10 @@
 
       populateRoom: function(room) {
          // Add enemies and items to room
-         var npc = new Classes.Urchin();
+         var npc = new Classes.Adventurer();
          npc.dialog.push(["Oh...", "Hello.", "You look mighty strong there, what with that nice shiny armor and sword."]);
          npc.dialog.push(["Please don't hurt me, mister!"]);
-         this.addItem(room, new Classes.Dweller(), 0, 0);
+         this.addItem(room, npc, 0, 0);
       }
    });
 })(window);
