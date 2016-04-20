@@ -93,20 +93,29 @@ var Choice = (function() {
       options: [],
 
       initialize: function(value, opts) {
+         if (opts && opts.indexOf(value) < 0) {
+            throw 'Option ' + value + ' was not listed as one of the possibilities.';
+         }
+         if (this.options.indexOf(value) < 0) {
+            throw 'Option ' + value + ' is not possible for this choice!';
+         }
+
          var self = this;
          value = this.options.indexOf(value);
 
          ChoiceClass.prototype.initialize.call(this, value);
 
+         var sortedOpts = [];
          this.indexes = [];
          this.options.forEach(function(name, index) {
             if (!opts || opts.indexOf(name) >= 0) {
                self.indexes.push(index);
+               sortedOpts.push(name);
             }
          });
 
          // Reassign the options
-         this.options = opts || this.options;
+         this.opts = sortedOpts;
       },
       index: function() {
          return this.value;
@@ -238,14 +247,21 @@ var Choice = (function() {
          options = options || {};
          options.alpha = options.alpha || this.defaultAlpha;
 
+         // Maintain a normal list for indexing according to the choice
          this.preferences = [];
+         // Maintain a sorted list for accessing preferences
+         this.sortedPreferences = [];
 
          var initialPreference = 1 / this.Choice.prototype.options.length;
          for (var i = 0; i < this.Choice.prototype.options.length; i ++) {
-            this.preferences.push({
+            var obj = {
+               option: this.Choice.prototype.options[i],
                value: initialPreference,
                offerings: 0
-            });
+            };
+
+            this.preferences.push(obj);
+            this.sortedPreferences.push(obj);
          }
 
          this.alpha = options.alpha;
@@ -273,23 +289,35 @@ var Choice = (function() {
             self.preferences[ndx].value *= dilution;
          });
 
-         console.log(value.index());
          self.preferences[value.index()].value += this.alpha * subtotal;
+         self.sortedPreferences.sort(function(a, b) {
+            return b.value - a.value;
+         });
       },
 
       value: function() {
-         var self = this;
-         var max = { value: null, preference: 0, offerings: 0 };
+         return this.sortedPreferences[0];
+      },
 
-         this.preferences.forEach(function(pref, index) {
-            if (pref.value > max.preference) {
-               max.value = self.Choice.prototype.options[index];
-               max.preference = pref.value;
-               max.offerings = pref.offerings;
+      values: function() {
+         var vals = [];
+
+         this.sortedPreferences.forEach(function(pref) {
+            if (pref.offerings > 0) {
+               vals.push(pref);
             }
          });
 
-         return max;
+         return vals;
+      },
+
+      print: function() {
+         var str = 'Preferences: ' + 
+            this.sortedPreferences.map(function(pref) {
+               return pref.option + ' (' + pref.value.toFixed(2) + ')';
+            }).join(', ');
+
+         console.log(str);
       }
    });
 

@@ -18,7 +18,7 @@
 
       // Not sure where else to put this
       Game.moveRooms = function(dir) {
-         Game.setRoom(Game.currentRoom.getNeighbor(dir));
+         Game.setRoom(Game.currentRoom.getNeighbor(dir), dir);
 
          Game.currentRoom.movePlayerToDoorway(Game.player, Utils.to.opposite(dir));
       };
@@ -36,10 +36,10 @@
          Game.setRoom(Game.dungeonGenerator.createDungeon());
       };
 
-      Game.setRoom = function(room) {
+      Game.setRoom = function(room, dir) {
          // Remove old room
          if (Game.currentRoom) {
-            Game.currentRoom.onExit();
+            Game.currentRoom.onExit(dir);
             Game.currentRoom.removeChild(Game.player);
             Game.currentRoom.removeChild(Game.HUD);
             Game.removeChild(Game.currentRoom);

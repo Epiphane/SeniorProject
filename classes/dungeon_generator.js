@@ -183,7 +183,9 @@ ClassManager.create('DungeonGenerator', function(game) {
             }
          }
          
-         return generator.fillRoom(nextRoom, { /* params */ });
+         return generator.fillRoom(nextRoom, {
+            parent: direction
+         });
       }
 
    });

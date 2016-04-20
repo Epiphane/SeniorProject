@@ -1,3 +1,16 @@
+// Choice tracker
+var RoomFirstExitPreference = new Choice.Preference({
+   Choice: Choice.Qualitative.extend({
+      options: [
+         Utils.to.P_DIR_STR(C.P_DIR.LEFT), 
+         Utils.to.P_DIR_STR(C.P_DIR.UP), 
+         Utils.to.P_DIR_STR(C.P_DIR.RIGHT), 
+         Utils.to.P_DIR_STR(C.P_DIR.DOWN),
+         'Return'
+      ]
+   })
+});
+
 /*
  * The Room class creates the layout of each dungeon room
  * Parameters:
@@ -38,6 +51,9 @@ ClassManager.create('Room', function(game) {
          this.characters = [];
 
          this.neighbors = [false, false, false, false];
+
+         this.exits = [];
+         this.hasExitedYet = false;
       },
 
       onEnter: function() {
@@ -49,12 +65,22 @@ ClassManager.create('Room', function(game) {
          });
       },
 
-      onExit: function() {
+      onExit: function(direction) {
          EM.log('duration', 'actionsTakenInRoom', this.parseObj.actionsTaken, {
             roomType: this.type,
             playerHealth: game.currentScene.player,
             genocide: this.parseObj.get('genocide')
          });
+
+         if (!this.hasExitedYet) {
+            if (this.parent === direction) {
+               RoomFirstExitPreference.log('Return');
+            }
+            else {
+               RoomFirstExitPreference.log(Utils.to.P_DIR_STR(direction), this.exits);
+            }
+            this.hasExitedYet = true;
+         }
       },
 
       getNeighbor: function(direction) {
