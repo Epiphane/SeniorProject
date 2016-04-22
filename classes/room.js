@@ -67,12 +67,6 @@ ClassManager.create('Room', function(game) {
       },
 
       onExit: function(direction) {
-         EM.log('duration', 'actionsTakenInRoom', this.parseObj.actionsTaken, {
-            roomType: this.type,
-            playerHealth: game.currentScene.player,
-            genocide: this.parseObj.get('genocide')
-         });
-
          if (!!direction && !this.hasExitedYet) {
             if (this.parent === direction) {
                RoomFirstExitPreference.log('Return');
