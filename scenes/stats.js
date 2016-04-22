@@ -24,6 +24,21 @@ function pieChart(x, y, w, vals) {
       surface.context.arc(w, w, w, theta, theta + arc, false);
       surface.context.fill();
 
+      surface.context.beginPath();
+      surface.context.moveTo(w * 2 + 20, index * 20 + 10);
+
+      surface.context.arc(w * 2 + 20, index * 20 + 10, 8, 0, Math.PI * 2, false);
+      surface.context.fill();
+
+      entities.push(Utils.createLabel(value.option, x + w * 2 + 40, y + index * 20 + 10, { font: '12px Pokemon GB' }))
+
+      surface.context.font = '12px Pokemon GB';
+      surface.context.fillStyle = 'black';
+
+      var x_center = w * (1 + Math.cos(theta + arc / 2) / 2);
+      var y_center = w * (1 + Math.sin(theta + arc / 2) / 2);
+      surface.context.fillText(value.picks, x_center, y_center);
+
       theta += arc;
    });
    chart.image = surface;
@@ -35,15 +50,12 @@ function pieChart(x, y, w, vals) {
    return entities;
 }
 
-/*
- * So this is where Enchant gets weird. Refer to utils/singleton.js to see more...
- */
-Scenes.Stats = Singletonify(function(game) {
+Scenes.Stats = function() {
    var Stats = new Scene();
    Stats.backgroundColor = "black";
+   Stats.stats = true;
    
    // Initialize exit preferences
-
    Stats.addChild(Utils.createLabel('Exit preference: ', 100, 120, {width: 600}));
    pieChart(100, 150, 100, RoomFirstExitPreference.values()).forEach(function(child) {
       Stats.addChild(child);
@@ -70,4 +82,4 @@ Scenes.Stats = Singletonify(function(game) {
    });
 
    return Stats;
-});
+};

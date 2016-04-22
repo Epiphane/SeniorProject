@@ -1,5 +1,6 @@
 // Choice tracker
 var RoomFirstExitPreference = new Choice.Preference({
+   debug: true,
    Choice: Choice.Qualitative.extend({
       options: [
          Utils.to.P_DIR_STR(C.P_DIR.LEFT), 
@@ -72,7 +73,7 @@ ClassManager.create('Room', function(game) {
             genocide: this.parseObj.get('genocide')
          });
 
-         if (!this.hasExitedYet) {
+         if (!!direction && !this.hasExitedYet) {
             if (this.parent === direction) {
                RoomFirstExitPreference.log('Return');
             }

@@ -134,6 +134,7 @@ var Choice = (function() {
       initialize: function(options) {
          options = options || {};
          this.Choice = options.Choice || this.ChoiceConstructor;
+         this.debug = !!options.debug;
 
          // Initialize memory (maybe we won't want to keep this always...)
          this.decisions = [];
@@ -146,6 +147,10 @@ var Choice = (function() {
          // Create a choice object with the info
          if (!(value instanceof ChoiceClass)) {
             value = new this.Choice(value);
+         }
+
+         if (this.debug) {
+            console.log('Logging decision: ' + value.val());
          }
 
          this.decisions.push(value);
@@ -257,7 +262,8 @@ var Choice = (function() {
             var obj = {
                option: this.Choice.prototype.options[i],
                value: initialPreference,
-               offerings: 0
+               offerings: 0,
+               picks: 0
             };
 
             this.preferences.push(obj);
@@ -289,6 +295,7 @@ var Choice = (function() {
             self.preferences[ndx].value *= dilution;
          });
 
+         self.preferences[value.index()].picks ++;
          self.preferences[value.index()].value += this.alpha * subtotal;
          self.sortedPreferences.sort(function(a, b) {
             return b.value - a.value;

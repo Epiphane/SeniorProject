@@ -58,7 +58,7 @@
 
    Utils.to.P_DIR_STR = function(dir) {
       if (dir === C.P_DIR.LEFT ) return 'West';
-      if (dir === C.P_DIR.RIGHT) return 'Right';
+      if (dir === C.P_DIR.RIGHT) return 'East';
       if (dir === C.P_DIR.UP   ) return 'North';
       if (dir === C.P_DIR.DOWN ) return 'South';
    }
