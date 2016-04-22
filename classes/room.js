@@ -1,13 +1,19 @@
 // Choice tracker
 var RoomFirstExitPreference = new Choice.Preference({
-   debug: true,
    Choice: Choice.Qualitative.extend({
       options: [
          Utils.to.P_DIR_STR(C.P_DIR.LEFT), 
          Utils.to.P_DIR_STR(C.P_DIR.UP), 
          Utils.to.P_DIR_STR(C.P_DIR.RIGHT), 
-         Utils.to.P_DIR_STR(C.P_DIR.DOWN),
-         'Return'
+         Utils.to.P_DIR_STR(C.P_DIR.DOWN)
+      ]
+   })
+});
+
+var RoomReturnPreference = new Choice.Preference({
+   Choice: Choice.Qualitative.extend({
+      options: [
+         true, false
       ]
    })
 });
@@ -67,11 +73,14 @@ ClassManager.create('Room', function(game) {
       },
 
       onExit: function(direction) {
-         if (!!direction && !this.hasExitedYet) {
+         if (direction != undefined && !this.hasExitedYet) {
             if (this.parent === direction) {
-               RoomFirstExitPreference.log('Return');
+               if (this.exits.length > 0) {
+                  RoomReturnPreference.log(true);
+               }
             }
             else {
+               console.log(this.exits);
                RoomFirstExitPreference.log(Utils.to.P_DIR_STR(direction), this.exits);
             }
             this.hasExitedYet = true;

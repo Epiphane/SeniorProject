@@ -306,11 +306,14 @@ var Choice = (function() {
          return this.sortedPreferences[0];
       },
 
-      values: function() {
+      values: function(options) {
+         options = options || {};
+         options.except = options.except || [];
+
          var vals = [];
 
          this.sortedPreferences.forEach(function(pref) {
-            if (pref.offerings > 0) {
+            if (options.except.indexOf(pref.option) < 0) {
                vals.push(pref);
             }
          });

@@ -176,9 +176,6 @@
          }
 
          room.parent = params.parent;
-         if (room.parent) {
-            room.exits.push('Return');
-         }
 
          // Add in the walls
          foreground = this.createWalls(background);

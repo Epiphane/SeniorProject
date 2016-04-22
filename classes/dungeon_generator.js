@@ -47,7 +47,7 @@ ClassManager.create('DungeonGenerator', function(game) {
       },
 
       isDeadEndRoom: function(roomType) {
-         return (roomType === C.ROOM_TYPES.boss) || (roomType === C.ROOM_TYPES.store);
+         return (roomType === C.ROOM_TYPES.boss);
       },
 
       /**
@@ -190,3 +190,25 @@ ClassManager.create('DungeonGenerator', function(game) {
 
    });
 });
+
+function mockDungeon() {
+   var generator = new Classes.DungeonGenerator();
+
+   var rooms = [];
+   function addRoom(r, x, y) {
+      if (!rooms[y]) rooms[y] = [];
+      rooms[y][x] = r;
+   }
+
+   var roomStack = [generator.createDungeon()];
+   while (roomStack.length > 0) {
+      var room = roomStack.shift();
+
+      for (var direction in C.P_DIR) {
+         if (room.neighbors[direction] !== false && !(room.neighbors[direction] instanceof Classes['Room'])) {
+            room.neighbors[direction] = generator.nextRoom(room, direction);
+            roomStack.push(room.neighbors[direction]);
+         }
+      }
+   }
+}

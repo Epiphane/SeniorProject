@@ -32,12 +32,12 @@ function pieChart(x, y, w, vals) {
 
       entities.push(Utils.createLabel(value.option, x + w * 2 + 40, y + index * 20 + 10, { font: '12px Pokemon GB' }))
 
-      surface.context.font = '12px Pokemon GB';
+      surface.context.font = '8px Pokemon GB';
       surface.context.fillStyle = 'black';
 
-      var x_center = w * (1 + Math.cos(theta + arc / 2) / 2);
+      var x_center = w * (1 + Math.cos(theta + arc / 2) / 2) - 5;
       var y_center = w * (1 + Math.sin(theta + arc / 2) / 2);
-      surface.context.fillText(value.picks, x_center, y_center);
+      surface.context.fillText(value.picks + '/' + value.offerings, x_center, y_center);
 
       theta += arc;
    });
@@ -57,7 +57,9 @@ Scenes.Stats = function() {
    
    // Initialize exit preferences
    Stats.addChild(Utils.createLabel('Exit preference: ', 100, 120, {width: 600}));
-   pieChart(100, 150, 100, RoomFirstExitPreference.values()).forEach(function(child) {
+   pieChart(100, 150, 100, RoomFirstExitPreference.values({
+      except: ['Return']
+   })).forEach(function(child) {
       Stats.addChild(child);
    });
 
