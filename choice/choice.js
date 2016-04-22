@@ -207,15 +207,15 @@ var Choice = (function() {
          value = Decisions.prototype.log.apply(this, arguments);
          
          // Set initial value
-         if (this.measurements.length === 1) {
+         if (this.decisions.length === 1) {
             this.currentAverage = value.val();
          }
 
          // Compute average
          if (this.alpha === 0) {
-            this.currentAverage *= this.measurements.length - 1;
+            this.currentAverage *= this.decisions.length - 1;
             this.currentAverage += value.val();
-            this.currentAverage /= this.measurements.length;
+            this.currentAverage /= this.decisions.length;
          }
          else {
             this.currentAverage *= this.alpha;

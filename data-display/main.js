@@ -16,16 +16,18 @@ var Test = React.createClass({
    render: function() {
    return (
             <div style={{width: "512px"}}>
+               <canvas id="myChart" width="400" height="400"></canvas>
+
                <h1>So far, you've <span style={{color: "red"}}>MURDERED:</span></h1>
 
-               {this.data.events.map(function (event, ndx) {
-                  var img_name = event.value.split(".")[0];
-                  var extension = event.value.split(".")[1];
+                {this.data.events.map(function (event, ndx) {
+                   var img_name = event.value.split(".")[0];
+                   var extension = event.value.split(".")[1];
 
-                  return (
-                     <img src={"../assets/images/" + img_name + "-rip." + extension} />
-                  )
-               })}
+                   return (
+                      <img src={"../assets/images/" + img_name + "-rip." + extension} />
+                   )
+                })}
             </div>
          )
  }
