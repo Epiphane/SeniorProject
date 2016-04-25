@@ -28,6 +28,8 @@ ClassManager.create('DungeonGenerator', function(game) {
          roomTypes.push(C.ROOM_TYPES.weapon);
          roomTypes.push(C.ROOM_TYPES.armor);
          roomTypes.push(C.ROOM_TYPES.puzzle);
+         roomTypes.push(C.ROOM_TYPES.npc);
+         roomTypes.push(C.ROOM_TYPES.sign);
 
          // 3 treasure rooms
          for (var i = 0; i < 2; i ++)
@@ -132,10 +134,14 @@ ClassManager.create('DungeonGenerator', function(game) {
                generator = new CombatRoomGenerator();
                break;
             case C.ROOM_TYPES.npc:
+               generator = new NPCRoomGenerator();
                break;
             case C.ROOM_TYPES.boss:
                generator = new BossRoomGenerator();
                numExits  = 1;
+               break;
+            case C.ROOM_TYPES.sign:
+               generator = new SignRoomGenerator();
                break;
          }
 

@@ -1,5 +1,5 @@
 /* 
- * The ItemRoomGenerator class randomly creates a room centered around combat
+ * The NPCRoomGenerator class randomly creates a room centered around an NPC
  */
 (function(window) {
    var defaults = {};
@@ -17,11 +17,12 @@
       },
 
       populateRoom: function(room) {
-         // Add enemies and items to room
-         var npc = new Classes.Adventurer();
-         npc.dialog.push(["Oh...", "Hello.", "You look mighty strong there, what with that nice shiny armor and sword."]);
-         npc.dialog.push(["Please don't hurt me, mister!"]);
-         this.addItem(room, npc, 0, 0);
+         // TODO: Get dialog from story.js
+         var dialog = []
+         dialog.push(["Oh...", "Hello.", "You look mighty strong there, what with that nice shiny armor and sword."]);
+         dialog.push(["Please don't hurt me, mister!"]);
+         var npc = new Classes.Adventurer(dialog);
+         this.addItem(room, npc, 0, 1);
       }
    });
 })(window);

@@ -176,13 +176,7 @@
       },
 
       populateRoom: function(room) {
-         // Add enemies and items to room
-         //TESTING dialog
-         var dialog = [];
-         dialog.push(["'Your path has been set by men and Gods before you. Tread carefully.",]);
-         dialog.push(["* The text on the sign has vanished."]);
-         var sign = new Classes.Sign(dialog);
-         this.addCharacter(room, sign, 1, 2);
+
       }
    });
 
