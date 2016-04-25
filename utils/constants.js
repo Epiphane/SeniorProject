@@ -16,6 +16,10 @@
       'random', 'store', 'treasure', 'weapon', 'armor', 'combat', 'npc', 'boss', 'puzzle', 'sign'
    ]);
 
+   Constants.NPC_CHARACTERS = Enum([
+      'sign', 'adventurer', 'badSign',
+   ]);
+
    var spriteToTile = function(row, col) {
       return row * 29 + col;
    };

@@ -36,4 +36,39 @@
  * * * * your WSAD setup and teleport you around so you'd get confused with which person you were (since you and dark you would have very similar sprite)
  */
 
- 
+var Story = window.Story = window.S = {};
+
+S.init = function(game) {
+	// Dialog Entries
+	// Each NPC will have a dialog object with all their dialog entires in them. The top level of the object will contain
+	// key words that dictate the context we want for the dialog. These contexts contain nested arrays with all the dialog options.
+	// Based on the story/dungeon progression (TBD) an index value will be chosen from 0(start)-3(endgame) to pull dialog from. 
+	// There, a few random choices of dialog are available and will be selected using Choice.js.
+
+	/* Example: 
+		{ 
+context		movement: [
+	story:0		[
+		line:0		["Hey there.", "Why you movin' around so fast?", "Stop and smell the roses every once in awhile!"],
+		line:1		["Whoa!", "Runnin' around like that is dangerous in a place like this. Take it easy!"]
+				],
+	story:1			[
+		line:0		["You're lookin' a bit tired.", "If I were you, I'd take my time down here."]
+				],
+			],
+		}
+	*/
+
+	// Adventurer (npc1)
+	// A young lost adventurer. Usually in trouble. Notices strength of the player.
+		S.adventurer = {
+		kills: [
+			[["You seem to be handling yourself just fine."]],
+			[[""]]
+		],
+		movement: [
+		],
+
+	};
+}
+
