@@ -18,10 +18,7 @@
 
       populateRoom: function(room) {
          // TODO: Get dialog from story.js
-         var dialog = []
-         dialog.push(["Oh...", "Hello.", "You look mighty strong there, what with that nice shiny armor and sword."]);
-         dialog.push(["Please don't hurt me, mister!"]);
-         var npc = new Classes.Adventurer(dialog);
+         var npc = new Classes.Adventurer(Story.getLine(Story.NPC_CHARACTERS.adventurer, "kills", 0));
          this.addItem(room, npc, 0, 1);
       }
    });

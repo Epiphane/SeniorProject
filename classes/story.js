@@ -36,39 +36,35 @@
  * * * * your WSAD setup and teleport you around so you'd get confused with which person you were (since you and dark you would have very similar sprite)
  */
 
-var Story = window.Story = window.S = {};
+var Story = window.Story = {};
 
-S.init = function(game) {
+Story.init = function(game) {
 	// Dialog Entries
 	// Each NPC will have a dialog object with all their dialog entires in them. The top level of the object will contain
 	// key words that dictate the context we want for the dialog. These contexts contain nested arrays with all the dialog options.
 	// Based on the story/dungeon progression (TBD) an index value will be chosen from 0(start)-3(endgame) to pull dialog from. 
 	// There, a few random choices of dialog are available and will be selected using Choice.js.
 
-	/* Example: 
-		{ 
-context		movement: [
-	story:0		[
-		line:0		["Hey there.", "Why you movin' around so fast?", "Stop and smell the roses every once in awhile!"],
-		line:1		["Whoa!", "Runnin' around like that is dangerous in a place like this. Take it easy!"]
-				],
-	story:1			[
-		line:0		["You're lookin' a bit tired.", "If I were you, I'd take my time down here."]
-				],
-			],
-		}
-	*/
+   Story.NPC_CHARACTERS = Enum([
+      'sign', 'adventurer', 'badSign'
+   ]);
 
 	// Adventurer (npc1)
 	// A young lost adventurer. Usually in trouble. Notices strength of the player.
-		S.adventurer = {
+	Story.adventurer = {
 		kills: [
-			[["You seem to be handling yourself just fine."]],
-			[[""]]
-		],
-		movement: [
-		],
-
+			[["You seem to be handling yourself just fine."],["Don't you have something better to do?"]],
+			[["Don't get too comfortable down here.", "Things are changing constantly."], ["Careful, now."]]
+		]
 	};
+
+	Story.dialog = new Object();
+
+	Story.dialog[Story.NPC_CHARACTERS.adventurer] = Story.adventurer;
+
+	Story.getLine = function(character, trait, story) {
+		// TODO: Get trait info from Choice.js and based on top traits randomly choose dialog.
+		return Story.dialog[character][trait][story][0];
+	}
 }
 

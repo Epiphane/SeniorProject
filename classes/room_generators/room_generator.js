@@ -176,7 +176,8 @@
       },
 
       populateRoom: function(room) {
-
+         var npc = new Classes.Adventurer(Story.getLine(Story.NPC_CHARACTERS.adventurer, "kills", 0));
+         this.addItem(room, npc, 0, 1);
       }
    });
 

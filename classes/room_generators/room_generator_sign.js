@@ -15,7 +15,7 @@
          var dialog = []
          dialog.push(["\"Those who walk without purpose or thought seek only defeat and pain.\""]);
          var sign = new Classes.Sign(dialog);
-         this.addItem(room, npc, 2, 2);
+         this.addItem(room, sign, 2, 2);
       }
    });
 })(window);
