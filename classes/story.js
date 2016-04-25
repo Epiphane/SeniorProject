@@ -53,8 +53,10 @@ Story.init = function(game) {
 	// A young lost adventurer. Usually in trouble. Notices strength of the player.
 	Story.adventurer = {
 		kills: [
-			[["You seem to be handling yourself just fine."],["Don't you have something better to do?"]],
-			[["Don't get too comfortable down here.", "Things are changing constantly."], ["Careful, now."]]
+         [
+			   [["You seem to be handling yourself just fine."],["Don't you have something better to do?"]],
+			   [["Don't get too comfortable down here.", "Things are changing constantly."], ["Careful, now."]]
+         ]
 		]
 	};
 
@@ -64,7 +66,9 @@ Story.init = function(game) {
 
 	Story.getLine = function(character, trait, story) {
 		// TODO: Get trait info from Choice.js and based on top traits randomly choose dialog.
-		return Story.dialog[character][trait][story][0];
+      var lines = Story.dialog[character][trait][story].length;
+      var line = chance.integer({min:0, max:lines-1});
+		return Story.dialog[character][trait][story][line];
 	}
 }
 
