@@ -63,6 +63,12 @@ ClassManager.create('Room', function(game) {
          this.hasExitedYet = false;
       },
 
+      destroy: function() {
+         while (this.characters.length > 0) {
+            this.characters.shift().destroy();
+         }
+      },
+
       onEnter: function() {
          this.parseObj.increment('timesVisited');
 
@@ -350,6 +356,8 @@ ClassManager.create('Room', function(game) {
             var character = this.characters[i];
 
             if (character.isDead()) {
+               character.destroy();
+
                if (character.isBoss()) {
                   // Kill all characters
                   while (this.characters.length > 0) {

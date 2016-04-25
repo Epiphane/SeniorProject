@@ -16,7 +16,15 @@ ClassManager.create('DungeonGenerator', function(game) {
          this.parseObj = new ParseDungeon({});
          this.parseObj.set('numRooms', this.numRooms);
 
+         this.rooms = [];
+
          this.parseObj.save();
+      },
+
+      destroy: function() {
+         while (this.rooms.length > 0) {
+            this.rooms.shift().destroy();
+         }
       },
 
       generateRoomTypes: function() {
@@ -183,9 +191,11 @@ ClassManager.create('DungeonGenerator', function(game) {
             }
          }
          
-         return generator.fillRoom(nextRoom, {
+         var room = generator.fillRoom(nextRoom, {
             parent: direction
          });
+         this.rooms.push(room);
+         return room;
       }
 
    });

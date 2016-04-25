@@ -24,9 +24,13 @@
       };
 
       Game.descend = function() {
-         if (game.currentRoom) {
+         if (Game.currentRoom) {
             window.currentGame.set('dungeons_completed', window.currentGame.get('dungeons_completed') + 1);
             window.currentGame.save();
+         }
+
+         if (Game.dungeonGenerator) {
+            Game.dungeonGenerator.destroy();
          }
 
          // Create first room
