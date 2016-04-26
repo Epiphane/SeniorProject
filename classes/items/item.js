@@ -20,5 +20,9 @@ ClassManager.create('Item', function(game) {
          this.x = Utils.to.screen(this.position.x);
          this.y = Utils.to.screen(this.position.y);
       },
+
+      everyTurn: function() {
+         // nothin
+      }
    });
 });

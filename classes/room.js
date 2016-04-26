@@ -289,6 +289,23 @@ ClassManager.create('Room', function(game) {
          }
       },
 
+      // Check if all the tiles are green. If so, drop 'em a potion
+      checkPuzzle: function() {
+         if (this.puzzleTiles) {
+            var winner = true;
+
+            this.puzzleTiles.forEach(function(tile) {
+               if (tile.state != TILE_PRESSED) {
+                  winner = false;
+               }
+            });
+
+            if (winner) {
+               this.addItemAt(new Classes.Potion(), 0, 0);
+            }
+         }
+      },
+
       isStaircase: function(x, y) {
          // Convert to tilesetness
          x += Math.floor(C.MAP_SIZE / 2);
