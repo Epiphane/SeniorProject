@@ -18,6 +18,23 @@ ClassManager.create('PuzzleTile', function(game) {
          this.state = TILE_UNPRESSED;
       },
 
+      // Check if all the tiles are green. If so, drop 'em a potion
+      checkPuzzle: function(room) {
+         if (room.puzzleTiles) {
+            var winner = true;
+
+            room.puzzleTiles.forEach(function(tile) {
+               if (tile.state != TILE_PRESSED) {
+                  winner = false;
+               }
+            });
+
+            if (winner) {
+               room.addItemAt(new Classes.Potion(), 0, 0);
+            }
+         }
+      },
+
       // I just got stepped on!
       didMoveOntoMe: function(collider, room) {
          if (collider instanceof Classes['Player'] ||
@@ -27,7 +44,7 @@ ClassManager.create('PuzzleTile', function(game) {
                case TILE_UNPRESSED:
                   this.state = TILE_PRESSED;
                   this.image = game.assets["assets/images/u did it.png"];
-                  room.checkPuzzle();
+                  this.checkPuzzle(room);
                   break;
                case TILE_PRESSED:
                   this.state = TILE_BAD;

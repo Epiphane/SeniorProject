@@ -19,8 +19,6 @@ var puzzle1 = {
 (function(window) {
    var defaults = {};
 
-
-
    window.PuzzleRoomGenerator = Class.create(RoomGenerator, {
       addPuzzleTile: function(room, x, y) {
          var new_tile = new Classes.PuzzleTile();
@@ -71,9 +69,26 @@ var puzzle1 = {
       populateRoom: function(room) {
          room.puzzleTiles = [];
 
-         // this.addItem(room, new Classes.PuzzleTile(), 0, 0);
-
          this.genPuzzle(room, puzzle1);
       }
    });
 })(window);
+
+// How many turns the player has spent in a puzzle room
+var TurnSpentPuzzle = new Choice.Aggregate({
+   totalTurns: 0,
+
+   next: function() {
+      this.log(this.totalTurns++);
+   }
+});
+
+
+// How many times the player has successfully finished a puzzle
+var PuzzlesSolved = new Choice.Aggregate({
+   totalSolved: 0,
+
+   next: function() {
+      this.log(this.totalSolved++);
+   }
+});
