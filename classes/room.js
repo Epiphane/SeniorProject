@@ -1,3 +1,23 @@
+// Choice tracker
+var RoomFirstExitPreference = new Choice.Preference({
+   Choice: Choice.Qualitative.extend({
+      options: [
+         Utils.to.P_DIR_STR(C.P_DIR.LEFT), 
+         Utils.to.P_DIR_STR(C.P_DIR.UP), 
+         Utils.to.P_DIR_STR(C.P_DIR.RIGHT), 
+         Utils.to.P_DIR_STR(C.P_DIR.DOWN)
+      ]
+   })
+});
+
+var RoomReturnPreference = new Choice.Preference({
+   Choice: Choice.Qualitative.extend({
+      options: [
+         true, false
+      ]
+   })
+});
+
 /*
  * The Room class creates the layout of each dungeon room
  * Parameters:
@@ -38,6 +58,15 @@ ClassManager.create('Room', function(game) {
          this.characters = [];
 
          this.neighbors = [false, false, false, false];
+
+         this.exits = [];
+         this.hasExitedYet = false;
+      },
+
+      destroy: function() {
+         while (this.characters.length > 0) {
+            this.characters.shift().destroy();
+         }
       },
 
       onEnter: function() {
@@ -49,12 +78,19 @@ ClassManager.create('Room', function(game) {
          });
       },
 
-      onExit: function() {
-         EM.log('duration', 'actionsTakenInRoom', this.parseObj.actionsTaken, {
-            roomType: this.type,
-            playerHealth: game.currentScene.player,
-            genocide: this.parseObj.get('genocide')
-         });
+      onExit: function(direction) {
+         if (direction != undefined && !this.hasExitedYet) {
+            if (this.parent === direction) {
+               if (this.exits.length > 0) {
+                  RoomReturnPreference.log(true);
+               }
+            }
+            else {
+               console.log(this.exits);
+               RoomFirstExitPreference.log(Utils.to.P_DIR_STR(direction), this.exits);
+            }
+            this.hasExitedYet = true;
+         }
       },
 
       getNeighbor: function(direction) {
@@ -337,6 +373,8 @@ ClassManager.create('Room', function(game) {
             var character = this.characters[i];
 
             if (character.isDead()) {
+               character.destroy();
+
                if (character.isBoss()) {
                   // Kill all characters
                   while (this.characters.length > 0) {

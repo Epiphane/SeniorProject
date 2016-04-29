@@ -12,6 +12,7 @@
    var defaults = {
       height: C.MAP_SIZE - 4,
       width: C.MAP_SIZE - 4,
+      parent: null // "Parent" room
    };
    window.RoomGenerator = Class.create(Object, {
       createRoom: function(params) {
@@ -133,12 +134,22 @@
             this.setTile(background, params.LEFT - 1,-1, C.BG_TILES.wall);
             this.setTile(background, params.LEFT - 1, 0, C.BG_TILES.floor);
             this.setTile(background, params.LEFT - 1, 1, C.BG_TILES.wall);
+
+            // Add this as a new exit IF it's not the "parent" room
+            if (params.parent !== C.P_DIR.LEFT) {
+               room.exits.push(Utils.to.P_DIR_STR(C.P_DIR.LEFT));
+            }
          }
          if (room.neighbors[C.P_DIR.RIGHT] !== false) {
             this.setTile(background, params.RGHT    , 0, C.BG_TILES.floor);
             this.setTile(background, params.RGHT + 1,-1, C.BG_TILES.wall);
             this.setTile(background, params.RGHT + 1, 0, C.BG_TILES.floor);
             this.setTile(background, params.RGHT + 1, 1, C.BG_TILES.wall);
+
+            // Add this as a new exit IF it's not the "parent" room
+            if (params.parent !== C.P_DIR.RIGHT) {
+               room.exits.push(Utils.to.P_DIR_STR(C.P_DIR.RIGHT));
+            }
          }
          if (room.neighbors[C.P_DIR.UP] !== false) {
             this.setTile(background,  0, params.TOP,     C.BG_TILES.floor);
@@ -146,13 +157,25 @@
             this.setTile(background, -1, params.TOP - 1, C.BG_TILES.wall);
             this.setTile(background,  0, params.TOP - 1, C.BG_TILES.floor);
             this.setTile(background,  1, params.TOP - 1, C.BG_TILES.wall);
+
+            // Add this as a new exit IF it's not the "parent" room
+            if (params.parent !== C.P_DIR.UP) {
+               room.exits.push(Utils.to.P_DIR_STR(C.P_DIR.UP));
+            }
          }
          if (room.neighbors[C.P_DIR.DOWN] !== false) {
             this.setTile(background,  0, params.BOT,     C.BG_TILES.floor);
             this.setTile(background, -1, params.BOT + 1, C.BG_TILES.wall);
             this.setTile(background,  0, params.BOT + 1, C.BG_TILES.floor);
             this.setTile(background,  1, params.BOT + 1, C.BG_TILES.wall);
+
+            // Add this as a new exit IF it's not the "parent" room
+            if (params.parent !== C.P_DIR.DOWN) {
+               room.exits.push(Utils.to.P_DIR_STR(C.P_DIR.DOWN));
+            }
          }
+
+         room.parent = params.parent;
 
          // Add in the walls
          foreground = this.createWalls(background);

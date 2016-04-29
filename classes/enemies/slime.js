@@ -4,5 +4,8 @@ ClassManager.create('Slime', function(game) {
       walkStartFrame: 3,
       walkEndFrame:   5,
       initial_health: 3,
+
+      DamageDealt: new Choice.Aggregate(),
+      DamageTaken: new Choice.Aggregate(),
    });
 });
