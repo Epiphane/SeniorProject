@@ -31,6 +31,7 @@ ClassManager.create('PuzzleTile', function(game) {
 
             if (winner) {
                room.addItemAt(new Classes.Potion(), 0, 0);
+               PuzzlesSolved.next();
             }
          }
       },

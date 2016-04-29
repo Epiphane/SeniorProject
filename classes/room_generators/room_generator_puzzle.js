@@ -24,8 +24,6 @@ var puzzle1 = {
          var new_tile = new Classes.PuzzleTile();
          room.puzzleTiles.push(new_tile);
          room.addItemAt(new_tile, x, y);
-
-         PuzzleSolved.next();
       },
 
       createFloor: function(params) {
