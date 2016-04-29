@@ -24,6 +24,8 @@ var puzzle1 = {
          var new_tile = new Classes.PuzzleTile();
          room.puzzleTiles.push(new_tile);
          room.addItemAt(new_tile, x, y);
+
+         PuzzleSolved.next();
       },
 
       createFloor: function(params) {
@@ -74,7 +76,7 @@ var puzzle1 = {
    });
 })(window);
 
-// How many turns the player has spent in a puzzle room
+// How many turns the player has spent in a puzzle room (relevant...?)
 var TurnSpentPuzzle = new Choice.Aggregate({
    totalTurns: 0,
 
@@ -90,5 +92,14 @@ var PuzzlesSolved = new Choice.Aggregate({
 
    next: function() {
       this.log(this.totalSolved++);
+   }
+});
+
+// How many times the player has triggered an X to appear
+var PuzzlesFailed = new Choice.Aggregate({
+   totalFailed: 0,
+
+   next: function() {
+      this.log(this.totalFailed++);
    }
 });

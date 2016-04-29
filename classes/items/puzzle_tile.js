@@ -49,6 +49,10 @@ ClassManager.create('PuzzleTile', function(game) {
                case TILE_PRESSED:
                   this.state = TILE_BAD;
                   this.image = game.assets["assets/images/U MESSED UP LOL.png"];
+                  if (!room.logged_failure) {
+                     room.logged_failure = true;
+                     PuzzlesFailed.next();
+                  }
                   break;
                default:
                   // nothin'
