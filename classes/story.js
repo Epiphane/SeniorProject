@@ -1,39 +1,6 @@
-// Story Ideas / Concepts
-/*
- * Premise:
- * * The player finds themselves in a dungeon with a bunch of monsters. The first instinct of course is to fight them off and proceed.
- * * However, as the player progresses, cryptic signage starts telling the player that they're not alone and that they're creating a monster
- * * (wording based on kill-count). Player begins finding rooms filled with just monster corpses, signs appear with wording written in blood, and altogether
- * * weird stuff starts to happen. The final dungeon is completely empty, music stops, all enemies, signs, and NPCs are dead. In the boss room, the player
- * * finds a sprite exactly like himself. Depending on some values 3 outcomes can occur: 1. Basically Genocide Flowey ending 
- * * (if you've killed everything without dying), 2. (monologue then fight), 3. Player is slaughtered by "dark" version of self. The ultimate thing
- * * is to realize your actions are being monitored, replicated, and enhanced by this shadow version of you.
- *
- * Delivery:
- * * Player comes into contact with various NPCs and Signs throughout the dungeon crawl. Depending on the designer's input, each dungeon layer will go from
- * * Helping the player navigate and fight to being oddly cryptic hints that the player isnt the only one excavating the dungeon. 
- * * NPCs become more afraid of the player as time passes, and custom rooms can be shown with the NPCs barricading themselves behind walls (need to
- * * figure out how we can still have the player talk to them, or put a sign in front of the barricade).
- *
- * Adaptive Integration:
- * * Here's a suggestion for how things are altered based on adaption values:
- * * * Dialogue: 
- * * * * Dialogue options for NPCs will be decided by a mixture of decision trees, starting with kills as the highest branch. Then, enemy choice, 
- * * * * health, and items carried.
- * * * Enemies:
- * * * * Enemies will spawn in increasing number depending on the player's skill and kill count. If enemies are left alive, it could be 
- * * * * interpreted as the player wanting to avoid them, so they should be made more numerous if the difficulty is to rise in the next dungeon.
- * * * Signs:
- * * * * Signs will appear less often as the player progresses. Early signs should hint at gameplay help, dungeoneering tips, and a few 
- * * * * signs of encouragement to clear the dungeon. Possible cryptic signs like "I saw that." or "We're becoming more alike." should appear at times,
- * * * * with the first interaction being the text and 2nd being "* There's nothing written on the sign." + variants.
- * * * Bosses:
- * * * * I want to entertain the idea of having the player be able to walk past the first boss if they kill nothing. We should figure out a way to have
- * * * * dialog appear when a player enters the room so bosses can comment on the player about this other shade that has been creeping through the dungeon.
- * * * * I also like the idea of enhanced/weakened bosses based on adaptive curves and using story elements to explain these. e.g. "dude just came through
- * * * * and gave this thing to make me buff, now ur gonna die" or "Back for more? Too bad im already weak blah blah you wont get satisfaction from 
- * * * * 1-shotting me u miserable creature." and then u 1-shot him yey. Final boss could be really fun to work with. I was thinking he would alter
- * * * * your WSAD setup and teleport you around so you'd get confused with which person you were (since you and dark you would have very similar sprite)
+/* 
+ * story.js
+ * Class that will hold the dialog for NPCs in the game.
  */
 
 var Story = window.Story = {};
@@ -46,23 +13,69 @@ Story.init = function(game) {
 	// There, a few random choices of dialog are available and will be selected using Choice.js.
 
    Story.NPC_CHARACTERS = Enum([
-      'sign', 'adventurer', 'badSign'
+      'sign', 'adventurer', 'strongman', 'badSign'
    ]);
 
 	// Adventurer (npc1)
 	// A young lost adventurer. Usually in trouble. Notices strength of the player.
 	Story.adventurer = {
-		kills: [
-         [
-			   [["You seem to be handling yourself just fine."],["Don't you have something better to do?"]],
-			   [["Don't get too comfortable down here.", "Things are changing constantly."], ["Careful, now."]]
-         ]
+		story: [
+         	[
+                [["Oh... hi.", "You're really in a pickle right now, aren't ya?", "How'd you find yourself in the most dangerous dungeon in Squarr?", "Well, nevermind that. You should try to find a way out."],["Don't let me keep you any longer. I'll be fine"]],
+                [["Are you a knight?", "Are you strong?", "Are you a hero?", "... can you save my dumb friends that went deeper into this dungeon?"], ["Don't tell our parent's we're here!"]],
+                [["I'm sure you've noticed by now that enemies only act when you move.", "That's why I'm not moving an inch from this spot!"], ["Don't just stand there!", "... or do. I'm not judging."]],
+                [["You really like swiging that thing around, huh?", "When I'm playing knight, I'm always invincible, so you can't hurt me.", "Don't you wish you were as cool as me?"], ["* You try telling him to get somewhere safe, but he ignores you and continues making a 'whooshing' sound and swinging around a stick."]]
+         	],
+         	[
+                [["Why are you looking at me like I shouldn't be here?", "Just because I don't have a weapon doesn't mean I'm not tough!"], ["Grrrr!"]],
+                [["You look like you've seen some sh-, err, stuff.", "I'm not sure about this, but the way you're going, things're not gonna get easier.", "But hey, what do I know."], ["Good luck."]],
+                [["...", "If I don't move they can't get me.", "But if I don't move I can't get out."], ["... Please make it safe for me to leave."]],
+                [["I hear there's some crazy strong monster at the deepest part of this dungeon.", "Just thinking about it gives me the chills! Brrr!"], ["Maybe I'm just cold."]],
+                [["I keep thinking I'm on the right track, but there's just no exit.", "'Just pretend its a maze' they say.", "But this... 'place'... it's no maze."], ["I just want to go home."]]
+         	],
+      		[
+                [["I bet you're wondering how I made it this far.", "Me too."], ["* They just shrug."]],
+                [["I ran as fast as I could through all these rooms, but I stopped to take a break.", "Now I'm sure to be eaten if I leave this spot."], ["I hope you beat up all the bad guys so I can escape."]],
+                [["A lot of people come to this place to try and prove themselves.", "This dungeon, Aralynne's Lair, is said to be a living and breathing organism.", "Some say it follows the laws of nature like a wild animal.", "... it adapts. It kills. It survives."], ["I never should have taken that dare."]],
+                [["Why are you breathing so loudly?", "... that's not you?"], ["..."]],
+                [["I've seen her.", "You don't stand a chance."]],
+      		]
 		]
 	};
+
+	// Regular old sign... or is it? Useful mainly for tips.
+	Story.sign = {
+		story: [
+			[
+				[["'Only those with no will to live should enter. You will not leave this place alive.'"]],
+                [["The monsters here attack in an odd way.", "They only approach when you move.", "Learn their patterns to survive."]],
+                [["I know how to kill you."], ["* It's a blank sign."]],
+                [["You may find equipment from those who ventured before you on your adventure.", "Manage your items wisely."]]
+			],
+            [
+                [["* This sign seems handmade. You can barely make out the words.", "'no amount of training will prepare you for -'", "* The writing trails off into scribbles."]],
+                [["Having fun? Is this too easy for you? Too hard?", "Not that it matters. We'll meet soon enough."], ["* It's a blank sign."]],
+                [["Health ahead!"], ["Just kidding."]],
+                [["Some enemies don't always move every time you do.", "Use this to your advantage!"]]
+            ]
+		]
+	};
+
+	// A buff dude that somehow found his way into our little dungeon. 
+	// TODO: Changes his personality based on kills/attack power
+	Story.strongman = {
+		story: [
+			[
+				[["Hey small fry. I have some advice for ya.", "SCRAM!"], ["Hahahahaha"]],
+
+			]
+		]
+	}
 
 	Story.dialog = new Object();
 
 	Story.dialog[Story.NPC_CHARACTERS.adventurer] = Story.adventurer;
+    Story.dialog[Story.NPC_CHARACTERS.sign] = Story.sign;
 
 	Story.getLine = function(character, trait, story) {
 		// TODO: Get trait info from Choice.js and based on top traits randomly choose dialog.
