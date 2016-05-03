@@ -12,9 +12,7 @@
       },
 
       populateRoom: function(room) {
-         var dialog = []
-         dialog.push(["\"Those who walk without purpose or thought seek only defeat and pain.\""]);
-         var sign = new Classes.Sign(dialog);
+         var sign = new Classes.Sign(Story.getLine(Story.NPC_CHARACTERS.sign, "story", 0));
          this.addItem(room, sign, 2, 2);
       }
    });
