@@ -12,6 +12,7 @@ ClassManager.create('NPC', function(game) {
       initialize: function(x, y) {
          Classes.Character.call(this, x, y);
          this.isKillable = false;
+         this.dialogInstance = 0;
 
          if (this.sprite) {
             this.image = game.assets["assets/images/" + this.sprite];

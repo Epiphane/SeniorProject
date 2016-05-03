@@ -9,7 +9,6 @@ ClassManager.create('Adventurer', function(game) {
          Classes['NPC'].call(this,0,0);
          this.dialog = dialog;
          this.portrait = "portrait.png";
-         this.dialogInstance = 0;
       },
       getDialog: function() {
          this.dialogInstance = Math.min(this.dialogInstance+1, this.dialog.length);
