@@ -16,8 +16,13 @@ window.onload = function() {
    Story.init(game);
 
    document.addEventListener('keydown', function(e) {
-      if (e.keyCode === 27 && !(game.currentScene instanceof Scenes.Stats)) { // Space
-         game.pushScene(new Scenes.Stats(game));
+      if (e.keyCode === 27) {
+         if (!!game.currentScene.stats) { // Space
+            game.popScene();
+         }
+         else {
+            game.pushScene(new Scenes.Stats(game));            
+         }
       }
    });
    

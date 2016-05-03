@@ -36,6 +36,20 @@ ClassManager.create('Character', function(game) {
 
          this.attack = this.initial_attack;
          this.defense = this.initial_defense;
+
+         this.total_damage_dealt = 0;
+         this.total_damage_taken = 0;
+      },
+
+      destroy: function() {
+         if (this.DamageDealt) {
+            console.log(this.total_damage_dealt);
+            this.DamageDealt.log(this.total_damage_dealt);
+         }
+
+         if (this.DamageTaken) {
+            this.DamageTaken.log(this.total_damage_taken);
+         }
       },
 
       /**
