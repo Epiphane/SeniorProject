@@ -1,17 +1,14 @@
 /**
-  * Represents a readable sign with one dialog
-  * parameters:
-  *      x: x-location to be spawned at
-  *      y: y-location to be spawned at
+  * Represents an adventurer (npc1) sprite with one dialog
   */
-ClassManager.create('Sign', function(game) {
+ClassManager.create('Adventurer', function(game) {
 	return Class.create(Classes['NPC'], {
-    sprite: 'sign.png',
+    sprite: 'npc1.png',
 
 		initialize: function(dialog) {
          Classes['NPC'].call(this,0,0);
          this.dialog = dialog;
-         this.portrait = "sign_portrait.png";
+         this.portrait = "portrait.png";
       },
       getDialog: function() {
          this.dialogInstance = Math.min(this.dialogInstance+1, this.dialog.length);

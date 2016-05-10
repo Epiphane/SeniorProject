@@ -76,6 +76,15 @@ ClassManager.create('Room', function(game) {
             roomType: this.type,
             isEmpty: this.items.length === 0 && this.characters.length === 0
          });
+
+         // Reset Character dialog
+         console.log("RESETTING DIALOG");
+         for (i=0;i<this.items.length;i++) {
+            if (this.items[i] instanceof Classes['NPC']) {
+               console.log("PLS");
+               this.items[i].dialogInstance = 0;
+            }
+         }
       },
 
       onExit: function(direction) {

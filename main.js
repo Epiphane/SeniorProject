@@ -13,6 +13,7 @@ window.onload = function() {
    Constants.bindKeys(game);
    ClassManager.initialize(game);
    EM.init(game);
+   Story.init(game);
 
    document.addEventListener('keydown', function(e) {
       if (e.keyCode === 27) {

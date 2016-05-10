@@ -11,7 +11,7 @@ Scenes.Title = Singletonify(function(game) {
    Title.bgm = new buzz.sound("assets/sounds/menu.mp3", {loop:true});
 
    // Main Menu Labels
-   var title        = Utils.createLabel('PEARL OF THE WORLD', 0, 150, { font: '32px sans-serif', align: 'center' });
+   var title        = Utils.createLabel('THE SECRET OF SQUARR', 0, 150, { font: '32px sans-serif', align: 'center' });
    var instructions = Utils.createLabel('Up/Down to navigate, Space to select', 20, C.GAME_SIZE - 50, { font: '12px sans-serif' });
    Title.addChild(title);
    Title.addChild(instructions);
