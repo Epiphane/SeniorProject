@@ -1,4 +1,4 @@
-var TILE_UNPRESSED = 0;
+var TILE_UNPRESSED = 0; 
 var TILE_PRESSED = 1;
 var TILE_BAD = 2;
 

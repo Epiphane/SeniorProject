@@ -13,6 +13,23 @@ var puzzle1 = {
    ]
 };
 
+var puzzle2 = {
+   rows: 7,
+   cols: 6,
+   offset_x: -6,
+   offset_y: -4,
+
+   data: [
+      0, 0, 2, 1, 2, 0,
+      0, 2, 2, 1, 2, 2,
+      0, 1, 1, 1, 1, 1,
+      0, 2, 1, 1, 2, 0,
+      0, 0, 2, 1, 0, 0,
+      0, 2, 1, 1, 2, 0,
+      0, 0, 2, 1, 0, 0,
+   ]
+};
+
 /* 
  * The PuzzleRoomGenerator class randomly creates a puzzle room
  */
@@ -84,6 +101,7 @@ var TurnSpentPuzzle = new Choice.Aggregate({
 });
 
 
+
 // How many times the player has successfully finished a puzzle
 var PuzzlesSolved = new Choice.Aggregate({
    totalSolved: 0,
@@ -100,4 +118,12 @@ var PuzzlesFailed = new Choice.Aggregate({
    next: function() {
       this.log(this.totalFailed++);
    }
+});
+
+var PuzzleWin = new Choice.Preference({
+   Choice: Choice.Qualitative.extend({
+      options: [
+         true, false
+      ]
+   })
 });
