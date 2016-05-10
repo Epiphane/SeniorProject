@@ -63,6 +63,16 @@ Scenes.Stats = function() {
       Stats.addChild(child);
    });
 
+   // Initialize exit preferences
+   Stats.addChild(Utils.createLabel('Do you fight bats? ', 100, 320, {width: 600}));
+   pieChart(100, 350, 100, Classes.Bat.prototype.Engaged.values()).forEach(function(child) {
+      Stats.addChild(child);
+   });
+   Stats.addChild(Utils.createLabel('Do you fight slimes? ', 300, 320, {width: 600}));
+   pieChart(300, 350, 100, Classes.Slime.prototype.Engaged.values()).forEach(function(child) {
+      Stats.addChild(child);
+   });
+
    // Initialize typical labels
    var labels = [
       Utils.createLabel('Statistics', 50, 50, { font: '16px Pokemon GB', width:400 }),

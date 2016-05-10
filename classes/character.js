@@ -39,6 +39,7 @@ ClassManager.create('Character', function(game) {
 
          this.total_damage_dealt = 0;
          this.total_damage_taken = 0;
+         this.engaged_with_player = false;
       },
 
       destroy: function() {
@@ -49,6 +50,10 @@ ClassManager.create('Character', function(game) {
 
          if (this.DamageTaken) {
             this.DamageTaken.log(this.total_damage_taken);
+         }
+
+         if (this.Engaged) {
+            this.Engaged.log(this.engaged_with_player);
          }
       },
 
@@ -125,6 +130,8 @@ ClassManager.create('Character', function(game) {
       doAttack: function(victim) {
          this.attackOffset = 1;
 
+         this.total_damage_dealt += this.damage(victim);
+         victim.total_damage_taken += this.damage(victim);
          victim.health -= this.damage(victim);
       },
 

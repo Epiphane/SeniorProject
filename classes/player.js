@@ -51,6 +51,7 @@ ClassManager.create('Player', function(game) {
 
       doAttack: function(victim) {
          Classes['Character'].prototype.doAttack.apply(this, arguments);
+         victim.engaged_with_player = true;
 
          if (this.weapon) {
             this.weapon.onHit(victim);

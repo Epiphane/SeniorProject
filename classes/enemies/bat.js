@@ -6,5 +6,9 @@ ClassManager.create('Bat', function(game) {
       walkEndFrame:   5,
       initial_attack: 1,
       initial_health: 1,
+      
+      Engaged: new Choice.Preference({ Choice: Choice.Boolean }),
+      DamageDealt: new Choice.Aggregate(),
+      DamageTaken: new Choice.Aggregate(),
    });
 });
