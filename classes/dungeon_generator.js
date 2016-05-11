@@ -253,7 +253,7 @@ function mockDungeon() {
    addType('npc', 'n');
    addType('boss', 'b');
 
-   console.log(legend.join('\n'));
+   // console.log(legend.join('\n'));
    for (var y = miny; y <= maxy; y ++) {
       var str = [];
       for (var x = minx; x <= maxx; x ++) {
@@ -263,7 +263,8 @@ function mockDungeon() {
             if (x === 0 && y === 0) 
                type = 'x';
 
-            var extra = rooms[y][x].length > 1 ? '*' : ' ';
+            var extra = rooms[y][x].length > 1 ? types[rooms[y][x][1].type] : ' ';
+            if (rooms[y][x].length > 2) extra = '*';
 
             str.push('[' + type + '' + extra + ']');
          }
