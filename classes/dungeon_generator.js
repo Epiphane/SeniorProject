@@ -7,6 +7,7 @@ ClassManager.create('DungeonGenerator', function(game) {
          this.linearity = 1;
          this.numRooms = numRooms || 10;
          this.roomsCreated = 0;
+         this.roomCount = 0;
          this.unexploredRooms = 0;
          this.hasCreatedBossRoom = false;
          this.difficulty = 1;
@@ -71,6 +72,7 @@ ClassManager.create('DungeonGenerator', function(game) {
 
          var ret = this.roomTypes[ndxToPick];
          this.roomTypes.splice(ndxToPick, 1);
+         console.log('choosing', Utils.to.roomType(ret), '- remaining:', this.roomTypes.join(','));
          return ret;
       },
 
@@ -102,6 +104,10 @@ ClassManager.create('DungeonGenerator', function(game) {
          // Make sure we don't add too many rooms!
          if (this.numRooms - this.roomsCreated < 4) {
             numExitBounds.max = this.numRooms - this.roomsCreated;
+
+            if (from) {
+               numExitBounds.max ++;
+            }
          }
 
          // If this new room is the only one you haven't explored,
@@ -113,6 +119,7 @@ ClassManager.create('DungeonGenerator', function(game) {
          // Random number of exits
          try {
             var numExits = chance.integer(numExitBounds);
+            console.log(this.numRooms, this.roomsCreated, numExits, numExitBounds)
          }
          catch(e) {
             console.error('Error bounds:', numExitBounds);
@@ -149,6 +156,7 @@ ClassManager.create('DungeonGenerator', function(game) {
 
          var nextRoom = generator.createEmptyRoom(parseObj);
          nextRoom.type = roomType;
+         nextRoom.order = parseObj.get('order');
 
          if (from) {
             // Place an exit to our source room
@@ -201,13 +209,19 @@ ClassManager.create('DungeonGenerator', function(game) {
    });
 });
 
-function mockDungeon() {
+function mockDungeon(metric) {
+   metric = metric || 'type';
+
    var generator = new Classes.DungeonGenerator();
 
    var minx = 0, maxx = 0;
    var miny = 0, maxy = 0;
    var rooms = [];
+   var roomCount = 0;
    function addRoom(r, x, y) {
+      r.order = roomCount++;
+      r.type = Utils.to.roomType(r.type);
+
       if (!rooms[y]) rooms[y] = [];
       if (!rooms[y][x]) rooms[y][x] = [];
       rooms[y][x].push(r);
@@ -235,38 +249,20 @@ function mockDungeon() {
       }
    }
 
-   var types = {};
-   var legend = [];
-   function addType(value, letter) {
-      types[C.ROOM_TYPES[value]] = letter;
-      legend.push(letter + ': ' + value); 
-   }
-
-   addType('start', 'x');
-   addType('random', 'r');
-   addType('puzzle', 'p');
-   addType('store', 's');
-   addType('treasure', 't');
-   addType('weapon', 'w');
-   addType('armor', 'a');
-   addType('combat', 'c');
-   addType('npc', 'n');
-   addType('boss', 'b');
-
    // console.log(legend.join('\n'));
    for (var y = miny; y <= maxy; y ++) {
       var str = [];
       for (var x = minx; x <= maxx; x ++) {
          if (!!rooms[y][x]) {
             var type = '.';
-            type = types[rooms[y][x][0].type];
+            type = rooms[y][x][0][metric];
             if (x === 0 && y === 0) 
                type = 'x';
 
-            var extra = rooms[y][x].length > 1 ? types[rooms[y][x][1].type] : ' ';
+            var extra = rooms[y][x].length > 1 ? rooms[y][x][1][metric] : ' ';
             if (rooms[y][x].length > 2) extra = '*';
 
-            str.push('[' + type + '' + extra + ']');
+            str.push('[' + type[0] + '' + extra[0] + ']');
          }
          else {
             str.push('    ');

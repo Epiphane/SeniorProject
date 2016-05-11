@@ -89,6 +89,14 @@
       if (dir === C.P_DIR.DOWN ) return C.P_DIR.UP;
    };
 
+   Utils.to.roomType = function(num) {
+      for (var n in C.ROOM_TYPES) {
+         if (C.ROOM_TYPES[n] === num) {
+            return n;
+         }
+      }
+   }
+
    /**
     * Convert a value from screen to world coordinates
     */
