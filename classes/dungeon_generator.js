@@ -204,21 +204,75 @@ ClassManager.create('DungeonGenerator', function(game) {
 function mockDungeon() {
    var generator = new Classes.DungeonGenerator();
 
+   var minx = 0, maxx = 0;
+   var miny = 0, maxy = 0;
    var rooms = [];
    function addRoom(r, x, y) {
       if (!rooms[y]) rooms[y] = [];
-      rooms[y][x] = r;
+      if (!rooms[y][x]) rooms[y][x] = [];
+      rooms[y][x].push(r);
+      roomStack.push({ room: r, x: x, y: y });
+
+      if (minx > x) minx = x;   
+      if (miny > y) miny = y;
+      if (maxx < x) maxx = x;   
+      if (maxy < y) maxy = y;   
    }
 
-   var roomStack = [generator.createDungeon()];
+   var roomStack = [];
+   addRoom(generator.createDungeon(), 0, 0);
    while (roomStack.length > 0) {
       var room = roomStack.shift();
 
-      for (var direction in C.P_DIR) {
-         if (room.neighbors[direction] !== false && !(room.neighbors[direction] instanceof Classes['Room'])) {
-            room.neighbors[direction] = generator.nextRoom(room, direction);
-            roomStack.push(room.neighbors[direction]);
+      for (var d in C.P_DIR) {
+         var direction = C.P_DIR[d];
+         if (!!room.room.neighbors[direction] && !(room.room.neighbors[direction] instanceof Classes['Room'])) {
+            var r = generator.nextRoom(room.room, direction);
+            var dir = Utils.to.direction(direction);
+            room.room.neighbors[direction] = r;
+            addRoom(r, room.x + dir[0], room.y + dir[1]);
          }
       }
    }
+
+   var types = {};
+   var legend = [];
+   function addType(value, letter) {
+      types[C.ROOM_TYPES[value]] = letter;
+      legend.push(letter + ': ' + value); 
+   }
+
+   addType('start', 'x');
+   addType('random', 'r');
+   addType('puzzle', 'p');
+   addType('store', 's');
+   addType('treasure', 't');
+   addType('weapon', 'w');
+   addType('armor', 'a');
+   addType('combat', 'c');
+   addType('npc', 'n');
+   addType('boss', 'b');
+
+   console.log(legend.join('\n'));
+   for (var y = miny; y <= maxy; y ++) {
+      var str = [];
+      for (var x = minx; x <= maxx; x ++) {
+         if (!!rooms[y][x]) {
+            var type = '.';
+            type = types[rooms[y][x][0].type];
+            if (x === 0 && y === 0) 
+               type = 'x';
+
+            var extra = rooms[y][x].length > 1 ? '*' : ' ';
+
+            str.push('[' + type + '' + extra + ']');
+         }
+         else {
+            str.push('    ');
+         }
+      }
+      console.log(str.join(' '));
+   }
+
+   return rooms;
 }
