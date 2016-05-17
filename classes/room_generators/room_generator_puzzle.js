@@ -13,13 +13,28 @@ var puzzle1 = {
    ]
 };
 
+var puzzle2 = {
+   rows: 7,
+   cols: 6,
+   offset_x: -6,
+   offset_y: -4,
+
+   data: [
+      0, 0, 2, 1, 2, 0,
+      0, 2, 2, 1, 2, 2,
+      0, 1, 1, 1, 1, 1,
+      0, 2, 1, 1, 2, 0,
+      0, 0, 2, 1, 0, 0,
+      0, 2, 1, 1, 2, 0,
+      0, 0, 2, 1, 0, 0,
+   ]
+};
+
 /* 
  * The PuzzleRoomGenerator class randomly creates a puzzle room
  */
 (function(window) {
    var defaults = {};
-
-
 
    window.PuzzleRoomGenerator = Class.create(RoomGenerator, {
       addPuzzleTile: function(room, x, y) {
@@ -71,9 +86,44 @@ var puzzle1 = {
       populateRoom: function(room) {
          room.puzzleTiles = [];
 
-         // this.addItem(room, new Classes.PuzzleTile(), 0, 0);
-
          this.genPuzzle(room, puzzle1);
       }
    });
 })(window);
+
+// How many turns the player has spent in a puzzle room (relevant...?)
+var TurnSpentPuzzle = new Choice.Aggregate({
+   totalTurns: 0,
+
+   next: function() {
+      this.log(this.totalTurns++);
+   }
+});
+
+
+
+// How many times the player has successfully finished a puzzle
+var PuzzlesSolved = new Choice.Aggregate({
+   totalSolved: 0,
+
+   next: function() {
+      this.log(this.totalSolved++);
+   }
+});
+
+// How many times the player has triggered an X to appear
+var PuzzlesFailed = new Choice.Aggregate({
+   totalFailed: 0,
+
+   next: function() {
+      this.log(this.totalFailed++);
+   }
+});
+
+var PuzzleWin = new Choice.Preference({
+   Choice: Choice.Qualitative.extend({
+      options: [
+         true, false
+      ]
+   })
+});

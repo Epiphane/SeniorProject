@@ -121,13 +121,20 @@ ClassManager.create('Character', function(game) {
       },
 
       damage: function(victim) {
-         return Math.max(this.getAttack() - victim.getDefense(), 1);
+          // DUMB HACK 
+          if (victim instanceof Classes.Player) {
+            return Math.max(this.getAttack() * ((curr_difficulty/25) + 0.5) - victim.getDefense(), 1);
+          }
+          else {
+            return Math.max(this.getAttack() / ((curr_difficulty/25) + 0.5) - victim.getDefense(), 1);
+          }
       },
 
       /**
        * Do an attack in a certain direction
        */
       doAttack: function(victim) {
+
          this.attackOffset = 1;
 
          this.total_damage_dealt += this.damage(victim);

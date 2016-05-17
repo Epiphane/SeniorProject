@@ -1,6 +1,9 @@
 /* 
  * The DungeonGenerator class randomly generates a dungeon with lots of parameters
  */
+ // TODO: something smarter than this
+ var curr_level = 0;
+ var curr_difficulty = 0;
 ClassManager.create('DungeonGenerator', function(game) {
    return Class.create(Object, {
       initialize: function(numRooms) {
@@ -9,7 +12,11 @@ ClassManager.create('DungeonGenerator', function(game) {
          this.roomsCreated = 0;
          this.unexploredRooms = 0;
          this.hasCreatedBossRoom = false;
-         this.difficulty = 1;
+
+         // TODO: fix this it sux :(
+         this.difficulty = global_difficulty[curr_level++];
+         console.log("Difficulty is now" + this.difficulty);
+         curr_difficulty = this.difficulty;
 
          this.roomTypes = this.generateRoomTypes();
 
