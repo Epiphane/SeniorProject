@@ -14,7 +14,6 @@ Story.init = function(game) {
     
     // Controls how deep into the story a player is
     Story.phase = 0;
-    Story.maxPhase = 2;
 
    Story.NPC_CHARACTERS = Enum([
       'sign', 'adventurer', 'strongman', 'mystic', 'aralynne'
@@ -151,21 +150,28 @@ Story.init = function(game) {
     Story.dialog[Story.NPC_CHARACTERS.mystic] = Story.mystic;
     Story.dialog[Story.NPC_CHARACTERS.aralynne] = Story.aralynne;
 
-	Story.getLine = function(character, trait) {
-		// TODO: Get trait info from Choice.js and based on top traits randomly choose dialog.
-      var lines = Story.dialog[character][trait][Story.phase].length;
-      var line = chance.integer({min:0, max:lines-1});
-	   return Story.dialog[character][trait][Story.phase][line];
+	Story.getLine = function(character) {
+        // TODO: Get trait info from Choice.js and based on top traits randomly choose dialog.
+        Story.calculatePhase();
+        var lines = Story.dialog[character]["story"][Story.phase].length;
+        var line = chance.integer({min:0, max:lines-1});
+        return Story.dialog[character]["story"][Story.phase][line];
 	}
 
     Story.getAralynneLine = function(trait) {
-        var lines = Story.dialog[NPC_CHARACTERS.aralynne][trait][0].length;
-        var line = chance.integer({min:0, max:lines-1});
-
+        return Story.dialog[NPC_CHARACTERS.aralynne][trait][0][0];
     }
 
-    Story.advancePhase = function() {
-        Story.phase = Math.min(Story.phase+1, Story.maxPhase);
+    Story.calculatePhase = function() {
+        if(curr_level / global_difficulty.length < 0.33) {
+            Story.phase = 0;
+        }
+        else if (curr_level / global_difficulty.length < 0.66) {
+            Story.phase = 1;
+        }
+        else {
+            Story.phase = 2;
+        }
     }
 }
 

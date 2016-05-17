@@ -33,10 +33,6 @@
             Game.dungeonGenerator.destroy();
          }
 
-         // TODO: Advance story if dungeons completed is correct
-         // For now, advancing on dungeon completion
-         Story.advancePhase();
-
          // Create first room
          Game.player.position.x = Game.player.position.y = 0;
          Game.player.snapToPosition();
