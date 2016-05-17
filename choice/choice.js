@@ -125,6 +125,10 @@ var Choice = (function() {
       }
    });
 
+   var Boolean = Choice.Boolean = Qualitative.extend({
+      options: [false, true]
+   });
+
    /**
     * Keeps track of all of a player's choices on a specific topic
     */
