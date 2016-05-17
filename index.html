@@ -6,6 +6,7 @@
    <script src="enchant.js"></script>
    <script src="parse-1.6.14.js"></script>
    <script src="easystar-0.1.6.js"></script>
+   <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.1.2/Chart.js"></script>
 
    <!-- CHOICE ENGINE (?) -->
    <script src="choice/choice.js"></script>
@@ -75,5 +76,52 @@
    <script src="main.js"></script>
 </head>
 <body>
+<div style="width:400px; height:400px; position: absolute; right: 0">
+  <canvas id="myChart" width="400" height="400" ></canvas>
+</div>
+
+<div style="margin-left: 700px; position: absolute; right: 0; top: 400px;">
+  <button onclick="do_chart([10, 20, 40, 80])">STANDARD DIFFICULTY</button>
+  <button onclick="do_chart([60, 70, 80, 100])">DARK SOULS</button>
+  <button onclick="do_chart([10, 10, 10, 20])">NARRATIVE EXPERIENCE</button>
+  <button onclick="do_chart([10, 15, 90, 100])">FREE 2 PAY</button>
+</div>
+
+<script>
+   var ctx = document.getElementById("myChart").getContext("2d");
+   ctx.canvas.width = 400;
+   ctx.canvas.height = 400;
+   var global_difficulty = [];
+function do_chart(data) {
+   global_difficulty = data;
+   var myChart = new Chart(ctx, {
+       type: 'line',
+       data: {
+           labels: ["Level 1", "Level 2", "Level 3", "Level 4"],
+           datasets: [{
+               label: 'Difficulty',
+               data: data
+           }]
+       },
+       options: {
+          responsive: true,
+          maintainAspectRatio: true,
+           scales: {
+               yAxes: [{
+                   ticks: {
+                       beginAtZero:true,
+                       min:0,
+                       max:100,
+                   }
+               }]
+           }
+       }
+   });
+}
+
+do_chart([10, 20, 40, 80]);
+
+</script>
+
 </body>
 </html>
