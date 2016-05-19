@@ -9,6 +9,7 @@
       Game.backgroundColor = "black";
       Game.bgm = new buzz.sound("assets/sounds/dungeon.mp3", {loop:true});
       var muteTimer = 20;
+      var level = 1;
 
       // Create a new game object
       window.currentGame = new ParseGame({
@@ -24,13 +25,11 @@
       };
 
       Game.descend = function() {
-         if (Game.currentRoom) {
-            window.currentGame.set('dungeons_completed', window.currentGame.get('dungeons_completed') + 1);
-            window.currentGame.save();
-         }
-
          if (Game.dungeonGenerator) {
             Game.dungeonGenerator.destroy();
+
+            DifficultyManager.moveX(1);
+            game.pushScene(new Scenes.Transition(level ++));
          }
 
          // Create first room

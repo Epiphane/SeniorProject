@@ -310,6 +310,14 @@ var Choice = (function() {
          return this.sortedPreferences[0];
       },
 
+      valueOf: function(choice) {
+         if (!(choice instanceof ChoiceClass)) {
+            choice = new this.Choice(choice);
+         }
+
+         return this.preferences[choice.index()].value;
+      },
+
       values: function(options) {
          options = options || {};
          options.except = options.except || [];
