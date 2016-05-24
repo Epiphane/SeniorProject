@@ -11,9 +11,12 @@ Story.init = function(game) {
 	// key words that dictate the context we want for the dialog. These contexts contain nested arrays with all the dialog options.
 	// Based on the story/dungeon progression (TBD) an index value will be chosen from 0(start)-3(endgame) to pull dialog from. 
 	// There, a few random choices of dialog are available and will be selected using Choice.js.
+    
+    // Controls how deep into the story a player is
+    Story.phase = 0;
 
    Story.NPC_CHARACTERS = Enum([
-      'sign', 'adventurer', 'strongman', 'mystic'
+      'sign', 'adventurer', 'strongman', 'mystic', 'aralynne'
    ]);
 
 	// Adventurer (npc1)
@@ -25,7 +28,7 @@ Story.init = function(game) {
                 [["Are you a knight?", "Are you strong?", "Are you a hero?", "... can you save my dumb friends that went deeper into this dungeon?"], ["Don't tell our parents that we're here!"]],
                 [["I feel like humans were never meant to come here.", "What did these monsters ever do to make us want to kill them?", "Don't they just seem scared to you?"], ["Maybe you should leave."]],
                 [["I'm sure you've noticed by now that enemies only act when you move.", "That's why I'm not moving an inch from this spot!"], ["Don't just stand there!", "... or do. I'm not judging."]],
-                [["You really like swiging that thing around, huh?", "When I'm playing knight, I'm always invincible, so you can't hurt me.", "Don't you wish you were as cool as me?"], ["* You try telling him to get somewhere safe, but he ignores you and makes a 'whooshing' sound while swinging around a stick."]]
+                [["You really like swiging that thing around, huh?", "You'd be good friends with the leader of Squarr.", "He loves practicing his swordplay and fighting monsters.", "... though its never much of a fight - he usually beats them in 1 hit."], ["I need to think about something else now."]]
          	],
          	[
                 [["Why are you looking at me like I shouldn't be here?", "Just because I don't have a weapon doesn't mean I'm not tough!"], ["Grrrr!"]],
@@ -54,7 +57,7 @@ Story.init = function(game) {
                 [["You may find equipment from those who ventured before you on your adventure.", "Manage your items wisely."]]
 			],
             [
-                [["* This sign seems handmade. You can barely make out the words.", "'no amount of training will prepare you for -'", "* The writing trails off into scribbles."]],
+                [["* This sign seems handmade. You can barely make out the words.", "'no amount of training will prepare you for -'", "* The rest is illegible."]],
                 [["Having fun? Is this too easy for you? Too hard?", "You should have never come here."], ["* It's a blank sign."]],
                 [["Health ahead!"], ["Just kidding."]],
                 [["Some enemies don't always move act time you do.", "Use this to your advantage!"]]
@@ -89,7 +92,7 @@ Story.init = function(game) {
                 [["The last monster in this room didn't have the same look in its eyes as the others.", "It looked so afraid, but I'm afraid too.", "... I should've let it go."], ["I'm such a coward."]],
                 [["No matter what I can't seem to get a leg up on these things.", "It's like they're learning how I fight without them ever seeing me before.", "15 years of training for nothing..."], ["Sigh,,,"]],
                 [["Aralynne. She rules this dungeon.", "... but anyone with a real sense of this place will tell you that she IS the dungeon.", "Believe what you will, just be cautious with every decision you make."], ["* He just stares at the ground."]],
-                [["Squarr didn't used to have dungeons. Monsters lived with humans at one point in time.", "But somewhere along the line they became aggressive towards us and had to be stopped.", "So we banished those that surrendered to dungeons.", "Aralynne... The first dungeon master.", "She will fall to my blade."], ["I will avenge my master"]]
+                [["Squarr didn't used to have dungeons. Monsters lived with humans at one point in time.", "But somewhere along the line they became aggressive towards us and had to be stopped.", "So we banished those that surrendered to dungeons.", "Aralynne... The first dungeon master.", "She will fall to my blade."], ["I will avenge my master!"]]
             ]
 		]
 	};
@@ -108,13 +111,36 @@ Story.init = function(game) {
                 [["* It's humming a strange frequency that seems to vibrate throughout the dungeon."]],
             ],
             [
-                [["...", "...", "I suppose it cannot be helped."], ["* Its silent."]],
-                [["* Its watching your every move. Even after you leave the room."]],
-                [["Aralynne has been getting weaker. More humans have been reaching her chambers and battling her.", "She just sends them back to the dungeon entrance instead of killing them.", "But she can't do this forever."], ["Stay determined."]],
+                [["...", "...", "Please don't hurt her."], ["* It is silent."]],
+                [["* It is watching your every move.", "Even after you leave the room."]],
+                [["Aralynne, our protector, has been getting weaker. More humans have been reaching her chambers and battling her.", "She just sends them back to the dungeon entrance instead of killing them.", "But she can't do this forever."], ["Are you here to help, or..."]],
                 [["Squarr did not always have dungeons. Monsters lived alongside humans at one point in time.", "But somewhere along the line humans became aggressive towards monsters and battle broke out.", "Surviving monsters were banished to dungeons.", "Aralynne... The first dungeon dweller.", "Her death means the end of the Cycle."], ["I wish only for peace."]]
             ]
         ]
     };
+
+    Story.aralynne = {
+        story: [
+            [
+                [["So you've made it.", "I felt your presence as soon as you entered my lair.", "So what brings you here?", "I know it wasn't genocide, your actions show that much.", "But you couldn't have gotten here without spilling blood.", "Still, you're different from the others.", "You have an energy I haven't sensed in a human in a very long time.","... I have something to ask of you.", "I've been fending off humans for centuries, trying as hard as I can to keep the monsters here safe.", "However, my strength is getting weaker with each human I encounter.", "I do not kill them, but simply teleport them to another maze and erase their memory of seeing me.", "The other monsters call this The Cycle.", "If I can't maintain The Cycle, then theres nothing stopping humans from traversing my dungeon and killing everything.", "I give you a choice.", "You can fight me and end The Cycle. That will mark the end of monsters living in Squarr.", "Or, you can stay as my guardian and fend off attackers. You slay them, I regain energy, and monsters stay safe.", "In exchange I use my magic for your gain. Wealth, power, perfect health. It's yours.", "Fight me, or take this amulet and be my guardian. The choice is yours."], ["Fight me, or take this amulet. Those are your choices."]]
+            ]
+        ],
+        kills: [
+            [
+                [["You.", "I feared something like you would finally come this way.", "Do you just wish for my death?", "Was banishment to this dungeon not enough?", "Or are you just here to kill the lesser species?", "Regardless, you will not win.", "You think this is the first time we've met, but you're mistaken.", "You are now part of The Cycle. You will repeat this dungeon, your massacres, our meeting... until you die.", "Or maybe I'll die first.", "Nonetheless, I bid you farewell until we meet again.", "AVAK ANASU NOSALISE! TO PURGATORY WITH YOU."]]
+            ]
+        ],
+        good_ending: [
+            [
+                [["So it shall be.", "You will now become one of my children, a guardian to my lair.", "The transformation will be painful at first, but you will get used to it.", "Welcome home."]]
+            ]
+        ],
+        bad_ending: [
+            [
+                [["The Cycle... is done...", "You will live with your decision, human... and it will curse you until your death."]]
+            ]
+        ]
+    }
 
 	Story.dialog = new Object();
 
@@ -122,12 +148,30 @@ Story.init = function(game) {
     Story.dialog[Story.NPC_CHARACTERS.sign] = Story.sign;
     Story.dialog[Story.NPC_CHARACTERS.strongman] = Story.strongman;
     Story.dialog[Story.NPC_CHARACTERS.mystic] = Story.mystic;
+    Story.dialog[Story.NPC_CHARACTERS.aralynne] = Story.aralynne;
 
-	Story.getLine = function(character, trait, story) {
-		// TODO: Get trait info from Choice.js and based on top traits randomly choose dialog.
-      var lines = Story.dialog[character][trait][story].length;
-      var line = chance.integer({min:0, max:lines-1});
-		return Story.dialog[character][trait][story][line];
+	Story.getLine = function(character) {
+        // TODO: Get trait info from Choice.js and based on top traits randomly choose dialog.
+        Story.calculatePhase();
+        var lines = Story.dialog[character]["story"][Story.phase].length;
+        var line = chance.integer({min:0, max:lines-1});
+        return Story.dialog[character]["story"][Story.phase][line];
 	}
+
+    Story.getAralynneLine = function(trait) {
+        return Story.dialog[NPC_CHARACTERS.aralynne][trait][0][0];
+    }
+
+    Story.calculatePhase = function() {
+        if(curr_level / global_difficulty.length < 0.33) {
+            Story.phase = 0;
+        }
+        else if (curr_level / global_difficulty.length < 0.66) {
+            Story.phase = 1;
+        }
+        else {
+            Story.phase = 2;
+        }
+    }
 }
 
