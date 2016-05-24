@@ -1,34 +1,90 @@
-var puzzle1 = {
-   rows: 5,
-   cols: 6,
-   offset_x: -6,
+var easy_puzzle1 = {
+   rows: 4,
+   cols: 4,
+   offset_x: -4,
    offset_y: -4,
 
-   data: [
-      0, 0, 2, 1, 2, 0,
-      0, 2, 2, 1, 2, 2,
-      0, 1, 1, 1, 1, 1,
-      0, 2, 1, 1, 2, 0,
-      0, 0, 2, 1, 0, 0,
-   ]
+   data: "#oo#oooooooo#oo#"
 };
 
-var puzzle2 = {
+var med_puzzle1 = {
+   rows: 5,
+   cols: 5,
+   offset_x: -5,
+   offset_y: -4,
+
+   data: ".#o#.\
+##o##\
+ooooo\
+#oo#.\
+.#o.."
+};
+
+var med_puzzle2 = {
    rows: 7,
    cols: 6,
    offset_x: -6,
    offset_y: -4,
 
-   data: [
-      0, 0, 2, 1, 2, 0,
-      0, 2, 2, 1, 2, 2,
-      0, 1, 1, 1, 1, 1,
-      0, 2, 1, 1, 2, 0,
-      0, 0, 2, 1, 0, 0,
-      0, 2, 1, 1, 2, 0,
-      0, 0, 2, 1, 0, 0,
-   ]
+   data: ".####.\
+#oooo#\
+#oooo#\
+#oooo#\
+.##oo#\
+.oooo.\
+.####."
 };
+
+var hard_puzzle1 = {
+   rows: 11,
+   cols: 10,
+   offset_x: -5,
+   offset_y: -5,
+
+   data: "#ooooo#oo#\
+#ooo#o#oo#\
+#o###o#oo#\
+#o###o#oo#\
+.oooo.ooo.\
+#ooo#.#oo#\
+#o#ooo#oo#\
+#o######o#\
+#oooooooo#"
+};
+
+var hard_puzzle2 = {
+   rows: 10,
+   cols: 12,
+   offset_x: -6,
+   offset_y: -5,
+data: ".....o......\
+.....#......\
+.....o......\
+o#o######o#o\
+...#....o...\
+...#....#...\
+...oo####...\
+#o##....o...\
+...o....#...\
+...#....#..."
+};
+
+var hard_puzzle3 = {
+   rows: 6,
+   cols: 6,
+   offset_x: -3,
+   offset_y: -3,
+data: "oooooo\
+oo#ooo\
+oooooo\
+ooo.#o\
+o#oooo\
+oooooo"
+};
+
+var med_puzzles = [med_puzzle1, med_puzzle2];
+var hard_puzzles = [hard_puzzle3];
+var all_puzzles = [easy_puzzle1, med_puzzle1, med_puzzle2, hard_puzzle1, hard_puzzle2, hard_puzzle3];
 
 /* 
  * The PuzzleRoomGenerator class randomly creates a puzzle room
@@ -43,14 +99,18 @@ var puzzle2 = {
          room.addItemAt(new_tile, x, y);
       },
 
+      currPuzzle: null,
+
       createFloor: function(params) {
          var background = RoomGenerator.prototype.createFloor.apply(this, arguments);
 
-         for (var x = 0; x < puzzle1.cols; x++) {
-            for (var y = 0; y < puzzle1.rows; y++) {
-               switch(puzzle1.data[y * puzzle1.cols + x]) {
-                  case 2: // terrain
-                     this.setTile(background,  x + puzzle1.offset_x,  y + puzzle1.offset_y, C.BG_TILES.floor_blocked);
+         this.currPuzzle = chance.pick(all_puzzles, 1);
+
+         for (var x = 0; x < this.currPuzzle.cols; x++) {
+            for (var y = 0; y < this.currPuzzle.rows; y++) {
+               switch(this.currPuzzle.data[y * this.currPuzzle.cols + x]) {
+                  case "#": // terrain
+                     this.setTile(background,  x + this.currPuzzle.offset_x,  y + this.currPuzzle.offset_y, C.BG_TILES.floor_blocked);
                      break;
                   default:
                      // nothing
@@ -62,21 +122,20 @@ var puzzle2 = {
          return background;
       },
 
-      genPuzzle: function(room, puzzle) {
-
-         for (var x = 0; x < puzzle.cols; x++) {
-            for (var y = 0; y < puzzle.rows; y++) {
-               switch(puzzle.data[y * puzzle.cols + x]) {
-                  case 2: // terrain
-                     this.setTile(background,  x + puzzle.offset_x,  y + puzzle.offset_y, C.BG_TILES.floor_blocked);
+      genPuzzle: function(room) {
+         for (var x = 0; x < this.currPuzzle.cols; x++) {
+            for (var y = 0; y < this.currPuzzle.rows; y++) {
+               switch(this.currPuzzle.data[y * this.currPuzzle.cols + x]) {
+                  case "#": // terrain
+                     this.setTile(background,  x + this.currPuzzle.offset_x,  y + this.currPuzzle.offset_y, C.BG_TILES.floor_blocked);
                      break;
-                  case 1: // Puzzle tile
-                     this.addPuzzleTile(room, x + puzzle.offset_x, y + puzzle.offset_y);
+                  case "o": // Puzzle tile
+                     this.addPuzzleTile(room, x + this.currPuzzle.offset_x, y + this.currPuzzle.offset_y);
                      break;
-                  case 0: // NOTHING
+                  case ".": // NOTHING
                      break;
                   default:
-                     console.warn("HEY NOW, you're an all star, you passed " + puzzle.data[y * puzzle.cols + x] + " as a puzzle tile but it's not valid, now, get your game on, go play");
+                     console.warn("HEY NOW, you're an all star, you passed " + this.currPuzzle.data[y * this.currPuzzle.cols + x] + " as a puzzle tile but it's not valid, now, get your game on, go play");
                      break;
                }
             }  
@@ -86,7 +145,7 @@ var puzzle2 = {
       populateRoom: function(room) {
          room.puzzleTiles = [];
 
-         this.genPuzzle(room, puzzle1);
+         this.genPuzzle(room);
       }
    });
 })(window);
