@@ -1,18 +1,16 @@
 var easy_puzzle1 = {
    rows: 4,
    cols: 4,
-   offset_x: -6,
+   offset_x: -4,
    offset_y: -4,
 
-   data: [
-      "#oo#oooooooo#oo#"
-   ]
+   data: "#oo#oooooooo#oo#"
 };
 
 var med_puzzle1 = {
-   rows: 7,
-   cols: 6,
-   offset_x: -6,
+   rows: 5,
+   cols: 5,
+   offset_x: -5,
    offset_y: -4,
 
    data: ".#o#.\
@@ -25,7 +23,7 @@ ooooo\
 var med_puzzle2 = {
    rows: 7,
    cols: 6,
-   offset_x: 0,
+   offset_x: -6,
    offset_y: -4,
 
    data: ".####.\
@@ -86,7 +84,7 @@ oooooo"
 
 var med_puzzles = [med_puzzle1, med_puzzle2];
 var hard_puzzles = [hard_puzzle3];
-var all_puzzles = [easy_puzzle1, med_puzzle1, med_puzzle2, hard_puzzle1, hard_puzzle2, hard_puzzle3]
+var all_puzzles = [easy_puzzle1, med_puzzle1, med_puzzle2, hard_puzzle1, hard_puzzle2, hard_puzzle3];
 
 /* 
  * The PuzzleRoomGenerator class randomly creates a puzzle room

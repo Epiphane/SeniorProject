@@ -160,8 +160,6 @@ ClassManager.create('DungeonGenerator', function(game) {
                break;
          }
 
-            // TODO: undo discrimination against other room types
-         generator = new PuzzleRoomGenerator();
          var nextRoom = generator.createEmptyRoom(parseObj);
          nextRoom.type = roomType;
 
