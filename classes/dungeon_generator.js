@@ -16,7 +16,6 @@ ClassManager.create('DungeonGenerator', function(game) {
 
          // TODO: fix this it sux :(
          this.difficulty = global_difficulty[curr_level++];
-         console.log("Difficulty is now" + this.difficulty);
          curr_difficulty = this.difficulty;
 
          this.roomTypes = this.generateRoomTypes();
@@ -35,7 +34,6 @@ ClassManager.create('DungeonGenerator', function(game) {
 
          // 1 boss room
          roomTypes.push(C.ROOM_TYPES.boss);
-         roomTypes.push(C.ROOM_TYPES.store);
          roomTypes.push(C.ROOM_TYPES.weapon);
          roomTypes.push(C.ROOM_TYPES.armor);
          roomTypes.push(C.ROOM_TYPES.puzzle);
@@ -76,7 +74,6 @@ ClassManager.create('DungeonGenerator', function(game) {
 
          var ret = this.roomTypes[ndxToPick];
          this.roomTypes.splice(ndxToPick, 1);
-         console.log('choosing', Utils.to.roomType(ret), '- remaining:', this.roomTypes.join(','));
          return ret;
       },
 
@@ -111,14 +108,13 @@ ClassManager.create('DungeonGenerator', function(game) {
 
          // If this new room is the only one you haven't explored,
          // then we don't want to make a dead end.
-         if (this.unexploredRooms === 1 && this.numRooms - this.roomsCreated > 1) {
+         if (this.unexploredRooms <= 1 && this.numRooms - this.roomsCreated > 1) {
             numExitBounds.min = 2;
          }
 
          // Random number of exits
          try {
             var numExits = chance.integer(numExitBounds);
-            console.log(this.numRooms, this.roomsCreated, numExits, numExitBounds)
          }
          catch(e) {
             console.error('Error bounds:', numExitBounds);
@@ -126,12 +122,8 @@ ClassManager.create('DungeonGenerator', function(game) {
 
          // First define the room type
          switch (roomType) {
-            case C.ROOM_TYPES.random:
-               break;
             case C.ROOM_TYPES.puzzle:
                generator = new PuzzleRoomGenerator();
-               break;
-            case C.ROOM_TYPES.store:
                break;
             case C.ROOM_TYPES.treasure:
                generator = new ItemRoomGenerator();
@@ -155,11 +147,12 @@ ClassManager.create('DungeonGenerator', function(game) {
             case C.ROOM_TYPES.sign:
                generator = new SignRoomGenerator();
                break;
+            default:
+               break;
          }
 
          var nextRoom = generator.createEmptyRoom(roomObj);
          nextRoom.type = roomType;
-         nextRoom.order = parseObj.get('order');
 
          if (from) {
             // Place an exit to our source room
@@ -183,24 +176,29 @@ ClassManager.create('DungeonGenerator', function(game) {
             catch (e) {
                console.error('Error bounds:', { likelihood: Math.min(100 * numExits / (4 - dir), 100) });
             }
-            if (makeExit && direction !== dir) {
+            if (makeExit) {
                numExits --;
 
+               var d = dir;
+               while (nextRoom.neighbors[d]) {
+                  d = (d + 1) % 4;
+               }
+
                // Decide what type of room our neighbor is
-               nextRoom.neighbors[dir] = {
-                  type: this.nextRoomType(dir),
+               nextRoom.neighbors[d] = {
+                  type: this.nextRoomType(d),
                   dungeon: this,
                   depth: roomObj.depth + 1
                };
                
                // If a room is a dead end (like a boss room), consider it "explored"
                // That way the dungeon will not try to path through it.
-               if (this.isDeadEndRoom(nextRoom.neighbors[dir].type)) {
+               if (this.isDeadEndRoom(nextRoom.neighbors[d].type)) {
                   this.unexploredRooms --;
                }
             }
          }
-         
+
          var room = generator.fillRoom(nextRoom, {
             parent: direction
          });
