@@ -36,6 +36,24 @@ ClassManager.create('Character', function(game) {
 
          this.attack = this.initial_attack;
          this.defense = this.initial_defense;
+
+         this.total_attacks_made = 0;
+         this.total_attacks_taken = 0;
+         this.engaged_with_player = false;
+      },
+
+      destroy: function() {
+         if (this.AttacksMade) {
+            this.AttacksMade.log(this.total_attacks_made);
+         }
+
+         if (this.engaged_with_player && this.AttacksTaken) {
+            this.AttacksTaken.log(this.total_attacks_taken);
+         }
+
+         if (this.Engaged) {
+            this.Engaged.log(this.engaged_with_player);
+         }
       },
 
       /**
@@ -102,7 +120,7 @@ ClassManager.create('Character', function(game) {
       },
 
       damage: function(victim) {
-         return Math.max(this.getAttack() - victim.getDefense(), 1);
+          return Math.max(this.getAttack() - victim.getDefense(), 1);
       },
 
       /**
@@ -111,6 +129,8 @@ ClassManager.create('Character', function(game) {
       doAttack: function(victim) {
          this.attackOffset = 1;
 
+         this.total_attacks_made ++;
+         victim.total_attacks_taken ++;
          victim.health -= this.damage(victim);
       },
 

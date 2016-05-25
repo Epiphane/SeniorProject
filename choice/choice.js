@@ -89,22 +89,44 @@ var Choice = (function() {
     * that cannot be averaged like Quantitative measurements
     */
    var Qualitative = Choice.Qualitative = ChoiceClass.extend({
-      initialize: function(value) {
-         if (typeof(value) === 'string') {
-            value = this.constructor.options.indexOf(value);
+      // An array of Strings for each option
+      options: [],
+
+      initialize: function(value, opts) {
+         if (opts && opts.indexOf(value) < 0) {
+            throw 'Option ' + value + ' was not listed as one of the possibilities.';
+         }
+         if (this.options.indexOf(value) < 0) {
+            throw 'Option ' + value + ' is not possible for this choice!';
          }
 
+         var self = this;
+         value = this.options.indexOf(value);
+
          ChoiceClass.prototype.initialize.call(this, value);
+
+         var sortedOpts = [];
+         this.indexes = [];
+         this.options.forEach(function(name, index) {
+            if (!opts || opts.indexOf(name) >= 0) {
+               self.indexes.push(index);
+               sortedOpts.push(name);
+            }
+         });
+
+         // Reassign the options
+         this.opts = sortedOpts;
       },
       index: function() {
          return this.value;
       },
       val: function() {
-         return this.constructor.options[this.value];
+         return this.options[this.value];
       }
-   }, {
-      // An array of Strings for each option
-      options: []
+   });
+
+   var Boolean = Choice.Boolean = Qualitative.extend({
+      options: [false, true]
    });
 
    /**
@@ -116,6 +138,7 @@ var Choice = (function() {
       initialize: function(options) {
          options = options || {};
          this.Choice = options.Choice || this.ChoiceConstructor;
+         this.debug = !!options.debug;
 
          // Initialize memory (maybe we won't want to keep this always...)
          this.decisions = [];
@@ -128,6 +151,10 @@ var Choice = (function() {
          // Create a choice object with the info
          if (!(value instanceof ChoiceClass)) {
             value = new this.Choice(value);
+         }
+
+         if (this.debug) {
+            console.log('Logging decision: ' + value.val());
          }
 
          this.decisions.push(value);
@@ -156,7 +183,7 @@ var Choice = (function() {
    var Aggregate = Choice.Aggregate = Decisions.extend({
       // What kind of measurement we're keeping track of
       ChoiceConstructor: Quantitative,
-      defaultAlpha: 0.7,
+      defaultAlpha: 0.6,
 
       initialize: function(options) {
          // Parent initialize
@@ -229,11 +256,22 @@ var Choice = (function() {
          options = options || {};
          options.alpha = options.alpha || this.defaultAlpha;
 
+         // Maintain a normal list for indexing according to the choice
          this.preferences = [];
+         // Maintain a sorted list for accessing preferences
+         this.sortedPreferences = [];
 
-         var initialPreference = 1 / this.Choice.options.length;
-         for (var i = 0; i < this.Choice.options.length; i ++) {
-            this.preferences.push(initialPreference);
+         var initialPreference = 1 / this.Choice.prototype.options.length;
+         for (var i = 0; i < this.Choice.prototype.options.length; i ++) {
+            var obj = {
+               option: this.Choice.prototype.options[i],
+               value: initialPreference,
+               offerings: 0,
+               picks: 0
+            };
+
+            this.preferences.push(obj);
+            this.sortedPreferences.push(obj);
          }
 
          this.alpha = options.alpha;
@@ -243,33 +281,65 @@ var Choice = (function() {
             throw 'Alpha may not be greater than 1';
       },
 
-      log: function(value) {
+      log: function(value, options) {
+         var self = this;
+         if (!(value instanceof ChoiceClass)) {
+            value = new this.Choice(value, options);
+         }
+
          // log returns the value to make sure it's a Choice subclass
-         value = Decisions.prototype.log.apply(this, arguments);
+         Decisions.prototype.log.apply(this, arguments);
 
-         var delta = this.alpha;
-         var dilution = 1 - delta;
-         this.preferences.forEach(function(pref, index, array) {
-            array[index] = pref * dilution;
+         var dilution = 1 - this.alpha;
+         var subtotal = 0;
+         value.indexes.forEach(function(ndx) {
+            subtotal += self.preferences[ndx].value;
 
-            if (value.index() === index) {
-               array[index] += delta;
-            }
+            self.preferences[ndx].offerings ++;
+            self.preferences[ndx].value *= dilution;
+         });
+
+         self.preferences[value.index()].picks ++;
+         self.preferences[value.index()].value += this.alpha * subtotal;
+         self.sortedPreferences.sort(function(a, b) {
+            return b.value - a.value;
          });
       },
 
       value: function() {
-         var self = this;
-         var max = { value: null, preference: 0 };
+         return this.sortedPreferences[0];
+      },
 
-         this.preferences.forEach(function(value, index) {
-            if (value > max.preference) {
-               max.value = self.Choice.options[index];
-               max.preference = value;
+      valueOf: function(choice) {
+         if (!(choice instanceof ChoiceClass)) {
+            choice = new this.Choice(choice);
+         }
+
+         return this.preferences[choice.index()].value;
+      },
+
+      values: function(options) {
+         options = options || {};
+         options.except = options.except || [];
+
+         var vals = [];
+
+         this.sortedPreferences.forEach(function(pref) {
+            if (options.except.indexOf(pref.option) < 0) {
+               vals.push(pref);
             }
          });
 
-         return max;
+         return vals;
+      },
+
+      print: function() {
+         var str = 'Preferences: ' + 
+            this.sortedPreferences.map(function(pref) {
+               return pref.option + ' (' + pref.value.toFixed(2) + ')';
+            }).join(', ');
+
+         console.log(str);
       }
    });
 

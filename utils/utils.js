@@ -56,6 +56,13 @@
       return -1;
    };
 
+   Utils.to.P_DIR_STR = function(dir) {
+      if (dir === C.P_DIR.LEFT ) return 'Left';
+      if (dir === C.P_DIR.RIGHT) return 'Right';
+      if (dir === C.P_DIR.UP   ) return 'Up';
+      if (dir === C.P_DIR.DOWN ) return 'Down';
+   }
+
    /**
     * Get a dir_x and dir_y from a P_DIR enum
     *

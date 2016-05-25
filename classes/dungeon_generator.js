@@ -1,6 +1,9 @@
 /* 
  * The DungeonGenerator class randomly generates a dungeon with lots of parameters
  */
+ // TODO: something smarter than this
+ var curr_level = 0;
+ var curr_difficulty = 0;
 ClassManager.create('DungeonGenerator', function(game) {
    return Class.create(Object, {
       initialize: function(numRooms) {
@@ -9,14 +12,26 @@ ClassManager.create('DungeonGenerator', function(game) {
          this.roomsCreated = 0;
          this.unexploredRooms = 0;
          this.hasCreatedBossRoom = false;
-         this.difficulty = 1;
+
+         // TODO: fix this it sux :(
+         this.difficulty = global_difficulty[curr_level++];
+         console.log("Difficulty is now" + this.difficulty);
+         curr_difficulty = this.difficulty;
 
          this.roomTypes = this.generateRoomTypes();
 
          this.parseObj = new ParseDungeon({});
          this.parseObj.set('numRooms', this.numRooms);
 
+         this.rooms = [];
+
          this.parseObj.save();
+      },
+
+      destroy: function() {
+         while (this.rooms.length > 0) {
+            this.rooms.shift().destroy();
+         }
       },
 
       generateRoomTypes: function() {
@@ -28,6 +43,8 @@ ClassManager.create('DungeonGenerator', function(game) {
          roomTypes.push(C.ROOM_TYPES.weapon);
          roomTypes.push(C.ROOM_TYPES.armor);
          roomTypes.push(C.ROOM_TYPES.puzzle);
+         roomTypes.push(C.ROOM_TYPES.npc);
+         roomTypes.push(C.ROOM_TYPES.sign);
 
          // 3 treasure rooms
          for (var i = 0; i < 2; i ++)
@@ -47,7 +64,7 @@ ClassManager.create('DungeonGenerator', function(game) {
       },
 
       isDeadEndRoom: function(roomType) {
-         return (roomType === C.ROOM_TYPES.boss) || (roomType === C.ROOM_TYPES.store);
+         return (roomType === C.ROOM_TYPES.boss);
       },
 
       /**
@@ -132,10 +149,14 @@ ClassManager.create('DungeonGenerator', function(game) {
                generator = new CombatRoomGenerator();
                break;
             case C.ROOM_TYPES.npc:
+               generator = new NPCRoomGenerator();
                break;
             case C.ROOM_TYPES.boss:
                generator = new BossRoomGenerator();
                numExits  = 1;
+               break;
+            case C.ROOM_TYPES.sign:
+               generator = new SignRoomGenerator();
                break;
          }
 
@@ -183,8 +204,34 @@ ClassManager.create('DungeonGenerator', function(game) {
             }
          }
          
-         return generator.fillRoom(nextRoom, { /* params */ });
+         var room = generator.fillRoom(nextRoom, {
+            parent: direction
+         });
+         this.rooms.push(room);
+         return room;
       }
 
    });
 });
+
+function mockDungeon() {
+   var generator = new Classes.DungeonGenerator();
+
+   var rooms = [];
+   function addRoom(r, x, y) {
+      if (!rooms[y]) rooms[y] = [];
+      rooms[y][x] = r;
+   }
+
+   var roomStack = [generator.createDungeon()];
+   while (roomStack.length > 0) {
+      var room = roomStack.shift();
+
+      for (var direction in C.P_DIR) {
+         if (room.neighbors[direction] !== false && !(room.neighbors[direction] instanceof Classes['Room'])) {
+            room.neighbors[direction] = generator.nextRoom(room, direction);
+            roomStack.push(room.neighbors[direction]);
+         }
+      }
+   }
+}

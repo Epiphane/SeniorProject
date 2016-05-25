@@ -9,6 +9,7 @@
       Game.backgroundColor = "black";
       Game.bgm = new buzz.sound("assets/sounds/dungeon.mp3", {loop:true});
       var muteTimer = 20;
+      var level = 1;
 
       // Create a new game object
       window.currentGame = new ParseGame({
@@ -18,15 +19,17 @@
 
       // Not sure where else to put this
       Game.moveRooms = function(dir) {
-         Game.setRoom(Game.currentRoom.getNeighbor(dir));
+         Game.setRoom(Game.currentRoom.getNeighbor(dir), dir);
 
          Game.currentRoom.movePlayerToDoorway(Game.player, Utils.to.opposite(dir));
       };
 
       Game.descend = function() {
-         if (game.currentRoom) {
-            window.currentGame.set('dungeons_completed', window.currentGame.get('dungeons_completed') + 1);
-            window.currentGame.save();
+         if (Game.dungeonGenerator) {
+            Game.dungeonGenerator.destroy();
+
+            DifficultyManager.moveX(1);
+            game.pushScene(new Scenes.Transition(level ++));
          }
 
          // Create first room
@@ -36,10 +39,10 @@
          Game.setRoom(Game.dungeonGenerator.createDungeon());
       };
 
-      Game.setRoom = function(room) {
+      Game.setRoom = function(room, dir) {
          // Remove old room
          if (Game.currentRoom) {
-            Game.currentRoom.onExit();
+            Game.currentRoom.onExit(dir);
             Game.currentRoom.removeChild(Game.player);
             Game.currentRoom.removeChild(Game.HUD);
             Game.removeChild(Game.currentRoom);
