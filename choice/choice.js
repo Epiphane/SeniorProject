@@ -183,7 +183,7 @@ var Choice = (function() {
    var Aggregate = Choice.Aggregate = Decisions.extend({
       // What kind of measurement we're keeping track of
       ChoiceConstructor: Quantitative,
-      defaultAlpha: 0.7,
+      defaultAlpha: 0.6,
 
       initialize: function(options) {
          // Parent initialize
@@ -308,6 +308,14 @@ var Choice = (function() {
 
       value: function() {
          return this.sortedPreferences[0];
+      },
+
+      valueOf: function(choice) {
+         if (!(choice instanceof ChoiceClass)) {
+            choice = new this.Choice(choice);
+         }
+
+         return this.preferences[choice.index()].value;
       },
 
       values: function(options) {

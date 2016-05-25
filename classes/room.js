@@ -27,10 +27,8 @@ var RoomReturnPreference = new Choice.Preference({
  */
 ClassManager.create('Room', function(game) {
    return Class.create(Group, {
-      initialize: function(parseObj) {
+      initialize: function(roomObj) {
          Group.call(this);
-
-         this.parseObj = parseObj || {};
 
          this.roomType = C.ROOM_TYPES.random;
 
@@ -40,8 +38,8 @@ ClassManager.create('Room', function(game) {
          this.floor = new Map(C.TILE_SIZE, C.TILE_SIZE);
          this.floor.image = game.assets["assets/images/map2.png"];
 
-         this.width  = parseObj.get('width')  || C.MAP_SIZE;
-         this.height = parseObj.get('height') || C.MAP_SIZE;
+         this.width  = roomObj.width  || C.MAP_SIZE - 6;
+         this.height = roomObj.height || C.MAP_SIZE - 6;
 
          this.right = Math.floor(this.width / 2);
          this.left = -this.right;
@@ -61,6 +59,10 @@ ClassManager.create('Room', function(game) {
 
          this.exits = [];
          this.hasExitedYet = false;
+
+         this.timesVisited = 0;
+         this.actionsTaken = 0;
+         this.genocide = false;
       },
 
       destroy: function() {
@@ -70,12 +72,14 @@ ClassManager.create('Room', function(game) {
       },
 
       onEnter: function() {
-         this.parseObj.increment('timesVisited');
+         this.timesVisited ++;
 
-         EM.log('dungeon', 'visit', this.parseObj.get('timesVisited'), {
-            roomType: this.type,
-            isEmpty: this.items.length === 0 && this.characters.length === 0
-         });
+         // Reset Character dialog
+         for (i=0;i<this.items.length;i++) {
+            if (this.items[i] instanceof Classes['NPC']) {
+               this.items[i].dialogInstance = 0;
+            }
+         }
       },
 
       onExit: function(direction) {
@@ -146,21 +150,9 @@ ClassManager.create('Room', function(game) {
          this.characters.push(character);
          this.addToScene(character);
 
-         this.parseObj.set('genocide', false);
+         this.genocide = false;
 
-         if (character.parseObj) {
-            console.warn('We should never need this line so the code is untested YOLO');
-            character.parseObj.set('room', this.parseObj);
-         }
-         else {
-            character.parseObj = new ParseNPC({ 
-               room: this.parseObj,
-               sprite: character.sprite
-            });
-         }
-         this.parseObj.save().then(function() {
-            character.parseObj.save();
-         });
+         character.room = this;
       },
 
       /**
@@ -289,23 +281,6 @@ ClassManager.create('Room', function(game) {
          }
       },
 
-      // Check if all the tiles are green. If so, drop 'em a potion
-      checkPuzzle: function() {
-         if (this.puzzleTiles) {
-            var winner = true;
-
-            this.puzzleTiles.forEach(function(tile) {
-               if (tile.state != TILE_PRESSED) {
-                  winner = false;
-               }
-            });
-
-            if (winner) {
-               this.addItemAt(new Classes.Potion(), 0, 0);
-            }
-         }
-      },
-
       isStaircase: function(x, y) {
          // Convert to tilesetness
          x += Math.floor(C.MAP_SIZE / 2);
@@ -367,7 +342,7 @@ ClassManager.create('Room', function(game) {
       },
 
       action: function() {
-         this.parseObj.increment('actionsTaken');
+         this.actionsTaken ++;
 
          for (var i = this.characters.length - 1; i >= 0; i--) {
             var character = this.characters[i];
@@ -391,11 +366,8 @@ ClassManager.create('Room', function(game) {
                // TODO: We should see if the player has killed all non-violent
                // characters, not just all characters
                if (this.characters.length === 0) {
-                  this.parseObj.set('genocide', true);
+                  this.genocide = true;
                }
-
-               // Log the murder
-               EM.log("combat", "murder", character.sprite);
             }
             else {
                character.everyTurn();
