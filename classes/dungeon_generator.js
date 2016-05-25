@@ -20,12 +20,7 @@ ClassManager.create('DungeonGenerator', function(game) {
 
          this.roomTypes = this.generateRoomTypes();
 
-         this.parseObj = new ParseDungeon({});
-         this.parseObj.set('numRooms', this.numRooms);
-
          this.rooms = [];
-
-         this.parseObj.save();
       },
 
       destroy: function() {
@@ -89,23 +84,18 @@ ClassManager.create('DungeonGenerator', function(game) {
       nextRoom: function(from, direction) {
          var generator = new RoomGenerator();
 
-         var order = this.parseObj.get('roomsExplored');
-         this.parseObj.set('roomsExplored', order + 1);
-         this.parseObj.save();
-
-         var parseObj = null;
+         var roomObj = null;
          if (from) {
-            parseObj = from.neighbors[direction];
+            roomObj = from.neighbors[direction];
          }
          else {
-            parseObj = new ParseRoom({
+            roomObj = {
                type: C.ROOM_TYPES.random,
-               dungeon: this.parseObj
-            });
+               dungeon: this.roomObj,
+               depth: 0
+            };
          }
-         var roomType = parseObj.get('type');
-         parseObj.set('orderVisited', order);
-         parseObj.save();
+         var roomType = roomObj.type;
 
          var numExitBounds = { min: 1, max: 4 };
          // Make sure we don't add too many rooms!
@@ -160,7 +150,7 @@ ClassManager.create('DungeonGenerator', function(game) {
                break;
          }
 
-         var nextRoom = generator.createEmptyRoom(parseObj);
+         var nextRoom = generator.createEmptyRoom(roomObj);
          nextRoom.type = roomType;
 
          if (from) {
@@ -189,16 +179,15 @@ ClassManager.create('DungeonGenerator', function(game) {
                numExits --;
 
                // Decide what type of room our neighbor is
-               nextRoom.neighbors[dir] = new ParseRoom({
+               nextRoom.neighbors[dir] = {
                   type: this.nextRoomType(dir),
-                  dungeon: this.parseObj,
-                  depth: parseObj.get('depth') + 1
-               });
-               nextRoom.neighbors[dir].save();
+                  dungeon: this,
+                  depth: roomObj.depth + 1
+               };
                
                // If a room is a dead end (like a boss room), consider it "explored"
                // That way the dungeon will not try to path through it.
-               if (this.isDeadEndRoom(nextRoom.neighbors[dir].get('type'))) {
+               if (this.isDeadEndRoom(nextRoom.neighbors[dir].type)) {
                   this.unexploredRooms --;
                }
             }
