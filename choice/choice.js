@@ -183,7 +183,7 @@ var Choice = (function() {
    var Aggregate = Choice.Aggregate = Decisions.extend({
       // What kind of measurement we're keeping track of
       ChoiceConstructor: Quantitative,
-      defaultAlpha: 0.7,
+      defaultAlpha: 0.6,
 
       initialize: function(options) {
          // Parent initialize
