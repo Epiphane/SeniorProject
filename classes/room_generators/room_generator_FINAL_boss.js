@@ -1,10 +1,10 @@
 /* 
- * The BossRoomGenerator class randomly creates a room centered around combat
+ * The FinalBossRoomGenerator class is the final showdown room! of ultimate destiny.
  */
 (function(window) {
    var defaults = {};
 
-   window.BossRoomGenerator = Class.create(RoomGenerator, {
+   window.FinalBossRoomGenerator = Class.create(RoomGenerator, {
       createFloor: function(params) {
          var background = RoomGenerator.prototype.createFloor.apply(this, arguments);
 
@@ -13,7 +13,7 @@
 
       populateRoom: function(room) {
          // Add enemies and items to room
-         this.addCharacter(room, new Classes.SimpleBoss(), 2, 3);
+         this.addCharacter(room, new Classes.FinalBoss(), 2, 3);
       }
    });
 })(window);

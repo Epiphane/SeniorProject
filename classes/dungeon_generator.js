@@ -151,6 +151,8 @@ ClassManager.create('DungeonGenerator', function(game) {
                break;
          }
 
+         generator = new FinalBossRoomGenerator();
+
          var nextRoom = generator.createEmptyRoom(roomObj);
          nextRoom.type = roomType;
 
