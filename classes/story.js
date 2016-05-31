@@ -111,8 +111,8 @@ Story.init = function(game) {
                 [["* It's humming a strange frequency that seems to vibrate throughout the dungeon."]],
             ],
             [
-                [["...", "...", "Please don't hurt her."], ["* It is silent."]],
-                [["* It is watching your every move.", "Even after you leave the room."]],
+                [["...", "...", "Please don't hurt her.", "We need her to live... we need The Cycle to live."], ["* It's holding a defensive stance."]],
+                [["* It is watching your every move, even after you leave the room."]],
                 [["Aralynne, our protector, has been getting weaker. More humans have been reaching her chambers and battling her.", "She just sends them back to the dungeon entrance instead of killing them.", "But she can't do this forever."], ["Are you here to help, or..."]],
                 [["Squarr did not always have dungeons. Monsters lived alongside humans at one point in time.", "But somewhere along the line humans became aggressive towards monsters and battle broke out.", "Surviving monsters were banished to dungeons.", "Aralynne... The first dungeon dweller.", "Her death means the end of the Cycle."], ["I wish only for peace."]]
             ]
@@ -120,14 +120,14 @@ Story.init = function(game) {
     };
 
     Story.aralynne = {
-        story: [
+        good_intro: [
             [
                 [["So you've made it.", "I felt your presence as soon as you entered my lair.", "So what brings you here?", "I know it wasn't genocide, your actions show that much.", "But you couldn't have gotten here without spilling blood.", "Still, you're different from the others.", "You have an energy I haven't sensed in a human in a very long time.","... I have something to ask of you.", "I've been fending off humans for centuries, trying as hard as I can to keep the monsters here safe.", "However, my strength is getting weaker with each human I encounter.", "I do not kill them, but simply teleport them to another maze and erase their memory of seeing me.", "The other monsters call this The Cycle.", "If I can't maintain The Cycle, then theres nothing stopping humans from traversing my dungeon and killing everything.", "I give you a choice.", "You can fight me and end The Cycle. That will mark the end of monsters living in Squarr.", "Or, you can stay as my guardian and fend off attackers. You slay them, I regain energy, and monsters stay safe.", "In exchange I use my magic for your gain. Wealth, power, perfect health. It's yours.", "Fight me, or take this amulet and be my guardian. The choice is yours."], ["Fight me, or take this amulet. Those are your choices."]]
             ]
         ],
-        kills: [
+        evil_intro_and_ending: [
             [
-                [["You.", "I feared something like you would finally come this way.", "Do you just wish for my death?", "Was banishment to this dungeon not enough?", "Or are you just here to kill the lesser species?", "Regardless, you will not win.", "You think this is the first time we've met, but you're mistaken.", "You are now part of The Cycle. You will repeat this dungeon, your massacres, our meeting... until you die.", "Or maybe I'll die first.", "Nonetheless, I bid you farewell until we meet again.", "AVAK ANASU NOSALISE! TO PURGATORY WITH YOU."]]
+                [["You.", "I feared something like you would finally come this way.", "Do you just wish for my death?", "Was banishment to this dungeon not enough?", "Or are you just here to kill the lesser species?", "Regardless, you will not win.", "You think this is the first time we've met, but you're mistaken.", "You are now part of The Cycle. You will repeat this dungeon, your massacres, our meeting... until you die.", "Or maybe I'll die first.", "Nonetheless, I bid you farewell until we meet again.", "AVAK ANASU NOSALISE! TO PURGATORY WITH YOU!"]] //Everything go black here, game restarts soon after.
             ]
         ],
         good_ending: [
@@ -172,6 +172,41 @@ Story.init = function(game) {
         else {
             Story.phase = 2;
         }
+    }
+
+    // Custom dialog for preferred room direction
+    Story.roomDirectionDialog = function(character) {
+
+    }
+
+    // Custom dialog for percentages of enemies engaged
+    Story.enemyEngagedDialog = function(character) {
+
+    }
+
+    // Custom dialog for overall movement in the dungeon
+    Story.movementDialog = function(character) {
+
+    }
+
+    // Custom dialog for potion usage. Chance to add potion to player's inventory
+    Story.potionUseDialog = function(character) {
+
+    }
+
+    // Custom dialog for number of times an NPC has been interacted with
+    Story.npcInteractionsDialog = function(character) {
+
+    }
+
+    // Custom dialog for player deaths
+    Story.playerDeathsDialog = function(character) {
+
+    }
+
+    // Custom dialog for puzzles completed/failed
+    Story.puzzleDialog = function(character) {
+
     }
 }
 
