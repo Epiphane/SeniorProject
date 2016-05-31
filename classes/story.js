@@ -16,8 +16,15 @@ Story.init = function(game) {
     Story.phase = 0;
 
    Story.NPC_CHARACTERS = Enum([
-      'sign', 'adventurer', 'strongman', 'mystic', 'aralynne'
+      'sign', 'adventurer', 'strongman', 'mystic', 'aralynne', 'medic'
    ]);
+
+   Story.CUSTOM_CHARACTERS = [
+       Story.NPC_CHARACTERS.adventurer,
+       Story.NPC_CHARACTERS.strongman,
+       Story.NPC_CHARACTERS.mystic,
+       Story.NPC_CHARACTERS.medic
+   ];
 
 	// Adventurer (npc1)
 	// A young lost adventurer. Victim of multiple personalities.
@@ -151,7 +158,6 @@ Story.init = function(game) {
     Story.dialog[Story.NPC_CHARACTERS.aralynne] = Story.aralynne;
 
 	Story.getLine = function(character) {
-        // TODO: Get trait info from Choice.js and based on top traits randomly choose dialog.
         Story.calculatePhase();
         var lines = Story.dialog[character]["story"][Story.phase].length;
         var line = chance.integer({min:0, max:lines-1});
@@ -176,12 +182,106 @@ Story.init = function(game) {
 
     // Custom dialog for preferred room direction
     Story.roomDirectionDialog = function(character) {
+        console.log(RoomFirstExitPreference.value());
+        var direction = RoomFirstExitPreference.value().option;
+        var dialog = [];
 
+        if (character == Story.NPC_CHARACTERS.adventurer) {
+            dialog = [["These rooms sometimes have so many exits.", "But you seem to really like going " + direction + ", don't ya?", "You look surprised that I know that.", "We learn a lot things about what people choose to do down here."], ["Don't make a bad decision."]];
+        }
+        else if (character == Story.NPC_CHARACTERS.strongman) {
+            dialog = [["Up...", "Down...", "Left...", "Right...","You can go any of those directions in nearly any room.","But you just seem to go " + direction + "."], ["See you on the " + direction + "-side soon."]];
+        }
+        else {
+            dialog = [["You will go "+ direction +" the next chance you have."], ["We're all counting on it."]];
+        }
+
+        return dialog;
     }
 
     // Custom dialog for percentages of enemies engaged
     Story.enemyEngagedDialog = function(character) {
+        var willKillBats = Classes.Bat.prototype.Engaged.value().option;
+        var willKillSlimes = Classes.Slime.prototype.Engaged.value().option;
+        var willKillBoss = Classes.Boss.prototype.Engaged.value().option;
+        var willKillAll = willKillBats && willKillSlimes && willKillBoss;
+        var willKillNone = !willKillBats && !willKillSlimes && !willKillBoss;
 
+        var dialog = [];
+        var subDialog = [];
+
+        if (character == Story.NPC_CHARACTERS.adventurer) {
+            // Want to address player killing Nothing or Everything first
+            if (willKillNone) {
+                dialog = [["You're clad in armor and have a sword, but you haven't slain anything?", "You gotta learn to swing that blade if you're gonna survive."], ["Go get 'em!"]];
+            }
+            else if (willKillAll) {
+                dialog = [["It's gotten really quiet in this part of the dungeon.", "... is that your fault?"], ["It's even creepier now."]];
+            }
+            else {
+                subDialog.push("Seems you've gotten to meet some of the wildlife around here.");
+                if (willKillBats)
+                    subDialog.push("Those bats seem like they're no match for you.");
+                else
+                    subDialog.push("You gotta watch out for those bats though.");
+
+                if (willKillSlimes)
+                    subDialog.push("And you cut through those slimes like butter.");
+                else
+                    subDialog.push("And those slimes can ambush you, even if they move slow.");
+
+                if (willKillBoss)
+                    subDialog.push("Not even the boss stood a chance against you, though!");
+                else
+                    subDialog.push("Also, the boss of each floor might not look strong, but they have tricks up their sleeves.");
+
+                dialog.push(subDialog);
+                dialog.push(["Good luck out there."]);
+            }
+        }
+        else if (character == Story.NPC_CHARACTERS.strongman) {
+            // Want to address player killing Nothing or Everything first
+            if (willKillNone) {
+                dialog = [["What kind of weenie comes to a place like this and doesn't hurt a fly?"], ["FUFUFU!"]];
+            }
+            else if (willKillAll) {
+                dialog = [["I was all ready to kick some monster butt down here, but there's nothing left."], ["Is that your fault?"]];
+            }
+            else {
+                subDialog.push("Let me give you the lowdown on what you're in for down here.");
+                if (willKillBats)
+                    subDialog.push("You've met the bats. They're cake.");
+                else
+                    subDialog.push("The bats here are fast, but weak.");
+
+                if (willKillSlimes)
+                    subDialog.push("And the slimes, as you know, are slow and come in packs.");
+                else
+                    subDialog.push("And I hate those slimes. They all attack you at once. Not fair!");
+
+                if (willKillBoss)
+                    subDialog.push("I guess the boss ain't that bad either, but maybe its worse the deeper you go.");
+                else
+                    subDialog.push("Finally, the bosses here are tricky. Just watch out for 'em");
+
+                dialog.push(subDialog);
+                dialog.push(["I feel like I'm forgetting one more... Eh, you'll be fine."]);
+            }
+        }
+        else {
+            // Want to address player killing Nothing or Everything first
+            if (willKillNone) {
+                dialog = [["You are surprisingly non-violent, human.", "If you wish to stay down here, then I fear that trend may end."], ["It is your choice to make."]];
+            }
+            else if (willKillAll) {
+                dialog = [["Disgusting.", "You reek of death.", "You eminate hate."], ["Aralynne will have her revenge."]];
+            }
+            else {
+                dialog = [["So. Your blade has seen blood.", "There's much more where that came from."], ["Prepare to die."]];
+            }
+        }
+
+        return dialog;
     }
 
     // Custom dialog for overall movement in the dungeon
@@ -208,5 +308,11 @@ Story.init = function(game) {
     Story.puzzleDialog = function(character) {
 
     }
+
+    Story.customDialogs = [
+        Story.roomDirectionDialog,
+        Story.enemyEngagedDialog,
+        Story.potionUseDialog
+    ];
 }
 

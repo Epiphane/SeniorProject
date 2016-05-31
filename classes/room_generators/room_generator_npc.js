@@ -17,10 +17,30 @@
       },
 
       populateRoom: function(room) {
-         // TODO: Replace all 0's with actual story level (0-2)
-         // We want 2 npcs per room.
-         var npc1 = new Classes.Adventurer(Story.getLine(Story.NPC_CHARACTERS.adventurer));
-         var npc2 = new Classes.Strongman(Story.getLine(Story.NPC_CHARACTERS.strongman));
+         // Hoo boy, ok.
+         // Firstly - we want custom dialog to appear only sometimes. (20%)
+         if (chance.bool({likelihood : 20})) {
+            var customDialog = chance.pick(Story.customDialogs, 1);
+            var character = chance.pick(Story.CUSTOM_CHARACTERS, 1);
+            var npc3 = null;
+
+            //Yes this is gross but its the easiest way right now
+            if (character == Story.NPC_CHARACTERS.medic) {
+               customDialog = Story.potionUseDialog;
+               npc3 = new Classes.Medic(customDialog(character));
+            }
+            else if (character == Story.NPC_CHARACTERS.adventurer)
+               npc3 = new Classes.Adventurer(customDialog(character));
+            else if (character == Story.NPC_CHARACTERS.strongman)
+               npc3 = new Classes.Strongman(customDialog(character));
+            else
+               npc3 = new Classes.Mystic(customDialog(character));
+
+            this.addItem(room, npc3, 1,0);
+         }
+
+         var npc1 = new Classes.Adventurer(Story.roomDirectionDialog(Story.NPC_CHARACTERS.adventurer));
+         var npc2 = new Classes.Strongman(Story.roomDirectionDialog(Story.NPC_CHARACTERS.strongman));
 
          // 1/4 chance to have mystic npc appear.
          if (chance.bool({likelihood : 25})) {
