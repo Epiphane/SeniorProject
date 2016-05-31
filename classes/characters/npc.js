@@ -26,8 +26,6 @@ ClassManager.create('NPC', function(game) {
       // Check if the player just tried to move onto me
       canMoveOntoMe: function(collider, room) {
          if (collider instanceof Classes['Player']) {
-            //this.parseObj.increment('numInteractions');
-            //this.parseObj.save();
             this.say();
          }
 
