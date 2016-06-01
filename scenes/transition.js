@@ -45,3 +45,7 @@ Scenes.Transition.recentChanges = [];
 Scenes.Transition.logChange = function(description) {
    Scenes.Transition.recentChanges.push(description);
 }
+
+Scenes.Transition.clearChanges = function() {
+   Scenes.Transition.recentChanges = [];
+}

@@ -226,7 +226,7 @@ ClassManager.create('Room', function(game) {
          x += Math.floor(C.MAP_SIZE / 2);
          y += Math.floor(C.MAP_SIZE / 2);
 
-         if (this.tiles[y][x] !== C.BG_TILES.floor && this.tiles[y][x] !== C.BG_TILES.empty) {
+         if (C.UNBLOCKED_TILES.indexOf(this.tiles[y][x]) < 0) {
             return false;
          }
 

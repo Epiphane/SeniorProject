@@ -22,6 +22,7 @@
          if (Game.dungeonGenerator) {
             Game.dungeonGenerator.destroy();
 
+            Scenes.Transition.clearChanges();
             DifficultyManager.moveX(1);
             game.pushScene(new Scenes.Transition(level ++));
          }
@@ -29,7 +30,7 @@
          // Create first room
          Game.player.position.x = Game.player.position.y = 0;
          Game.player.snapToPosition();
-         Game.dungeonGenerator = new Classes.DungeonGenerator();
+         Game.dungeonGenerator = new Classes.DungeonGenerator(level);
          Game.setRoom(Game.dungeonGenerator.createDungeon());
       };
 

@@ -13,7 +13,8 @@
    Constants.TILE_SIZE = 32;
 
    Constants.ROOM_TYPES = Enum([
-      'random', 'store', 'treasure', 'weapon', 'armor', 'combat', 'npc', 'boss', 'puzzle', 'sign'
+      'random', 'store', 'treasure', 'weapon', 'armor', 'combat', 'npc', 'boss', 'puzzle', 'sign',
+      'intro'
    ]);
 
    var spriteToTile = function(row, col) {
@@ -25,8 +26,23 @@
       floor: spriteToTile(12, 18),
       floor_blocked: spriteToTile(12, 16),
       wall: spriteToTile(12, 17),
-      stairs: spriteToTile(12, 20)
+      stairs: spriteToTile(12, 20),
+      up_arrow: spriteToTile(12, 21),
+      right_arrow: spriteToTile(12, 22),
+      down_arrow: spriteToTile(12, 23),
+      left_arrow: spriteToTile(12, 24),
+      attack_arrow: spriteToTile(12, 25)
    });
+
+   Constants.UNBLOCKED_TILES = [
+      Constants.BG_TILES.floor,
+      Constants.BG_TILES.empty,
+      Constants.BG_TILES.up_arrow,
+      Constants.BG_TILES.right_arrow,
+      Constants.BG_TILES.down_arrow,
+      Constants.BG_TILES.left_arrow,
+      Constants.BG_TILES.attack_arrow
+   ];
 
    Constants.FG_TILES = Enum({
       empty: -1,
@@ -108,6 +124,7 @@
       "final_boss.png",
       "monster1.gif",
       "monster2.gif",
+      "monster2-rip.gif",
       "monster1slow.gif",
       "monster2slow.gif",
       "monster1poison.gif",
