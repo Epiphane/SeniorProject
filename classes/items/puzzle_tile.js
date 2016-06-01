@@ -50,6 +50,7 @@ ClassManager.create('PuzzleTile', function(game) {
                case TILE_PRESSED:
                   this.state = TILE_BAD;
                   this.image = game.assets["assets/images/U MESSED UP LOL.png"];
+                  this.failedPuzzle();
                   if (!room.logged_failure) {
                      room.logged_failure = true;
                      PuzzlesFailed.next();
@@ -61,6 +62,10 @@ ClassManager.create('PuzzleTile', function(game) {
              }
 
          }
+      },
+
+      failedPuzzle: function() {
+         // Don't care, override
       },
 
       everyTurn: function() {
