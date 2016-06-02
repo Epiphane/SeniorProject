@@ -31,7 +31,7 @@
       right_arrow: spriteToTile(12, 22),
       down_arrow: spriteToTile(12, 23),
       left_arrow: spriteToTile(12, 24),
-      attack_arrow: spriteToTile(12, 25)
+      attack_arrow: spriteToTile(12, 25),
    });
 
    Constants.UNBLOCKED_TILES = [
@@ -41,7 +41,7 @@
       Constants.BG_TILES.right_arrow,
       Constants.BG_TILES.down_arrow,
       Constants.BG_TILES.left_arrow,
-      Constants.BG_TILES.attack_arrow
+      Constants.BG_TILES.attack_arrow,
    ];
 
    Constants.FG_TILES = Enum({
@@ -137,6 +137,7 @@
       "puzzle_initial.png",
       "u did it.png",
       "u did it and its over.png",
+      "you suck try again.png",
       "U MESSED UP LOL.png",
       "U MESSED UP LOL faded.png",
       "textbox.png",

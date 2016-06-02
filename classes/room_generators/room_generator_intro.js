@@ -25,6 +25,10 @@
          this.addPuzzleTile(room, 3, 3);
          this.addPuzzleTile(room, 3, 4);
          this.addPuzzleTile(room, 2, 3);
+         this.addPuzzleTile(room, 2, 4);
+
+         room.addItemAt(new Classes.PuzzleReset(), 3, 2);
+
       }
    });
 })(window);
