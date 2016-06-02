@@ -32,6 +32,9 @@
       down_arrow: spriteToTile(12, 23),
       left_arrow: spriteToTile(12, 24),
       attack_arrow: spriteToTile(12, 25),
+      prize: spriteToTile(11, 20),
+      prize_weapon: spriteToTile(11, 21),
+      prize_armor: spriteToTile(11, 22),
    });
 
    Constants.UNBLOCKED_TILES = [
@@ -42,6 +45,9 @@
       Constants.BG_TILES.down_arrow,
       Constants.BG_TILES.left_arrow,
       Constants.BG_TILES.attack_arrow,
+      Constants.BG_TILES.prize,
+      Constants.BG_TILES.prize_weapon,
+      Constants.BG_TILES.prize_armor,
    ];
 
    Constants.FG_TILES = Enum({

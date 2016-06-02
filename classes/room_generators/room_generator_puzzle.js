@@ -30,6 +30,8 @@
                }
             }  
          }
+                  
+         this.setTile(background, 0, 0, C.BG_TILES.prize);
 
          return background;
       },

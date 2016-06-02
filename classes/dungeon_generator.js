@@ -94,9 +94,10 @@ ClassManager.create('DungeonGenerator', function(game) {
                dungeon: this.roomObj,
                depth: 0
             };
-         }
-         if (this.isFirstLevel) {
-            roomObj.type = C.ROOM_TYPES.intro;
+            
+            if (this.isFirstLevel) {
+               roomObj.type = C.ROOM_TYPES.intro;
+            }
          }
          var roomType = roomObj.type;
 
