@@ -1,4 +1,3 @@
-medic.js
 /**
   * Represents an adventurer (npc1) sprite with one dialog
   */

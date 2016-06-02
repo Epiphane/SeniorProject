@@ -14,6 +14,7 @@ Story.init = function(game) {
     
     // Controls how deep into the story a player is
     Story.phase = 0;
+    Story.givenHealth = false;
 
    Story.NPC_CHARACTERS = Enum([
       'sign', 'adventurer', 'strongman', 'mystic', 'aralynne', 'medic'
@@ -65,9 +66,9 @@ Story.init = function(game) {
 			],
             [
                 [["* This sign seems handmade. You can barely make out the words.", "'no amount of training will prepare you for -'", "* The rest is illegible."]],
-                [["Having fun? Is this too easy for you? Too hard?", "You should have never come here."], ["* It's a blank sign."]],
+                [["An old sign. It reads:", "'BEWARE: These areas are for monsters only. Humans are not allowed and will be asked to leave on sight.'"]],
                 [["Health ahead!"], ["Just kidding."]],
-                [["Some enemies don't always move act time you do.", "Use this to your advantage!"]]
+                [["Some enemies don't always move at the same time you do.", "Use this to your advantage!"]]
             ],
             [
                 [["* The sign is dusty and is covered in strange markings, but you can make out some text.", "'Co e and pl y with  e!'"]],
@@ -203,9 +204,8 @@ Story.init = function(game) {
     Story.enemyEngagedDialog = function(character) {
         var willKillBats = Classes.Bat.prototype.Engaged.value().option;
         var willKillSlimes = Classes.Slime.prototype.Engaged.value().option;
-        var willKillBoss = Classes.Boss.prototype.Engaged.value().option;
-        var willKillAll = willKillBats && willKillSlimes && willKillBoss;
-        var willKillNone = !willKillBats && !willKillSlimes && !willKillBoss;
+        var willKillAll = willKillBats && willKillSlimes;
+        var willKillNone = !willKillBats && !willKillSlimes;
 
         var dialog = [];
         var subDialog = [];
@@ -229,12 +229,8 @@ Story.init = function(game) {
                     subDialog.push("And you cut through those slimes like butter.");
                 else
                     subDialog.push("And those slimes can ambush you, even if they move slow.");
-
-                if (willKillBoss)
-                    subDialog.push("Not even the boss stood a chance against you, though!");
-                else
-                    subDialog.push("Also, the boss of each floor might not look strong, but they have tricks up their sleeves.");
-
+                
+                subDialog.push("Also, the boss of each floor might not look strong, but they have tricks up their sleeves.");
                 dialog.push(subDialog);
                 dialog.push(["Good luck out there."]);
             }
@@ -258,12 +254,8 @@ Story.init = function(game) {
                     subDialog.push("And the slimes, as you know, are slow and come in packs.");
                 else
                     subDialog.push("And I hate those slimes. They all attack you at once. Not fair!");
-
-                if (willKillBoss)
-                    subDialog.push("I guess the boss ain't that bad either, but maybe its worse the deeper you go.");
-                else
-                    subDialog.push("Finally, the bosses here are tricky. Just watch out for 'em");
-
+                
+                subDialog.push("Finally, the bosses here are tricky. Just watch out for 'em");
                 dialog.push(subDialog);
                 dialog.push(["I feel like I'm forgetting one more... Eh, you'll be fine."]);
             }
@@ -291,7 +283,20 @@ Story.init = function(game) {
 
     // Custom dialog for potion usage. Chance to add potion to player's inventory
     Story.potionUseDialog = function(character) {
+        var avgPotionHP = PotionUse.value();
+        var player = game.currentScene.player;
+        var dialog = []
 
+        if (avgPotionHP == 0 || (player.health <= avgPotionHP && !Story.givenHealth) {
+            dialog = [["My friend, you seem very injured and in need of assistance.", "Please let me help.", "Take my last potion and perservere."], ["Good tidings, friend."]];
+            player.potions++;
+            Story.givenHealth = true;
+        }
+        else {
+            dialog = [["I have given all I can to the wounded in this dungeon.", "I'm sorry I have failed you when you needed it most."],["Please forgive me in this life, and I'll make it up to you in the next."]];
+        }
+
+        return dialog;
     }
 
     // Custom dialog for number of times an NPC has been interacted with
@@ -309,7 +314,7 @@ Story.init = function(game) {
 
     }
 
-    Story.customDialogs = [
+    Story.CUSTOM_DIALOGS = [
         Story.roomDirectionDialog,
         Story.enemyEngagedDialog,
         Story.potionUseDialog

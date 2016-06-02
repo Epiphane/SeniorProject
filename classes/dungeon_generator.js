@@ -54,6 +54,8 @@ ClassManager.create('DungeonGenerator', function(game) {
        * Generate a new dungeon, that will contain room connections and information
        */
       createDungeon: function() {
+         // Tell story its ok to give player a potion
+         Story.givenHealth = false;
          return this.nextRoom(null);
       },
 
