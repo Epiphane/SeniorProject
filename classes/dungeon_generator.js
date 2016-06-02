@@ -151,6 +151,9 @@ ClassManager.create('DungeonGenerator', function(game) {
                break;
          }
 
+         // LOL WATCH ME FORGET TO CHANGE THIS BACK AGAIN
+         generator = new PuzzleRoomGenerator();
+
          var nextRoom = generator.createEmptyRoom(roomObj);
          nextRoom.type = roomType;
 
