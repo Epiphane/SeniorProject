@@ -105,6 +105,7 @@
       "hud.png",
       "items.png",
       "boss1.png",
+      "final_boss.png",
       "monster1.gif",
       "monster2.gif",
       "monster1slow.gif",
