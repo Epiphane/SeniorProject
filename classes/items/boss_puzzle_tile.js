@@ -25,7 +25,8 @@ ClassManager.create('BossPuzzleTile', function(game) {
          }
       },
 
-      failedPuzzle: function() {
+      failedPuzzle: function(room) {
+         Classes.PuzzleTile.prototype.failedPuzzle.apply(this, arguments);
          this.creator.failed_puzzle();
       }
     });
