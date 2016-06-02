@@ -313,7 +313,7 @@ ClassManager.create('Room', function(game) {
          item.y = Utils.to.screen(y);
 
          this.items.push(item);
-         this.addChild(item);
+         this.addToScene(item);
       },
 
       removeItemAt: function(x, y) {

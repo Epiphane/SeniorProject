@@ -20,6 +20,9 @@
 
       populateRoom: function(room) {
          this.addCharacter(room, new Classes.Dummy(), 3, -4);
+         
+         var new_tile = new Classes.PuzzleTile();
+         room.addItemAt(new_tile, 2, 2);
       }
    });
 })(window);
