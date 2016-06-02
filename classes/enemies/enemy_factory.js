@@ -31,8 +31,10 @@ EnemyFactory.create = function(name, superclass_name, definition) {
          console.log(initial_attack, average_attacks, attack);
 
          if (attack !== EnemyClass.prototype.initial_attack) {
+            var change = (attack > EnemyClass.prototype.initial_attack ? 'stronger' : 'weaker');
+            Scenes.Transition.logChange(name + ' is getting ' + change);
+
             EnemyClass.prototype.initial_attack = attack;
-            Scenes.Transition.logChange(name + ' now deals ' + attack + ' damage');
          }
       
          // If this enemy gets attacked often, let's increase their health
@@ -41,8 +43,10 @@ EnemyFactory.create = function(name, superclass_name, definition) {
          var avoidanceRatio = Engaged.valueOf(false);
          var health = Math.ceil(initial_health * (1.33 * avoidanceRatio + 0.33) * (newDifficulty * 5 + 0.5));
          if (health !== EnemyClass.prototype.initial_health) {
+            var change = (health > EnemyClass.prototype.initial_health ? 'tougher' : 'less tough');
+            Scenes.Transition.logChange(name + ' is getting ' + change);
+            
             EnemyClass.prototype.initial_health = health;
-            Scenes.Transition.logChange(name + ' now has ' + health + ' health');
          }
       });
 

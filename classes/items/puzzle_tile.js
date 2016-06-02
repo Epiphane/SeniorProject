@@ -30,7 +30,8 @@ ClassManager.create('PuzzleTile', function(game) {
             });
 
             if (winner) {
-               room.addItemAt(new Classes.Potion(), 0, 0);
+               room.addItemAt(room.prize || new Classes.Potion(), 0, 0);
+               room.puzzleWon = true;
                PuzzlesSolved.next();
 
                this.beatPuzzle(room);

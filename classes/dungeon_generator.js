@@ -6,13 +6,14 @@
  var curr_difficulty = 0;
 ClassManager.create('DungeonGenerator', function(game) {
    return Class.create(Object, {
-      initialize: function(numRooms) {
+      initialize: function(level, numRooms) {
          this.linearity = 1;
          this.numRooms = numRooms || 10;
          this.roomsCreated = 0;
          this.roomCount = 0;
          this.unexploredRooms = 0;
          this.hasCreatedBossRoom = false;
+         this.isFirstLevel = (level === 1);
 
          // TODO: fix this it sux :(
          this.difficulty = global_difficulty[curr_level++];
@@ -93,6 +94,10 @@ ClassManager.create('DungeonGenerator', function(game) {
                dungeon: this.roomObj,
                depth: 0
             };
+            
+            if (this.isFirstLevel) {
+               roomObj.type = C.ROOM_TYPES.intro;
+            }
          }
          var roomType = roomObj.type;
 
@@ -146,6 +151,9 @@ ClassManager.create('DungeonGenerator', function(game) {
                break;
             case C.ROOM_TYPES.sign:
                generator = new SignRoomGenerator();
+               break;
+            case C.ROOM_TYPES.intro:
+               generator = new IntroRoomGenerator();
                break;
             default:
                break;
