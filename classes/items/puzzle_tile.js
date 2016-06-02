@@ -32,6 +32,8 @@ ClassManager.create('PuzzleTile', function(game) {
             if (winner) {
                room.addItemAt(new Classes.Potion(), 0, 0);
                PuzzlesSolved.next();
+
+               this.beatPuzzle(room);
             }
          }
       },
@@ -46,11 +48,18 @@ ClassManager.create('PuzzleTile', function(game) {
                   this.state = TILE_PRESSED;
                   this.image = game.assets["assets/images/u did it.png"];
                   this.checkPuzzle(room);
+
+                  var newSound = new buzz.sound('assets/sounds/puzzle_presstile.wav');
+                  newSound.play();
                   break;
                case TILE_PRESSED:
                   this.state = TILE_BAD;
                   this.image = game.assets["assets/images/U MESSED UP LOL.png"];
-                  this.failedPuzzle();
+                  this.failedPuzzle(room);
+
+                  var newSound = new buzz.sound('assets/sounds/puzzle_presstile.wav');
+                  newSound.play();
+
                   if (!room.logged_failure) {
                      room.logged_failure = true;
                      PuzzlesFailed.next();
@@ -64,8 +73,30 @@ ClassManager.create('PuzzleTile', function(game) {
          }
       },
 
-      failedPuzzle: function() {
-         // Don't care, override
+      failedPuzzle: function(room) {
+         var tiles_to_destroy = room.puzzleTiles;
+         setTimeout(function() {
+            for (var i = tiles_to_destroy.length - 1; i >= 0; i--) {
+               tiles_to_destroy[i].image = game.assets["assets/images/U MESSED UP LOL faded.png"];
+               tiles_to_destroy[i].state = TILE_BAD;
+            }
+
+            var newSound = new buzz.sound('assets/sounds/puzzle_failed.wav');
+            newSound.play();
+         }, 400);
+      },
+
+      beatPuzzle: function(room) {
+         var tiles_to_win = room.puzzleTiles;
+         setTimeout(function() {
+            for (var i = tiles_to_win.length - 1; i >= 0; i--) {
+               tiles_to_win[i].image = game.assets["assets/images/u did it and its over.png"];
+               tiles_to_win[i].state = TILE_BAD;
+            }
+
+            var newSound = new buzz.sound('assets/sounds/puzzle_won.wav');
+            newSound.play();
+         }, 200);
       },
 
       everyTurn: function() {
