@@ -4,7 +4,7 @@
 (function(window) {
    var defaults = {};
 
-   window.IntroRoomGenerator = Class.create(RoomGenerator, {
+   window.IntroRoomGenerator = Class.create(PuzzleRoomGenerator, {
       createFloor: function(params) {
          var background = RoomGenerator.prototype.createFloor.apply(this, arguments);
 
@@ -19,10 +19,12 @@
       },
 
       populateRoom: function(room) {
+         room.puzzleTiles = [];
          this.addCharacter(room, new Classes.Dummy(), 3, -4);
-         
-         var new_tile = new Classes.PuzzleTile();
-         room.addItemAt(new_tile, 2, 2);
+
+         this.addPuzzleTile(room, 3, 3);
+         this.addPuzzleTile(room, 3, 4);
+         this.addPuzzleTile(room, 2, 3);
       }
    });
 })(window);
