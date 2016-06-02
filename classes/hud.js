@@ -22,10 +22,16 @@ ClassManager.create('HUD', function(game) {
          weaponFrame.x = weaponFrame.y = C.HUD_PADDING;
          this.addChild(weaponFrame);
 
+         this.weaponBonus = Utils.createLabel('', 64, weaponFrame.y + 30, { font: '14px serif' });
+         this.addChild(this.weaponBonus);
+
          var armorFrame = new Classes.HUD_Frame();
          armorFrame.x = C.HUD_PADDING;
          armorFrame.y = C.HUD_PADDING + C.TILE_SIZE * 2;
          this.addChild(armorFrame);
+
+         this.armorBonus = Utils.createLabel('', 64, armorFrame.y + 30, { font: '14px serif' });
+         this.addChild(this.armorBonus);
 
          var potionsFrame = new Classes.HUD_Frame();
          potionsFrame.x = C.HUD_PADDING;
@@ -64,10 +70,18 @@ ClassManager.create('HUD', function(game) {
       onenterframe: function() {
          if (this.player.weapon) {
             this.weapon.frame = C.Items[this.player.weapon.itemName];
+            this.weaponBonus.text = '+ ' + this.player.weapon.attack;
+         }
+         else {
+            this.weaponBonus.text = '';
          }
 
          if (this.player.armor) {
             this.armor.frame = C.Items[this.player.armor.itemName];
+            this.armorBonus.text = '+ ' + this.player.armor.defense;
+         }
+         else {
+            this.armorBonus.text = '';
          }
 
          while (this.hearts.length > this.player.max_health / 2) {
