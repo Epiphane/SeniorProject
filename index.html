@@ -32,15 +32,16 @@
    <script src="classes/room.js"></script>
    <script src="classes/room_generators/puzzle_data.js"></script>
    <script src="classes/room_generators/room_generator.js"></script>
+   <script src="classes/room_generators/room_generator_puzzle.js"></script>
    <script src="classes/room_generators/room_generator_item.js"></script>
    <script src="classes/room_generators/room_generator_weapon.js"></script>
    <script src="classes/room_generators/room_generator_armor.js"></script>
    <script src="classes/room_generators/room_generator_boss.js"></script>
    <script src="classes/room_generators/room_generator_FINAL_boss.js"></script>
    <script src="classes/room_generators/room_generator_combat.js"></script>
-   <script src="classes/room_generators/room_generator_puzzle.js"></script>
    <script src="classes/room_generators/room_generator_npc.js"></script>
    <script src="classes/room_generators/room_generator_sign.js"></script>
+   <script src="classes/room_generators/room_generator_intro.js"></script>
    <script src="classes/character.js"></script>
    <script src="classes/player.js"></script>
    <script src="classes/enemies/enemy.js"></script>
@@ -48,12 +49,14 @@
    <script src="classes/enemies/waiting_enemy.js"></script>
    <script src="classes/enemies/bat.js"></script>
    <script src="classes/enemies/slime.js"></script>
+   <script src="classes/enemies/dummy.js"></script>
    <script src="classes/enemies/boss.js"></script>
    <script src="classes/enemies/final_boss.js"></script>
    <script src="classes/enemies/simple_boss.js"></script>
    <script src="classes/hud.js"></script>
    <script src="classes/items/item.js"></script>
    <script src="classes/items/puzzle_tile.js"></script>
+   <script src="classes/items/puzzle_reset.js"></script>
    <script src="classes/items/boss_puzzle_tile.js"></script>
    <script src="classes/items/boss_puzzle_wall.js"></script>
    <script src="classes/items/weapons.js"></script>
@@ -89,7 +92,7 @@
 <div style="margin-left: 700px; position: absolute; right: 0; top: 400px;">
   <button onclick="do_chart([.10, .30, .60, .80])">STANDARD DIFFICULTY</button>
   <button onclick="do_chart([.60, .70, .80, 1.0])">DARK SOULS</button>
-  <button onclick="do_chart([.10, .10, .10, .20])">NARRATIVE EXPERIENCE</button>
+  <button onclick="do_chart([.10, .50, .30, .70])">NARRATIVE EXPERIENCE</button>
   <button onclick="do_chart([.10, .15, .90, 1.0])">FREE 2 PAY</button>
 </div>
 

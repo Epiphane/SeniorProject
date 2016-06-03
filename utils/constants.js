@@ -13,7 +13,8 @@
    Constants.TILE_SIZE = 32;
 
    Constants.ROOM_TYPES = Enum([
-      'random', 'store', 'treasure', 'weapon', 'armor', 'combat', 'npc', 'boss', 'puzzle', 'sign'
+      'random', 'store', 'treasure', 'weapon', 'armor', 'combat', 'npc', 'boss', 'puzzle', 'sign',
+      'intro'
    ]);
 
    var spriteToTile = function(row, col) {
@@ -25,8 +26,29 @@
       floor: spriteToTile(12, 18),
       floor_blocked: spriteToTile(12, 16),
       wall: spriteToTile(12, 17),
-      stairs: spriteToTile(12, 20)
+      stairs: spriteToTile(12, 20),
+      up_arrow: spriteToTile(12, 21),
+      right_arrow: spriteToTile(12, 22),
+      down_arrow: spriteToTile(12, 23),
+      left_arrow: spriteToTile(12, 24),
+      attack_arrow: spriteToTile(12, 25),
+      prize: spriteToTile(11, 20),
+      prize_weapon: spriteToTile(11, 21),
+      prize_armor: spriteToTile(11, 22),
    });
+
+   Constants.UNBLOCKED_TILES = [
+      Constants.BG_TILES.floor,
+      Constants.BG_TILES.empty,
+      Constants.BG_TILES.up_arrow,
+      Constants.BG_TILES.right_arrow,
+      Constants.BG_TILES.down_arrow,
+      Constants.BG_TILES.left_arrow,
+      Constants.BG_TILES.attack_arrow,
+      Constants.BG_TILES.prize,
+      Constants.BG_TILES.prize_weapon,
+      Constants.BG_TILES.prize_armor,
+   ];
 
    Constants.FG_TILES = Enum({
       empty: -1,
@@ -108,6 +130,7 @@
       "final_boss.png",
       "monster1.gif",
       "monster2.gif",
+      "monster2-rip.gif",
       "monster1slow.gif",
       "monster2slow.gif",
       "monster1poison.gif",
@@ -119,7 +142,10 @@
       "door.png",
       "puzzle_initial.png",
       "u did it.png",
+      "u did it and its over.png",
+      "you suck try again.png",
       "U MESSED UP LOL.png",
+      "U MESSED UP LOL faded.png",
       "textbox.png",
       "portrait.png",
       "sign_portrait.png",

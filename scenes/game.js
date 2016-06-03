@@ -9,6 +9,7 @@
       Game.backgroundColor = "black";
       Game.bgm = new buzz.sound("assets/sounds/dungeon.mp3", {loop:true});
       Game.bgm2 = new buzz.sound("assets/sounds/dungeon2.mp3", {loop:true});
+      Game.currentMusic = Game.bgm;
       var muteTimer = 20;
       var level = 1;
 
@@ -23,6 +24,7 @@
          if (Game.dungeonGenerator) {
             Game.dungeonGenerator.destroy();
 
+            Scenes.Transition.clearChanges();
             DifficultyManager.moveX(1);
             game.pushScene(new Scenes.Transition(level ++));
          }
@@ -31,11 +33,11 @@
          Game.player.position.x = Game.player.position.y = 0;
          Game.player.snapToPosition();
          if (DifficultyManager.getDifficulty() >= 0.6) {
-            Game.bgm.stop();
-            Game.bgm = Game.bgm2;
-            Game.bgm.play();
+            Game.currentMusic.stop();
+            Game.currentMusic = Game.bgm2;
+            Game.currentMusic.play();
          }
-         Game.dungeonGenerator = new Classes.DungeonGenerator();
+         Game.dungeonGenerator = new Classes.DungeonGenerator(level);
          Game.setRoom(Game.dungeonGenerator.createDungeon());
       };
 
@@ -61,10 +63,8 @@
 
       // Start the game
       curr_level=0;
-      // Have to reset music if we got over 0.6 diff last game cuz reasons.
-      Game.bgm = new buzz.sound("assets/sounds/dungeon.mp3", {loop:true});
       Game.descend();
-      Game.bgm.play();
+      Game.currentMusic.play();
 
       // Checks if any entity is still moving
       var actionCooldown = 0;
@@ -132,6 +132,7 @@
          if (Game.player.isDead()) {
             game.popScene();
             buzz.all().stop();
+            Game.currentMusic = Game.bgm;
             game.pushScene(Scenes.Death(game));
          }
       }
