@@ -5,7 +5,7 @@ ClassManager.create('Strongman', function(game) {
 	return Class.create(Classes['NPC'], {
     sprite: 'npc2.png',
 
-		initialize: function(dialog) {
+		initialize: function(dialog, alt_sprite) {
          Classes['NPC'].call(this,0,0);
          this.dialog = dialog;
          this.portrait = "portrait2.png";

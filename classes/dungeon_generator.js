@@ -16,8 +16,10 @@ ClassManager.create('DungeonGenerator', function(game) {
          this.isFirstLevel = (level === 1);
 
          // TODO: fix this it sux :(
+         // AKA we do pre-new-level things here now...
          this.difficulty = global_difficulty[curr_level++];
          curr_difficulty = this.difficulty;
+         Story.calculatePhase();
 
          this.roomTypes = this.generateRoomTypes();
 
@@ -55,6 +57,8 @@ ClassManager.create('DungeonGenerator', function(game) {
        * Generate a new dungeon, that will contain room connections and information
        */
       createDungeon: function() {
+         // Tell story its ok to give player a potion
+         Story.givenHealth = false;
          return this.nextRoom(null);
       },
 

@@ -14,10 +14,18 @@ Story.init = function(game) {
     
     // Controls how deep into the story a player is
     Story.phase = 0;
+    Story.givenHealth = false;
 
    Story.NPC_CHARACTERS = Enum([
-      'sign', 'adventurer', 'strongman', 'mystic', 'aralynne'
+      'sign', 'adventurer', 'strongman', 'mystic', 'aralynne', 'medic'
    ]);
+
+   Story.CUSTOM_CHARACTERS = [
+       Story.NPC_CHARACTERS.adventurer,
+       Story.NPC_CHARACTERS.strongman,
+       Story.NPC_CHARACTERS.mystic,
+       Story.NPC_CHARACTERS.medic
+   ];
 
 	// Adventurer (npc1)
 	// A young lost adventurer. Victim of multiple personalities.
@@ -58,9 +66,9 @@ Story.init = function(game) {
 			],
             [
                 [["* This sign seems handmade. You can barely make out the words.", "'no amount of training will prepare you for -'", "* The rest is illegible."]],
-                [["Having fun? Is this too easy for you? Too hard?", "You should have never come here."], ["* It's a blank sign."]],
+                [["An old sign. It reads:", "'BEWARE: These areas are for monsters only. Humans are not allowed and will be asked to leave on sight.'"]],
                 [["Health ahead!"], ["Just kidding."]],
-                [["Some enemies don't always move act time you do.", "Use this to your advantage!"]]
+                [["Some enemies don't always move at the same time you do.", "Use this to your advantage!"]]
             ],
             [
                 [["* The sign is dusty and is covered in strange markings, but you can make out some text.", "'Co e and pl y with  e!'"]],
@@ -75,7 +83,7 @@ Story.init = function(game) {
 	Story.strongman = {
 		story: [
 			[
-				[["Hey small fry. I have some advice for ya.", "SCRAM!"], ["Hahahahaha"]],
+				[["Hey small fry. I have some advice for ya.", "SCRAM!"], ["Ha ha ha ha ha!"]],
                 [["Did I come here on a dare?", "HA!", "Do I look like some weenie who needs encouraging to go out and fight some monsters?", "... I don't right?"], ["* He just flexes and weakly grins to himself."]],
                 [["I didn't realize how cold dungeons were.", "It makes me really regret not bringing a coat."], ["Brrr..."]],
                 [["You look strong enough. Wanna fight?", "Yes!?", "No?", "... are you gonna answer?"], ["..."]],
@@ -111,8 +119,8 @@ Story.init = function(game) {
                 [["* It's humming a strange frequency that seems to vibrate throughout the dungeon."]],
             ],
             [
-                [["...", "...", "Please don't hurt her."], ["* It is silent."]],
-                [["* It is watching your every move.", "Even after you leave the room."]],
+                [["...", "...", "Please don't hurt her.", "We need her to live... we need The Cycle to live."], ["* It's holding a defensive stance."]],
+                [["* It is watching your every move, even after you leave the room."]],
                 [["Aralynne, our protector, has been getting weaker. More humans have been reaching her chambers and battling her.", "She just sends them back to the dungeon entrance instead of killing them.", "But she can't do this forever."], ["Are you here to help, or..."]],
                 [["Squarr did not always have dungeons. Monsters lived alongside humans at one point in time.", "But somewhere along the line humans became aggressive towards monsters and battle broke out.", "Surviving monsters were banished to dungeons.", "Aralynne... The first dungeon dweller.", "Her death means the end of the Cycle."], ["I wish only for peace."]]
             ]
@@ -120,14 +128,14 @@ Story.init = function(game) {
     };
 
     Story.aralynne = {
-        story: [
+        good_intro: [
             [
                 [["So you've made it.", "I felt your presence as soon as you entered my lair.", "So what brings you here?", "I know it wasn't genocide, your actions show that much.", "But you couldn't have gotten here without spilling blood.", "Still, you're different from the others.", "You have an energy I haven't sensed in a human in a very long time.","... I have something to ask of you.", "I've been fending off humans for centuries, trying as hard as I can to keep the monsters here safe.", "However, my strength is getting weaker with each human I encounter.", "I do not kill them, but simply teleport them to another maze and erase their memory of seeing me.", "The other monsters call this The Cycle.", "If I can't maintain The Cycle, then theres nothing stopping humans from traversing my dungeon and killing everything.", "I give you a choice.", "You can fight me and end The Cycle. That will mark the end of monsters living in Squarr.", "Or, you can stay as my guardian and fend off attackers. You slay them, I regain energy, and monsters stay safe.", "In exchange I use my magic for your gain. Wealth, power, perfect health. It's yours.", "Fight me, or take this amulet and be my guardian. The choice is yours."], ["Fight me, or take this amulet. Those are your choices."]]
             ]
         ],
-        kills: [
+        evil_intro_and_ending: [
             [
-                [["You.", "I feared something like you would finally come this way.", "Do you just wish for my death?", "Was banishment to this dungeon not enough?", "Or are you just here to kill the lesser species?", "Regardless, you will not win.", "You think this is the first time we've met, but you're mistaken.", "You are now part of The Cycle. You will repeat this dungeon, your massacres, our meeting... until you die.", "Or maybe I'll die first.", "Nonetheless, I bid you farewell until we meet again.", "AVAK ANASU NOSALISE! TO PURGATORY WITH YOU."]]
+                [["You.", "I feared something like you would finally come this way.", "Do you just wish for my death?", "Was banishment to this dungeon not enough?", "Or are you just here to kill the lesser species?", "Regardless, you will not win.", "You think this is the first time we've met, but you're mistaken.", "You are now part of The Cycle. You will repeat this dungeon, your massacres, our meeting... until you die.", "Or maybe I'll die first.", "Nonetheless, I bid you farewell until we meet again.", "AVAK ANASU NOSALISE! TO PURGATORY WITH YOU!"]] //Everything go black here, game restarts soon after.
             ]
         ],
         good_ending: [
@@ -151,8 +159,6 @@ Story.init = function(game) {
     Story.dialog[Story.NPC_CHARACTERS.aralynne] = Story.aralynne;
 
 	Story.getLine = function(character) {
-        // TODO: Get trait info from Choice.js and based on top traits randomly choose dialog.
-        Story.calculatePhase();
         var lines = Story.dialog[character]["story"][Story.phase].length;
         var line = chance.integer({min:0, max:lines-1});
         return Story.dialog[character]["story"][Story.phase][line];
@@ -173,5 +179,144 @@ Story.init = function(game) {
             Story.phase = 2;
         }
     }
+
+    // Custom dialog for preferred room direction
+    Story.roomDirectionDialog = function(character) {
+        console.log(RoomFirstExitPreference.value().option);
+        var direction = RoomFirstExitPreference.value().option;
+        var dialog = [];
+
+        if (character == Story.NPC_CHARACTERS.adventurer) {
+            dialog = [["These rooms sometimes have so many exits.", "But you seem to really like going " + direction + ", don't ya?", "You look surprised that I know that.", "We learn a lot things about what people choose to do down here."], ["Don't make a bad decision."]];
+        }
+        else if (character == Story.NPC_CHARACTERS.strongman) {
+            dialog = [["Up...", "Down...", "Left...", "Right...","You can go any of those directions in nearly any room.","But you just seem to go " + direction + "."], ["See you on the " + direction + "-side soon."]];
+        }
+        else {
+            dialog = [["You will go "+ direction +" the next chance you have."], ["We're all counting on it."]];
+        }
+
+        return dialog;
+    }
+
+    // Custom dialog for percentages of enemies engaged
+    Story.enemyEngagedDialog = function(character) {
+        var willKillBats = Classes.Bat.prototype.Engaged.value().option;
+        var willKillSlimes = Classes.Slime.prototype.Engaged.value().option;
+        var willKillAll = willKillBats && willKillSlimes;
+        var willKillNone = !willKillBats && !willKillSlimes;
+
+        var dialog = [];
+        var subDialog = [];
+
+        if (character == Story.NPC_CHARACTERS.adventurer) {
+            // Want to address player killing Nothing or Everything first
+            if (willKillNone) {
+                dialog = [["You're clad in armor and have a sword, but you haven't slain anything?", "You gotta learn to swing that blade if you're gonna survive."], ["Go get 'em!"]];
+            }
+            else if (willKillAll) {
+                dialog = [["It's gotten really quiet in this part of the dungeon.", "... is that your fault?"], ["It's even creepier now."]];
+            }
+            else {
+                subDialog.push("Seems you've gotten to meet some of the wildlife around here.");
+                if (willKillBats)
+                    subDialog.push("Those bats seem like they're no match for you.");
+                else
+                    subDialog.push("You gotta watch out for those bats though.");
+
+                if (willKillSlimes)
+                    subDialog.push("And you cut through those slimes like butter.");
+                else
+                    subDialog.push("And those slimes can ambush you, even if they move slow.");
+                
+                subDialog.push("Also, the boss of each floor might not look strong, but they have tricks up their sleeves.");
+                dialog.push(subDialog);
+                dialog.push(["Good luck out there."]);
+            }
+        }
+        else if (character == Story.NPC_CHARACTERS.strongman) {
+            // Want to address player killing Nothing or Everything first
+            if (willKillNone) {
+                dialog = [["What kind of weenie comes to a place like this and doesn't hurt a fly?"], ["FUHUHUHU!"]];
+            }
+            else if (willKillAll) {
+                dialog = [["I was all ready to kick some monster butt down here, but there's nothing left."], ["Is that your fault?"]];
+            }
+            else {
+                subDialog.push("Let me give you the lowdown on what you're in for down here.");
+                if (willKillBats)
+                    subDialog.push("You've met the bats. They're cake.");
+                else
+                    subDialog.push("The bats here are fast, but weak.");
+
+                if (willKillSlimes)
+                    subDialog.push("And the slimes, as you know, are slow and come in packs.");
+                else
+                    subDialog.push("And I hate those slimes. They all attack you at once. Not fair!");
+                
+                subDialog.push("Finally, the bosses here are tricky. Just watch out for 'em");
+                dialog.push(subDialog);
+                dialog.push(["I feel like I'm forgetting one more... Eh, you'll be fine."]);
+            }
+        }
+        else {
+            // Want to address player killing Nothing or Everything first
+            if (willKillNone) {
+                dialog = [["You are surprisingly non-violent, human.", "If you wish to stay down here, then I fear that trend may end."], ["It is your choice to make."]];
+            }
+            else if (willKillAll) {
+                dialog = [["Disgusting.", "You reek of death.", "You eminate hate."], ["Aralynne will have her revenge."]];
+            }
+            else {
+                dialog = [["So. Your blade has seen blood.", "There's much more where that came from."], ["Prepare to die."]];
+            }
+        }
+
+        return dialog;
+    }
+
+    // Custom dialog for overall movement in the dungeon
+    Story.movementDialog = function(character) {
+
+    }
+
+    // Custom dialog for potion usage. Chance to add potion to player's inventory
+    Story.potionUseDialog = function(character) {
+        var avgPotionHP = PotionUse.value();
+        var player = game.currentScene.player;
+        var dialog = []
+
+        if ((avgPotionHP == 0 && player.potions == 0) || (player.health <= avgPotionHP && !Story.givenHealth)) {
+            dialog = [["My friend, you seem in need of assistance.", "Please let me help.", "Take my last potion and perservere."], ["Good tidings, friend."]];
+            player.potions++;
+            Story.givenHealth = true;
+        }
+        else {
+            dialog = [["I have given all I can to the wounded in this dungeon.", "I'm sorry I have failed you when you needed it most."],["Please forgive me in this life, and <br>I'll make it up to you in the next."]];
+        }
+
+        return dialog;
+    }
+
+    // Custom dialog for number of times an NPC has been interacted with
+    Story.npcInteractionsDialog = function(character) {
+
+    }
+
+    // Custom dialog for player deaths
+    Story.playerDeathsDialog = function(character) {
+
+    }
+
+    // Custom dialog for puzzles completed/failed
+    Story.puzzleDialog = function(character) {
+
+    }
+
+    Story.CUSTOM_DIALOGS = [
+        Story.roomDirectionDialog,
+        Story.enemyEngagedDialog,
+        Story.potionUseDialog
+    ];
 }
 
