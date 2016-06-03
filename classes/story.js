@@ -83,7 +83,7 @@ Story.init = function(game) {
 	Story.strongman = {
 		story: [
 			[
-				[["Hey small fry. I have some advice for ya.", "SCRAM!"], ["Hahahahaha"]],
+				[["Hey small fry. I have some advice for ya.", "SCRAM!"], ["Ha ha ha ha ha!"]],
                 [["Did I come here on a dare?", "HA!", "Do I look like some weenie who needs encouraging to go out and fight some monsters?", "... I don't right?"], ["* He just flexes and weakly grins to himself."]],
                 [["I didn't realize how cold dungeons were.", "It makes me really regret not bringing a coat."], ["Brrr..."]],
                 [["You look strong enough. Wanna fight?", "Yes!?", "No?", "... are you gonna answer?"], ["..."]],
@@ -159,7 +159,6 @@ Story.init = function(game) {
     Story.dialog[Story.NPC_CHARACTERS.aralynne] = Story.aralynne;
 
 	Story.getLine = function(character) {
-        Story.calculatePhase();
         var lines = Story.dialog[character]["story"][Story.phase].length;
         var line = chance.integer({min:0, max:lines-1});
         return Story.dialog[character]["story"][Story.phase][line];
@@ -183,7 +182,7 @@ Story.init = function(game) {
 
     // Custom dialog for preferred room direction
     Story.roomDirectionDialog = function(character) {
-        console.log(RoomFirstExitPreference.value());
+        console.log(RoomFirstExitPreference.value().option);
         var direction = RoomFirstExitPreference.value().option;
         var dialog = [];
 
@@ -238,7 +237,7 @@ Story.init = function(game) {
         else if (character == Story.NPC_CHARACTERS.strongman) {
             // Want to address player killing Nothing or Everything first
             if (willKillNone) {
-                dialog = [["What kind of weenie comes to a place like this and doesn't hurt a fly?"], ["FUFUFU!"]];
+                dialog = [["What kind of weenie comes to a place like this and doesn't hurt a fly?"], ["FUHUHUHU!"]];
             }
             else if (willKillAll) {
                 dialog = [["I was all ready to kick some monster butt down here, but there's nothing left."], ["Is that your fault?"]];
@@ -287,13 +286,13 @@ Story.init = function(game) {
         var player = game.currentScene.player;
         var dialog = []
 
-        if (avgPotionHP == 0 || (player.health <= avgPotionHP && !Story.givenHealth) {
-            dialog = [["My friend, you seem very injured and in need of assistance.", "Please let me help.", "Take my last potion and perservere."], ["Good tidings, friend."]];
+        if ((avgPotionHP == 0 && player.potions == 0) || (player.health <= avgPotionHP && !Story.givenHealth)) {
+            dialog = [["My friend, you seem in need of assistance.", "Please let me help.", "Take my last potion and perservere."], ["Good tidings, friend."]];
             player.potions++;
             Story.givenHealth = true;
         }
         else {
-            dialog = [["I have given all I can to the wounded in this dungeon.", "I'm sorry I have failed you when you needed it most."],["Please forgive me in this life, and I'll make it up to you in the next."]];
+            dialog = [["I have given all I can to the wounded in this dungeon.", "I'm sorry I have failed you when you needed it most."],["Please forgive me in this life, and <br>I'll make it up to you in the next."]];
         }
 
         return dialog;

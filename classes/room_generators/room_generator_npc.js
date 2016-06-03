@@ -18,8 +18,8 @@
 
       populateRoom: function(room) {
          // Hoo boy, ok.
-         // Firstly - we want custom dialog to appear only sometimes. (20%)
-         if (chance.bool({likelihood : 20})) {
+         // Firstly - we want custom dialog to appear only sometimes. (30%)
+         if (chance.bool({likelihood : 30})) {
             var customDialog = chance.pick(Story.CUSTOM_DIALOGS, 1);
             var character = chance.pick(Story.CUSTOM_CHARACTERS, 1);
             var npc3 = null;
@@ -28,12 +28,15 @@
             if (customDialog == Story.potionUseDialog) {
                npc3 = new Classes.Medic(customDialog(character));
             }
-            else if (character == Story.NPC_CHARACTERS.adventurer)
-               npc3 = new Classes.Adventurer(customDialog(character));
-            else if (character == Story.NPC_CHARACTERS.strongman)
-               npc3 = new Classes.Strongman(customDialog(character));
-            else
-               npc3 = new Classes.Mystic(customDialog(character));
+            else if (character == Story.NPC_CHARACTERS.adventurer) {
+               npc3 = new Classes.Medic(customDialog(character));
+            }
+            else if (character == Story.NPC_CHARACTERS.strongman) {
+               npc3 = new Classes.Medic(customDialog(character));
+            }
+            else {
+               npc3 = new Classes.Medic(customDialog(character));
+            }
 
             this.addItem(room, npc3, 1,0);
          }

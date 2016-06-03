@@ -8,6 +8,7 @@
       Game.dialogManager = new Classes.Dialog();
       Game.backgroundColor = "black";
       Game.bgm = new buzz.sound("assets/sounds/dungeon.mp3", {loop:true});
+      Game.bgm2 = new buzz.sound("assets/sounds/dungeon2.mp3", {loop:true});
       var muteTimer = 20;
       var level = 1;
 
@@ -29,6 +30,11 @@
          // Create first room
          Game.player.position.x = Game.player.position.y = 0;
          Game.player.snapToPosition();
+         if (DifficultyManager.getDifficulty() >= 0.6) {
+            Game.bgm.stop();
+            Game.bgm = Game.bgm2;
+            Game.bgm.play();
+         }
          Game.dungeonGenerator = new Classes.DungeonGenerator();
          Game.setRoom(Game.dungeonGenerator.createDungeon());
       };
@@ -54,6 +60,9 @@
       Game.HUD = new Classes.HUD(Game.player);
 
       // Start the game
+      curr_level=0;
+      // Have to reset music if we got over 0.6 diff last game cuz reasons.
+      Game.bgm = new buzz.sound("assets/sounds/dungeon.mp3", {loop:true});
       Game.descend();
       Game.bgm.play();
 
@@ -122,8 +131,8 @@
 
          if (Game.player.isDead()) {
             game.popScene();
+            buzz.all().stop();
             game.pushScene(Scenes.Death(game));
-            Game.bgm.stop();
          }
       }
       

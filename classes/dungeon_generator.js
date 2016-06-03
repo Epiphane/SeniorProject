@@ -15,6 +15,8 @@ ClassManager.create('DungeonGenerator', function(game) {
          this.hasCreatedBossRoom = false;
 
          // TODO: fix this it sux :(
+         // AKA we do pre-new-level things here now...
+         Story.calculatePhase();
          this.difficulty = global_difficulty[curr_level++];
          curr_difficulty = this.difficulty;
 

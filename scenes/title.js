@@ -60,7 +60,6 @@ Scenes.Title = Singletonify(function(game) {
             if (selection === 0) {
                Title.bgm.stop();
             }
-            curr_level = 0;
             game.pushScene(result);
          }
       }
