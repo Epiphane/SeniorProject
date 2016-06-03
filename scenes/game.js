@@ -8,6 +8,8 @@
       Game.dialogManager = new Classes.Dialog();
       Game.backgroundColor = "black";
       Game.bgm = new buzz.sound("assets/sounds/dungeon.mp3", {loop:true});
+      Game.bgm2 = new buzz.sound("assets/sounds/dungeon2.mp3", {loop:true});
+      Game.currentMusic = Game.bgm;
       var muteTimer = 20;
       var level = 1;
 
@@ -30,6 +32,11 @@
          // Create first room
          Game.player.position.x = Game.player.position.y = 0;
          Game.player.snapToPosition();
+         if (DifficultyManager.getDifficulty() >= 0.6) {
+            Game.currentMusic.stop();
+            Game.currentMusic = Game.bgm2;
+            Game.currentMusic.play();
+         }
          Game.dungeonGenerator = new Classes.DungeonGenerator(level);
          Game.setRoom(Game.dungeonGenerator.createDungeon());
       };
@@ -55,8 +62,9 @@
       Game.HUD = new Classes.HUD(Game.player);
 
       // Start the game
+      curr_level=0;
       Game.descend();
-      Game.bgm.play();
+      Game.currentMusic.play();
 
       // Checks if any entity is still moving
       var actionCooldown = 0;
@@ -123,8 +131,9 @@
 
          if (Game.player.isDead()) {
             game.popScene();
+            buzz.all().stop();
+            Game.currentMusic = Game.bgm;
             game.pushScene(Scenes.Death(game));
-            Game.bgm.stop();
          }
       }
       

@@ -13,7 +13,7 @@
 
       populateRoom: function(room) {
          var sign = new Classes.Sign(Story.getLine(Story.NPC_CHARACTERS.sign, "story", 0));
-         this.addItem(room, sign, 2, 2);
+         this.addItem(room, sign, 0, 0);
       }
    });
 })(window);
