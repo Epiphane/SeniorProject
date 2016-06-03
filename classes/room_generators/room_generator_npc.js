@@ -26,16 +26,19 @@
 
             //Yes this is gross but its the easiest way right now
             if (customDialog == Story.potionUseDialog) {
-               npc3 = new Classes.Medic(customDialog(character));
+               npc3 = new Classes.Medic(customDialog(character)); 
             }
             else if (character == Story.NPC_CHARACTERS.adventurer) {
-               npc3 = new Classes.Medic(customDialog(character));
+               npc3 = new Classes.Adventurer(customDialog(character));
+               npc3.image = game.assets["assets/images/npc1alt.png"];
             }
             else if (character == Story.NPC_CHARACTERS.strongman) {
-               npc3 = new Classes.Medic(customDialog(character));
+               npc3 = new Classes.Strongman(customDialog(character));
+               npc3.image = game.assets["assets/images/npc2alt.png"];
             }
             else {
-               npc3 = new Classes.Medic(customDialog(character));
+               npc3 = new Classes.Mystic(customDialog(character));
+               npc3.image = game.assets["assets/images/npc3alt.png"];
             }
 
             this.addItem(room, npc3, 1,0);
