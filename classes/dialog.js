@@ -29,6 +29,11 @@ ClassManager.create('Dialog', function(game) {
          this.advanceButton = false;
          this.addChild(this.advanceTextLabel);
          this.show();
+
+         if (Story.needsToGivePotion) {
+            game.currentScene.player.potions++;
+            Story.needsToGivePotion = false;
+         }
       },
       setExpression: function(sprite) {
          this.portrait.image = game.assets["assets/images/"+sprite];

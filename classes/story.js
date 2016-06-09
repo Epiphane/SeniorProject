@@ -14,7 +14,7 @@ Story.init = function(game) {
     
     // Controls how deep into the story a player is
     Story.phase = 0;
-    Story.givenHealth = false;
+    Story.needsToGivePotion = false;
 
    Story.NPC_CHARACTERS = Enum([
       'sign', 'adventurer', 'strongman', 'mystic', 'aralynne', 'medic'
@@ -286,10 +286,9 @@ Story.init = function(game) {
         var player = game.currentScene.player;
         var dialog = []
 
-        if ((avgPotionHP == 0 && player.potions == 0) || (player.health <= avgPotionHP && !Story.givenHealth)) {
+        if ((avgPotionHP == 0 && player.potions == 0) || (player.health <= avgPotionHP)) {
             dialog = [["My friend, you seem in need of assistance.", "Please let me help.", "Take my last potion and perservere."], ["Good tidings, friend."]];
-            player.potions++;
-            Story.givenHealth = true;
+            Story.needsToGivePotion = true;
         }
         else {
             dialog = [["I have given all I can to the wounded in this dungeon.", "I'm sorry I have failed you when you needed it most."],["Please forgive me in this life, and <br>I'll make it up to you in the next."]];

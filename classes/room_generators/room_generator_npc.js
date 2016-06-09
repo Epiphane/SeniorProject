@@ -19,7 +19,7 @@
       populateRoom: function(room) {
          // Hoo boy, ok.
          // Firstly - we want custom dialog to appear only sometimes. (30%)
-         if (chance.bool({likelihood : 30})) {
+         if (chance.bool({likelihood : 100})) {
             var customDialog = chance.pick(Story.CUSTOM_DIALOGS, 1);
             var character = chance.pick(Story.CUSTOM_CHARACTERS, 1);
             var npc3 = null;
