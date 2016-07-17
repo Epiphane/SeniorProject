@@ -27,7 +27,7 @@ EnemyFactory.create = function(name, superclass_name, definition) {
       DifficultyManager.onChange(function(newDifficulty) {
          // If this enemy gets to attack often, let's raise their attack 
          var average_attacks = Math.max(AttacksMade.value(), 1);
-         var attack = Math.round(initial_attack * average_attacks * (newDifficulty * 5 + 0.5));
+         var attack = Math.round(initial_attack * average_attacks * (newDifficulty * 2 + 0.8));
          console.log(initial_attack, average_attacks, attack);
 
          if (attack !== EnemyClass.prototype.initial_attack) {
@@ -41,7 +41,7 @@ EnemyFactory.create = function(name, superclass_name, definition) {
          // Thought: if you avoid every enemy, give it 1/3 the health
          //          if you attack them all, give them 5/3 the health
          var avoidanceRatio = Engaged.valueOf(false);
-         var health = Math.ceil(initial_health * (1.33 * avoidanceRatio + 0.33) * (newDifficulty * 5 + 0.5));
+         var health = Math.ceil(initial_health * (1.33 * avoidanceRatio + 0.33) * (newDifficulty * 2 + 0.8));
          if (health !== EnemyClass.prototype.initial_health) {
             var change = (health > EnemyClass.prototype.initial_health ? 'tougher' : 'less tough');
             Scenes.Transition.logChange(name + ' is getting ' + change);
